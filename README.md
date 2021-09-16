@@ -1,8 +1,10 @@
 Running the testing file upload server
 
-First, you need to set the FLASK_APP environment variable (I dont know how to do this on Windows, this is how it is done on Linux though)
+First, you need to set the FLASK_APP environment variable 
 
-`export FLASK_APP=file_upload_testing`
+(Linux): `export FLASK_APP=file_upload_testing`
+
+(Windows): `set FLASK_APP=file_upload_testing.py`
 
 Then you can run the app with:
 
