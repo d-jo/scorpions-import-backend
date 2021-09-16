@@ -91,17 +91,20 @@ document = Document(f)
 for paragraph in document.paragraphs:
     if paragraph.text == '':
         continue
+    print(paragraph)
     checkboxes = etree.ElementBase.xpath(paragraph._element, './/w14:checkbox', namespaces=paragraph._element.nsmap)
     for checkbox in checkboxes:
-        print(paragraph.text)
+        # print(paragraph.text)
         p = paragraph._element
         # print(p.xml)
         # print(checkbox)
         for item in checkbox.findall('.//w14:checkbox', namespaces=paragraph._element.nsmap):
+            print(item)
             print(etree.dump(item))
         # something = tree.get("w14:checked")
         # print(something)
-        print('checkBox value is %s' % checkbox.get('w14:checked'))
+        # print(checkbox)
+        # print('checkBox value is %s' % checkbox.get('w14:checked'))
 
 
 
