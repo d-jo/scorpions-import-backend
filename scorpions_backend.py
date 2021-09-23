@@ -45,6 +45,12 @@ def upload_file():
   """
 
   
+@app.route('/files', methods=['GET'])
+def get_files():
+  file_list = os.listdir(TARGET_FOLDER)
+  return {"files": file_list}
+  
+
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
