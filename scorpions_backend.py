@@ -45,6 +45,24 @@ def upload_file():
   """
 
   
+@app.route('/files', methods=['GET'])
+def get_files():
+  file_list = os.listdir(TARGET_FOLDER)
+  return {"files": file_list}
+  
+
+@app.route('/trigger_process', methods=['GET'])
+def trigger_process_files():
+  for f in os.listdir(TARGET_FOLDER):
+    with open(f) as file:
+      # TODO change this to use the document parsing funciton
+      # python is sometimes hard to work with multiple files unless the project
+      # is set up a current way so we will deal with that later
+      print("=====")
+      print(f.read())
+      print("=====")
+
+
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
