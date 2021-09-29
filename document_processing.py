@@ -31,6 +31,41 @@ def read_document(document):
     # is_checked(documentElements)
 
 
-f = open('./data/test-checkbox.docx', 'rb')
+f = open('./data/grad2018-regular.docx', 'rb')
 document = Document(f)
 read_document(document)
+# %%
+
+# w:tc
+#   w:p
+#       w:sdt -> w:sdtPr
+#           w14:checkbox -> w14:checked
+#       w:r
+#           w:t = text
+#           
+#      
+
+# %%
+
+import xml.etree.ElementTree as ET
+
+
+tree=ET.parse('data/test/word/document.xml')
+
+def rec_traverse(tr):
+    result = []
+    if tr.tag.endswith("t"):
+        result.append((tr.tag, tr.text))
+        pass
+    if tr.tag.endswith("checked"):
+        for attr in tr.attrib:
+            if attr.endswith("val"):
+                checked = tr.attrib[attr]
+                result.append(("checkbox", checked))
+                
+    #if tr.tag.endswith()
+    for c in tr:
+        result.extend(rec_traverse(c))
+    
+    return result
+# %%
