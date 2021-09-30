@@ -1,4 +1,4 @@
-import os
+import os, glob
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
@@ -18,6 +18,7 @@ def is_allowed_ext(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
+  print('Recieved request: ' + request.method)
   if request.method == 'POST':
     if 'file' not in request.files:
       flash('no file part')
@@ -53,14 +54,15 @@ def get_files():
 
 @app.route('/trigger_process', methods=['GET'])
 def trigger_process_files():
-  for f in os.listdir(TARGET_FOLDER):
-    with open(f) as file:
+  for f in glob.glob(os.path.join(TARGET_FOLDER, '*.txt')):
+    with open(f, 'r') as file:
       # TODO change this to use the document parsing funciton
       # python is sometimes hard to work with multiple files unless the project
       # is set up a current way so we will deal with that later
       print("=====")
-      print(f.read())
+      print(file.read())
       print("=====")
+  return { "message":"success" }
 
 
 @app.after_request

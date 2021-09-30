@@ -1,0 +1,64 @@
+Character
+Health - Hit points
+Armor(Defense) - damage mitigation
+Overshield - Extra hp
+Stamina - movement limiter
+Reserve Stam - Extra stam
+Mana - Spell casting limiter
+Ammo capacity - how much ammo of each type you can heeeeve
+Weight or bag capacity
+move speed
+
+Attributes
+Strenth - Determine what weapons you can wield, Scales damage and a bit of attack speed
+Dexterity - Detemine what weapons you can wield, Attack speed (and damage) and melee crit chance
+Agility - move speed, jump height and armor req, stamina regen
+Vitality - hp, stam and armor wearing req
+Intellect - Max mana, spell damage, spellcasting abilities
+Affinity - mana regen, spell crit chance, weapon limiter
+Precision - damage and recoil for guns
+Handling -  reload speed and crit chance, gun limiter, swap speed
+
+On level up - minor health increase, award 3 points(for now).
+
+**Damage is a percentile scale**
+
+NEED TANK FOR EVERY CLASS --> THATS A THICKASS BOI!!!
+NEED HEALER FOR EVERY CLASS --> PENIS ARE YOU HURT? FALLEN BLOSSOMS!!!
+
+Weapon Parts:
+Barrel - affects accuracy and range
+Frame - Limits how many parts go on the frame, different types
+Receiver - affects bullet caliber ie damage and rate of fire
+Magazine - How many bullets can fire and reload speed
+Stock - Recoil and ads time 
+
+Overloading - put an extra part and it decreases stats
+
+Weapon stats:
+accuracy on weapons with projectiles. 
+Caliber affects gun damage values (range)
+Material type affects weapon damage values (range) 
+etc.
+
+Armor stats:
+move speed
+Material type affects defense values.
+etc.
+
+Proficiencies - get better with the weapons you use.
+
+Boss Farming - boss weapon has main stats upgrades but decrease another stat(but rare chance to not have that),
+bosses drop specific resources for stat upgrades or abilities.
+Pristine mods do NOT have the decrease in stats.
+Higher tier material armor and weapons can hold more boss upgrades. Beginning has no slots. no limit on pristine amount for now.
+
+Rarities
+Common - 585858
+Uncommon - 00FF58
+Rare - 0058FF
+Legendary - 580058
+Mythical - FF5800
+Boss Tier
+Hellbent(raid upgrade only rarity) can upgrade from Legendary or Boss Tier depending on raid - FF0000
+
