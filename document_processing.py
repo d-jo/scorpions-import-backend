@@ -1,6 +1,5 @@
 # %%
 from docx import Document
-from lxml import etree
 import xml.etree.ElementTree as ET
 import pandas as pd
 
