@@ -1,3 +1,14 @@
+# Structure
+`./old` - Old code that needs to be migrated to new structure
+
+`./webapi` - Root folder of our API                         
+
+`./webapi/files` - Contains blueprints for uploading and saving files
+
+`./webapi/reports` - Contains blueprints for viewing and managing reports
+
+
+
 # Executing the code
 Running the testing file upload server
 
