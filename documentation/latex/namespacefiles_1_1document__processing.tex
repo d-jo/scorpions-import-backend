@@ -1,0 +1,67 @@
+\hypertarget{namespacefiles_1_1document__processing}{}\doxysection{files.\+document\+\_\+processing Namespace Reference}
+\label{namespacefiles_1_1document__processing}\index{files.document\_processing@{files.document\_processing}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacefiles_1_1document__processing_ae261781b764a43a23cd533e3570ff3be}{pandas\+\_\+table}} (document, table\+\_\+num=1, nheader=1)
+\item 
+def \mbox{\hyperlink{namespacefiles_1_1document__processing_a14b3fd565fb2720212dd0c2bec449123}{rec\+\_\+traverse}} (tr)
+\item 
+def \mbox{\hyperlink{namespacefiles_1_1document__processing_aecfc58ece58fc335a7e42557b08cc21e}{is\+\_\+checked}} (doc\+Elements)
+\item 
+def \mbox{\hyperlink{namespacefiles_1_1document__processing_ab67b007d7829c8d0eaaeb10d2ecf4bb1}{read\+\_\+document}} (document)
+\item 
+def \mbox{\hyperlink{namespacefiles_1_1document__processing_a850b246f7b513d19ce8295b54f8bbc65}{process}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacefiles_1_1document__processing_aecfc58ece58fc335a7e42557b08cc21e}\label{namespacefiles_1_1document__processing_aecfc58ece58fc335a7e42557b08cc21e}} 
+\index{files.document\_processing@{files.document\_processing}!is\_checked@{is\_checked}}
+\index{is\_checked@{is\_checked}!files.document\_processing@{files.document\_processing}}
+\doxysubsubsection{\texorpdfstring{is\_checked()}{is\_checked()}}
+{\footnotesize\ttfamily def files.\+document\+\_\+processing.\+is\+\_\+checked (\begin{DoxyParamCaption}\item[{}]{doc\+Elements }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Going through paragraph elements, determine if contents
+has a checkbox, and if it is checked or not.
+
+:param docElements: array of paragraph elements from python-docx.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacefiles_1_1document__processing_ae261781b764a43a23cd533e3570ff3be}\label{namespacefiles_1_1document__processing_ae261781b764a43a23cd533e3570ff3be}} 
+\index{files.document\_processing@{files.document\_processing}!pandas\_table@{pandas\_table}}
+\index{pandas\_table@{pandas\_table}!files.document\_processing@{files.document\_processing}}
+\doxysubsubsection{\texorpdfstring{pandas\_table()}{pandas\_table()}}
+{\footnotesize\ttfamily def files.\+document\+\_\+processing.\+pandas\+\_\+table (\begin{DoxyParamCaption}\item[{}]{document,  }\item[{}]{table\+\_\+num = {\ttfamily 1},  }\item[{}]{nheader = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Attempt at printing tables in a easy-to-read format
+https://medium.com/@karthikeyan.eaganathan/read-tables-from-docx-file-to-pandas-dataframes-f7e409401370
+
+:param document: opened document from python-docx.
+:param table_num: table number in document.
+:param nheader: number of headers in table.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacefiles_1_1document__processing_a850b246f7b513d19ce8295b54f8bbc65}\label{namespacefiles_1_1document__processing_a850b246f7b513d19ce8295b54f8bbc65}} 
+\index{files.document\_processing@{files.document\_processing}!process@{process}}
+\index{process@{process}!files.document\_processing@{files.document\_processing}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily def files.\+document\+\_\+processing.\+process (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacefiles_1_1document__processing_ab67b007d7829c8d0eaaeb10d2ecf4bb1}\label{namespacefiles_1_1document__processing_ab67b007d7829c8d0eaaeb10d2ecf4bb1}} 
+\index{files.document\_processing@{files.document\_processing}!read\_document@{read\_document}}
+\index{read\_document@{read\_document}!files.document\_processing@{files.document\_processing}}
+\doxysubsubsection{\texorpdfstring{read\_document()}{read\_document()}}
+{\footnotesize\ttfamily def files.\+document\+\_\+processing.\+read\+\_\+document (\begin{DoxyParamCaption}\item[{}]{document }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Read in document and print out the paragraph contents.
+:param document: opened document from python-docx.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacefiles_1_1document__processing_a14b3fd565fb2720212dd0c2bec449123}\label{namespacefiles_1_1document__processing_a14b3fd565fb2720212dd0c2bec449123}} 
+\index{files.document\_processing@{files.document\_processing}!rec\_traverse@{rec\_traverse}}
+\index{rec\_traverse@{rec\_traverse}!files.document\_processing@{files.document\_processing}}
+\doxysubsubsection{\texorpdfstring{rec\_traverse()}{rec\_traverse()}}
+{\footnotesize\ttfamily def files.\+document\+\_\+processing.\+rec\+\_\+traverse (\begin{DoxyParamCaption}\item[{}]{tr }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Recusively go through xml tags to find checkboxes and their value.
+:param tr: tag element.
+\end{DoxyVerb}
+ 
