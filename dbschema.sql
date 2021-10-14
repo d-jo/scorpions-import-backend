@@ -23,7 +23,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: auth_group; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.auth_group (
@@ -35,7 +35,7 @@ CREATE TABLE public.auth_group (
 ALTER TABLE public.auth_group OWNER TO postgres;
 
 --
--- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.auth_group_id_seq
@@ -50,14 +50,14 @@ CREATE SEQUENCE public.auth_group_id_seq
 ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
 
 --
--- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
 
 
 --
--- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.auth_group_permissions (
@@ -70,7 +70,7 @@ CREATE TABLE public.auth_group_permissions (
 ALTER TABLE public.auth_group_permissions OWNER TO postgres;
 
 --
--- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.auth_group_permissions_id_seq
@@ -92,7 +92,7 @@ ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_p
 
 
 --
--- Name: auth_permission; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.auth_permission (
@@ -106,7 +106,7 @@ CREATE TABLE public.auth_permission (
 ALTER TABLE public.auth_permission OWNER TO postgres;
 
 --
--- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.auth_permission_id_seq
@@ -121,7 +121,7 @@ CREATE SEQUENCE public.auth_permission_id_seq
 ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
 
 --
--- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgress
 --
 
 ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
@@ -149,7 +149,7 @@ CREATE TABLE public.auth_user (
 ALTER TABLE public.auth_user OWNER TO postgres;
 
 --
--- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.auth_user_groups (
@@ -162,7 +162,7 @@ CREATE TABLE public.auth_user_groups (
 ALTER TABLE public.auth_user_groups OWNER TO postgres;
 
 --
--- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.auth_user_groups_id_seq
@@ -177,14 +177,14 @@ CREATE SEQUENCE public.auth_user_groups_id_seq
 ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
 
 --
--- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
 
 
 --
--- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.auth_user_id_seq
@@ -199,14 +199,14 @@ CREATE SEQUENCE public.auth_user_id_seq
 ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
 
 --
--- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
 
 
 --
--- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.auth_user_user_permissions (
@@ -219,7 +219,7 @@ CREATE TABLE public.auth_user_user_permissions (
 ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
 
 --
--- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.auth_user_user_permissions_id_seq
@@ -234,18 +234,15 @@ CREATE SEQUENCE public.auth_user_user_permissions_id_seq
 ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
 
 --
--- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
 
 
 
-
-
-
 --
--- Name: makeReports_announcement; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_announcement; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_announcement" (
@@ -259,7 +256,7 @@ CREATE TABLE public."makeReports_announcement" (
 ALTER TABLE public."makeReports_announcement" OWNER TO postgres;
 
 --
--- Name: makeReports_announcement_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_announcement_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_announcement_id_seq"
@@ -274,14 +271,14 @@ CREATE SEQUENCE public."makeReports_announcement_id_seq"
 ALTER TABLE public."makeReports_announcement_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_announcement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_announcement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_announcement_id_seq" OWNED BY public."makeReports_announcement".id;
 
 
 --
--- Name: makeReports_assessment; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessment; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_assessment" (
@@ -299,7 +296,7 @@ CREATE TABLE public."makeReports_assessment" (
 ALTER TABLE public."makeReports_assessment" OWNER TO postgres;
 
 --
--- Name: makeReports_assessment_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_assessment_id_seq"
@@ -314,14 +311,14 @@ CREATE SEQUENCE public."makeReports_assessment_id_seq"
 ALTER TABLE public."makeReports_assessment_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_assessment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_assessment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_assessment_id_seq" OWNED BY public."makeReports_assessment".id;
 
 
 --
--- Name: makeReports_assessmentaggregate; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentaggregate; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_assessmentaggregate" (
@@ -337,7 +334,7 @@ CREATE TABLE public."makeReports_assessmentaggregate" (
 ALTER TABLE public."makeReports_assessmentaggregate" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentaggregate_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentaggregate_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_assessmentaggregate_id_seq"
@@ -352,14 +349,14 @@ CREATE SEQUENCE public."makeReports_assessmentaggregate_id_seq"
 ALTER TABLE public."makeReports_assessmentaggregate_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentaggregate_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentaggregate_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_assessmentaggregate_id_seq" OWNED BY public."makeReports_assessmentaggregate".id;
 
 
 --
--- Name: makeReports_assessmentdata; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentdata; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_assessmentdata" (
@@ -376,7 +373,7 @@ CREATE TABLE public."makeReports_assessmentdata" (
 ALTER TABLE public."makeReports_assessmentdata" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentdata_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentdata_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_assessmentdata_id_seq"
@@ -391,14 +388,14 @@ CREATE SEQUENCE public."makeReports_assessmentdata_id_seq"
 ALTER TABLE public."makeReports_assessmentdata_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentdata_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentdata_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_assessmentdata_id_seq" OWNED BY public."makeReports_assessmentdata".id;
 
 
 --
--- Name: makeReports_assessmentsupplement; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentsupplement; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_assessmentsupplement" (
@@ -411,7 +408,7 @@ CREATE TABLE public."makeReports_assessmentsupplement" (
 ALTER TABLE public."makeReports_assessmentsupplement" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentsupplement_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentsupplement_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_assessmentsupplement_id_seq"
@@ -426,14 +423,14 @@ CREATE SEQUENCE public."makeReports_assessmentsupplement_id_seq"
 ALTER TABLE public."makeReports_assessmentsupplement_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentsupplement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentsupplement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_assessmentsupplement_id_seq" OWNED BY public."makeReports_assessmentsupplement".id;
 
 
 --
--- Name: makeReports_assessmentversion; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_assessmentversion" (
@@ -461,7 +458,7 @@ CREATE TABLE public."makeReports_assessmentversion" (
 ALTER TABLE public."makeReports_assessmentversion" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentversion_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_assessmentversion_id_seq"
@@ -476,14 +473,14 @@ CREATE SEQUENCE public."makeReports_assessmentversion_id_seq"
 ALTER TABLE public."makeReports_assessmentversion_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentversion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_assessmentversion_id_seq" OWNED BY public."makeReports_assessmentversion".id;
 
 
 --
--- Name: makeReports_assessmentversion_supplements; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_supplements; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_assessmentversion_supplements" (
@@ -496,7 +493,7 @@ CREATE TABLE public."makeReports_assessmentversion_supplements" (
 ALTER TABLE public."makeReports_assessmentversion_supplements" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentversion_supplements_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_supplements_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_assessmentversion_supplements_id_seq"
@@ -511,14 +508,14 @@ CREATE SEQUENCE public."makeReports_assessmentversion_supplements_id_seq"
 ALTER TABLE public."makeReports_assessmentversion_supplements_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_assessmentversion_supplements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_supplements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_assessmentversion_supplements_id_seq" OWNED BY public."makeReports_assessmentversion_supplements".id;
 
 
 --
--- Name: makeReports_college; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_college; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_college" (
@@ -531,7 +528,7 @@ CREATE TABLE public."makeReports_college" (
 ALTER TABLE public."makeReports_college" OWNER TO postgres;
 
 --
--- Name: makeReports_college_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_college_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_college_id_seq"
@@ -546,14 +543,14 @@ CREATE SEQUENCE public."makeReports_college_id_seq"
 ALTER TABLE public."makeReports_college_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_college_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_college_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_college_id_seq" OWNED BY public."makeReports_college".id;
 
 
 --
--- Name: makeReports_dataadditionalinformation; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_dataadditionalinformation; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_dataadditionalinformation" (
@@ -567,7 +564,7 @@ CREATE TABLE public."makeReports_dataadditionalinformation" (
 ALTER TABLE public."makeReports_dataadditionalinformation" OWNER TO postgres;
 
 --
--- Name: makeReports_dataadditionalinformation_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_dataadditionalinformation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_dataadditionalinformation_id_seq"
@@ -582,14 +579,14 @@ CREATE SEQUENCE public."makeReports_dataadditionalinformation_id_seq"
 ALTER TABLE public."makeReports_dataadditionalinformation_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_dataadditionalinformation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_dataadditionalinformation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_dataadditionalinformation_id_seq" OWNED BY public."makeReports_dataadditionalinformation".id;
 
 
 --
--- Name: makeReports_decisionsactions; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_decisionsactions; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_decisionsactions" (
@@ -602,7 +599,7 @@ CREATE TABLE public."makeReports_decisionsactions" (
 ALTER TABLE public."makeReports_decisionsactions" OWNER TO postgres;
 
 --
--- Name: makeReports_decisionsactions_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_decisionsactions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_decisionsactions_id_seq"
@@ -617,14 +614,14 @@ CREATE SEQUENCE public."makeReports_decisionsactions_id_seq"
 ALTER TABLE public."makeReports_decisionsactions_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_decisionsactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_decisionsactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_decisionsactions_id_seq" OWNED BY public."makeReports_decisionsactions".id;
 
 
 --
--- Name: makeReports_degreeprogram; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_degreeprogram; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_degreeprogram" (
@@ -643,7 +640,7 @@ CREATE TABLE public."makeReports_degreeprogram" (
 ALTER TABLE public."makeReports_degreeprogram" OWNER TO postgres;
 
 --
--- Name: makeReports_degreeprogram_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_degreeprogram_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_degreeprogram_id_seq"
@@ -658,14 +655,14 @@ CREATE SEQUENCE public."makeReports_degreeprogram_id_seq"
 ALTER TABLE public."makeReports_degreeprogram_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_degreeprogram_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_degreeprogram_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_degreeprogram_id_seq" OWNED BY public."makeReports_degreeprogram".id;
 
 
 --
--- Name: makeReports_department; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_department; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_department" (
@@ -679,7 +676,7 @@ CREATE TABLE public."makeReports_department" (
 ALTER TABLE public."makeReports_department" OWNER TO postgres;
 
 --
--- Name: makeReports_department_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_department_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_department_id_seq"
@@ -694,14 +691,14 @@ CREATE SEQUENCE public."makeReports_department_id_seq"
 ALTER TABLE public."makeReports_department_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_department_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_department_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_department_id_seq" OWNED BY public."makeReports_department".id;
 
 
 --
--- Name: makeReports_gradedrubric; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubric; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_gradedrubric" (
@@ -719,7 +716,7 @@ CREATE TABLE public."makeReports_gradedrubric" (
 ALTER TABLE public."makeReports_gradedrubric" OWNER TO postgres;
 
 --
--- Name: makeReports_gradedrubric_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubric_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_gradedrubric_id_seq"
@@ -734,14 +731,14 @@ CREATE SEQUENCE public."makeReports_gradedrubric_id_seq"
 ALTER TABLE public."makeReports_gradedrubric_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_gradedrubric_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubric_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_gradedrubric_id_seq" OWNED BY public."makeReports_gradedrubric".id;
 
 
 --
--- Name: makeReports_gradedrubricitem; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubricitem; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_gradedrubricitem" (
@@ -755,7 +752,7 @@ CREATE TABLE public."makeReports_gradedrubricitem" (
 ALTER TABLE public."makeReports_gradedrubricitem" OWNER TO postgres;
 
 --
--- Name: makeReports_gradedrubricitem_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubricitem_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_gradedrubricitem_id_seq"
@@ -770,14 +767,14 @@ CREATE SEQUENCE public."makeReports_gradedrubricitem_id_seq"
 ALTER TABLE public."makeReports_gradedrubricitem_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_gradedrubricitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubricitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_gradedrubricitem_id_seq" OWNED BY public."makeReports_gradedrubricitem".id;
 
 
 --
--- Name: makeReports_gradgoal; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_gradgoal; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_gradgoal" (
@@ -790,7 +787,7 @@ CREATE TABLE public."makeReports_gradgoal" (
 ALTER TABLE public."makeReports_gradgoal" OWNER TO postgres;
 
 --
--- Name: makeReports_gradgoal_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_gradgoal_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_gradgoal_id_seq"
@@ -805,14 +802,14 @@ CREATE SEQUENCE public."makeReports_gradgoal_id_seq"
 ALTER TABLE public."makeReports_gradgoal_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_gradgoal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_gradgoal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_gradgoal_id_seq" OWNED BY public."makeReports_gradgoal".id;
 
 
 --
--- Name: makeReports_graph; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_graph; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_graph" (
@@ -825,7 +822,7 @@ CREATE TABLE public."makeReports_graph" (
 ALTER TABLE public."makeReports_graph" OWNER TO postgres;
 
 --
--- Name: makeReports_graph_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_graph_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_graph_id_seq"
@@ -840,14 +837,14 @@ CREATE SEQUENCE public."makeReports_graph_id_seq"
 ALTER TABLE public."makeReports_graph_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_graph_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_graph_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_graph_id_seq" OWNED BY public."makeReports_graph".id;
 
 
 --
--- Name: makeReports_profile; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_profile; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_profile" (
@@ -861,7 +858,7 @@ CREATE TABLE public."makeReports_profile" (
 ALTER TABLE public."makeReports_profile" OWNER TO postgres;
 
 --
--- Name: makeReports_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_profile_id_seq"
@@ -876,14 +873,14 @@ CREATE SEQUENCE public."makeReports_profile_id_seq"
 ALTER TABLE public."makeReports_profile_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_profile_id_seq" OWNED BY public."makeReports_profile".id;
 
 
 --
--- Name: makeReports_report; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_report; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_report" (
@@ -909,7 +906,7 @@ CREATE TABLE public."makeReports_report" (
 ALTER TABLE public."makeReports_report" OWNER TO postgres;
 
 --
--- Name: makeReports_report_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_report_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_report_id_seq"
@@ -924,14 +921,14 @@ CREATE SEQUENCE public."makeReports_report_id_seq"
 ALTER TABLE public."makeReports_report_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_report_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_report_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_report_id_seq" OWNED BY public."makeReports_report".id;
 
 
 --
--- Name: makeReports_reportsupplement; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_reportsupplement; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_reportsupplement" (
@@ -944,7 +941,7 @@ CREATE TABLE public."makeReports_reportsupplement" (
 ALTER TABLE public."makeReports_reportsupplement" OWNER TO postgres;
 
 --
--- Name: makeReports_reportsupplement_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_reportsupplement_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_reportsupplement_id_seq"
@@ -959,14 +956,14 @@ CREATE SEQUENCE public."makeReports_reportsupplement_id_seq"
 ALTER TABLE public."makeReports_reportsupplement_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_reportsupplement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_reportsupplement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_reportsupplement_id_seq" OWNED BY public."makeReports_reportsupplement".id;
 
 
 --
--- Name: makeReports_requiredfieldsetting; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_requiredfieldsetting; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_requiredfieldsetting" (
@@ -979,7 +976,7 @@ CREATE TABLE public."makeReports_requiredfieldsetting" (
 ALTER TABLE public."makeReports_requiredfieldsetting" OWNER TO postgres;
 
 --
--- Name: makeReports_requiredfieldsetting_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_requiredfieldsetting_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_requiredfieldsetting_id_seq"
@@ -994,14 +991,14 @@ CREATE SEQUENCE public."makeReports_requiredfieldsetting_id_seq"
 ALTER TABLE public."makeReports_requiredfieldsetting_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_requiredfieldsetting_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_requiredfieldsetting_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_requiredfieldsetting_id_seq" OWNED BY public."makeReports_requiredfieldsetting".id;
 
 
 --
--- Name: makeReports_resultcommunicate; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_resultcommunicate; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_resultcommunicate" (
@@ -1014,7 +1011,7 @@ CREATE TABLE public."makeReports_resultcommunicate" (
 ALTER TABLE public."makeReports_resultcommunicate" OWNER TO postgres;
 
 --
--- Name: makeReports_resultcommunicate_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_resultcommunicate_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_resultcommunicate_id_seq"
@@ -1029,14 +1026,14 @@ CREATE SEQUENCE public."makeReports_resultcommunicate_id_seq"
 ALTER TABLE public."makeReports_resultcommunicate_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_resultcommunicate_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_resultcommunicate_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_resultcommunicate_id_seq" OWNED BY public."makeReports_resultcommunicate".id;
 
 
 --
--- Name: makeReports_rubric; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_rubric; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_rubric" (
@@ -1050,7 +1047,7 @@ CREATE TABLE public."makeReports_rubric" (
 ALTER TABLE public."makeReports_rubric" OWNER TO postgres;
 
 --
--- Name: makeReports_rubric_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_rubric_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_rubric_id_seq"
@@ -1065,14 +1062,14 @@ CREATE SEQUENCE public."makeReports_rubric_id_seq"
 ALTER TABLE public."makeReports_rubric_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_rubric_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_rubric_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_rubric_id_seq" OWNED BY public."makeReports_rubric".id;
 
 
 --
--- Name: makeReports_rubricitem; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_rubricitem; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_rubricitem" (
@@ -1093,7 +1090,7 @@ CREATE TABLE public."makeReports_rubricitem" (
 ALTER TABLE public."makeReports_rubricitem" OWNER TO postgres;
 
 --
--- Name: makeReports_rubricitem_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_rubricitem_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_rubricitem_id_seq"
@@ -1108,14 +1105,14 @@ CREATE SEQUENCE public."makeReports_rubricitem_id_seq"
 ALTER TABLE public."makeReports_rubricitem_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_rubricitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_rubricitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_rubricitem_id_seq" OWNED BY public."makeReports_rubricitem".id;
 
 
 --
--- Name: makeReports_slo; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_slo; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_slo" (
@@ -1129,7 +1126,7 @@ CREATE TABLE public."makeReports_slo" (
 ALTER TABLE public."makeReports_slo" OWNER TO postgres;
 
 --
--- Name: makeReports_slo_gradGoals; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_gradGoals; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_slo_gradGoals" (
@@ -1157,14 +1154,14 @@ CREATE SEQUENCE public."makeReports_slo_gradGoals_id_seq"
 ALTER TABLE public."makeReports_slo_gradGoals_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_slo_gradGoals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_gradGoals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_slo_gradGoals_id_seq" OWNED BY public."makeReports_slo_gradGoals".id;
 
 
 --
--- Name: makeReports_slo_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_slo_id_seq"
@@ -1179,7 +1176,7 @@ CREATE SEQUENCE public."makeReports_slo_id_seq"
 ALTER TABLE public."makeReports_slo_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_slo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_slo_id_seq" OWNED BY public."makeReports_slo".id;
@@ -1206,7 +1203,7 @@ CREATE TABLE public."makeReports_sloinreport" (
 ALTER TABLE public."makeReports_sloinreport" OWNER TO postgres;
 
 --
--- Name: makeReports_sloinreport_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_sloinreport_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_sloinreport_id_seq"
@@ -1221,14 +1218,14 @@ CREATE SEQUENCE public."makeReports_sloinreport_id_seq"
 ALTER TABLE public."makeReports_sloinreport_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_sloinreport_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_sloinreport_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_sloinreport_id_seq" OWNED BY public."makeReports_sloinreport".id;
 
 
 --
--- Name: makeReports_slostatus; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_slostatus; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_slostatus" (
@@ -1242,7 +1239,7 @@ CREATE TABLE public."makeReports_slostatus" (
 ALTER TABLE public."makeReports_slostatus" OWNER TO postgres;
 
 --
--- Name: makeReports_slostatus_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_slostatus_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_slostatus_id_seq"
@@ -1257,14 +1254,14 @@ CREATE SEQUENCE public."makeReports_slostatus_id_seq"
 ALTER TABLE public."makeReports_slostatus_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_slostatus_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_slostatus_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_slostatus_id_seq" OWNED BY public."makeReports_slostatus".id;
 
 
 --
--- Name: makeReports_slostostakeholder; Type: TABLE; Schema: public; Owner: doadmin
+-- Name: makeReports_slostostakeholder; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."makeReports_slostostakeholder" (
@@ -1277,7 +1274,7 @@ CREATE TABLE public."makeReports_slostostakeholder" (
 ALTER TABLE public."makeReports_slostostakeholder" OWNER TO postgres;
 
 --
--- Name: makeReports_slostostakeholder_id_seq; Type: SEQUENCE; Schema: public; Owner: doadmin
+-- Name: makeReports_slostostakeholder_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."makeReports_slostostakeholder_id_seq"
@@ -1292,49 +1289,49 @@ CREATE SEQUENCE public."makeReports_slostostakeholder_id_seq"
 ALTER TABLE public."makeReports_slostostakeholder_id_seq" OWNER TO postgres;
 
 --
--- Name: makeReports_slostostakeholder_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: doadmin
+-- Name: makeReports_slostostakeholder_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."makeReports_slostostakeholder_id_seq" OWNED BY public."makeReports_slostostakeholder".id;
 
 
 --
--- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
 
 
 --
--- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
 
 
 --
--- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
 
 
 --
--- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
 
 
 --
--- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
 
 
 --
--- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
@@ -1342,445 +1339,204 @@ ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT n
 
 
 --
--- Name: makeReports_announcement id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_announcement id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_announcement" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_announcement_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_assessment id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessment id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessment" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_assessment_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_assessmentaggregate id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentaggregate id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentaggregate" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_assessmentaggregate_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_assessmentdata id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentdata id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentdata" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_assessmentdata_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_assessmentsupplement id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentsupplement id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentsupplement" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_assessmentsupplement_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_assessmentversion id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_assessmentversion_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_assessmentversion_supplements id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_supplements id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion_supplements" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_assessmentversion_supplements_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_college id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_college id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_college" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_college_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_dataadditionalinformation id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_dataadditionalinformation id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_dataadditionalinformation" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_dataadditionalinformation_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_decisionsactions id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_decisionsactions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_decisionsactions" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_decisionsactions_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_degreeprogram id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_degreeprogram id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_degreeprogram" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_degreeprogram_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_department id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_department id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_department" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_department_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_gradedrubric id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubric id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_gradedrubric" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_gradedrubric_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_gradedrubricitem id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubricitem id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_gradedrubricitem" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_gradedrubricitem_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_gradgoal id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_gradgoal id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_gradgoal" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_gradgoal_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_graph id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_graph id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_graph" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_graph_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_profile id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_profile id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_profile" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_profile_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_report id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_report id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_report" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_report_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_reportsupplement id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_reportsupplement id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_reportsupplement" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_reportsupplement_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_requiredfieldsetting id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_requiredfieldsetting id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_requiredfieldsetting" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_requiredfieldsetting_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_resultcommunicate id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_resultcommunicate id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_resultcommunicate" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_resultcommunicate_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_rubric id; Type: DEFAULT; Schema: public; Owner: doadmin
---
+-- Name: makeReports_rubric id; Type: DEFAULT; Schema: public; Owner: postgres
 
 ALTER TABLE ONLY public."makeReports_rubric" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_rubric_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_rubricitem id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_rubricitem id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_rubricitem" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_rubricitem_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_slo id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_slo id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slo" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_slo_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_slo_gradGoals id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_gradGoals id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slo_gradGoals" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_slo_gradGoals_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_sloinreport id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_sloinreport id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_sloinreport" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_sloinreport_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_slostatus id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_slostatus id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slostatus" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_slostatus_id_seq"'::regclass);
 
 
 --
--- Name: makeReports_slostostakeholder id; Type: DEFAULT; Schema: public; Owner: doadmin
+-- Name: makeReports_slostostakeholder id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slostostakeholder" ALTER COLUMN id SET DEFAULT nextval('public."makeReports_slostostakeholder_id_seq"'::regclass);
 
 
 
---
--- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
-
-
---
--- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
-
-
---
--- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 132, true);
-
-
---
--- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
-
-
---
--- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public.auth_user_id_seq', 35, true);
-
-
---
--- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
-
-
-
-
-
---
--- Name: makeReports_announcement_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_announcement_id_seq"', 1, false);
-
-
---
--- Name: makeReports_assessment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_assessment_id_seq"', 404, true);
-
-
---
--- Name: makeReports_assessmentaggregate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_assessmentaggregate_id_seq"', 87, true);
-
-
---
--- Name: makeReports_assessmentdata_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_assessmentdata_id_seq"', 109, true);
-
-
---
--- Name: makeReports_assessmentsupplement_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_assessmentsupplement_id_seq"', 74, true);
-
-
---
--- Name: makeReports_assessmentversion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_assessmentversion_id_seq"', 671, true);
-
-
---
--- Name: makeReports_assessmentversion_supplements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_assessmentversion_supplements_id_seq"', 74, true);
-
-
---
--- Name: makeReports_college_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_college_id_seq"', 8, true);
-
-
---
--- Name: makeReports_dataadditionalinformation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_dataadditionalinformation_id_seq"', 22, true);
-
-
---
--- Name: makeReports_decisionsactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_decisionsactions_id_seq"', 163, true);
-
-
---
--- Name: makeReports_degreeprogram_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_degreeprogram_id_seq"', 84, true);
-
-
---
--- Name: makeReports_department_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_department_id_seq"', 26, true);
-
-
---
--- Name: makeReports_gradedrubric_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_gradedrubric_id_seq"', 145, true);
-
-
---
--- Name: makeReports_gradedrubricitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_gradedrubricitem_id_seq"', 4, true);
-
-
---
--- Name: makeReports_gradgoal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_gradgoal_id_seq"', 5, true);
-
-
---
--- Name: makeReports_graph_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_graph_id_seq"', 3, true);
-
-
---
--- Name: makeReports_profile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_profile_id_seq"', 35, true);
-
-
---
--- Name: makeReports_report_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_report_id_seq"', 145, true);
-
-
---
--- Name: makeReports_reportsupplement_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_reportsupplement_id_seq"', 15, true);
-
-
---
--- Name: makeReports_requiredfieldsetting_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_requiredfieldsetting_id_seq"', 1, false);
-
-
---
--- Name: makeReports_resultcommunicate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_resultcommunicate_id_seq"', 16, true);
-
-
---
--- Name: makeReports_rubric_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_rubric_id_seq"', 5, true);
-
-
---
--- Name: makeReports_rubricitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_rubricitem_id_seq"', 16, true);
-
-
---
--- Name: makeReports_slo_gradGoals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_slo_gradGoals_id_seq"', 474, true);
-
-
---
--- Name: makeReports_slo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_slo_id_seq"', 357, true);
-
-
---
--- Name: makeReports_sloinreport_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_sloinreport_id_seq"', 539, true);
-
-
---
--- Name: makeReports_slostatus_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_slostatus_id_seq"', 178, true);
-
-
---
--- Name: makeReports_slostostakeholder_id_seq; Type: SEQUENCE SET; Schema: public; Owner: doadmin
---
-
-SELECT pg_catalog.setval('public."makeReports_slostostakeholder_id_seq"', 66, true);
-
 
 --
--- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_group
@@ -1788,7 +1544,7 @@ ALTER TABLE ONLY public.auth_group
 
 
 --
--- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_group_permissions
@@ -1796,7 +1552,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_group_permissions
@@ -1804,7 +1560,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_group
@@ -1812,7 +1568,7 @@ ALTER TABLE ONLY public.auth_group
 
 
 --
--- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_permission
@@ -1820,7 +1576,7 @@ ALTER TABLE ONLY public.auth_permission
 
 
 --
--- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_permission
@@ -1828,7 +1584,7 @@ ALTER TABLE ONLY public.auth_permission
 
 
 --
--- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user_groups
@@ -1836,7 +1592,7 @@ ALTER TABLE ONLY public.auth_user_groups
 
 
 --
--- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user_groups
@@ -1845,14 +1601,14 @@ ALTER TABLE ONLY public.auth_user_groups
 
 --
 -- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
---
+--postgres
 
 ALTER TABLE ONLY public.auth_user
     ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
 
 
 --
--- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user_user_permissions
@@ -1860,7 +1616,7 @@ ALTER TABLE ONLY public.auth_user_user_permissions
 
 
 --
--- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user_user_permissions
@@ -1868,7 +1624,7 @@ ALTER TABLE ONLY public.auth_user_user_permissions
 
 
 --
--- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user
@@ -1876,7 +1632,7 @@ ALTER TABLE ONLY public.auth_user
 
 
 --
--- Name: makeReports_announcement makeReports_announcement_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_announcement makeReports_announcement_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_announcement"
@@ -1884,7 +1640,7 @@ ALTER TABLE ONLY public."makeReports_announcement"
 
 
 --
--- Name: makeReports_assessment makeReports_assessment_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessment makeReports_assessment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessment"
@@ -1900,7 +1656,7 @@ ALTER TABLE ONLY public."makeReports_assessmentaggregate"
 
 
 --
--- Name: makeReports_assessmentaggregate makeReports_assessmentaggregate_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentaggregate makeReports_assessmentaggregate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentaggregate"
@@ -1908,7 +1664,7 @@ ALTER TABLE ONLY public."makeReports_assessmentaggregate"
 
 
 --
--- Name: makeReports_assessmentdata makeReports_assessmentdata_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentdata makeReports_assessmentdata_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentdata"
@@ -1916,7 +1672,7 @@ ALTER TABLE ONLY public."makeReports_assessmentdata"
 
 
 --
--- Name: makeReports_assessmentsupplement makeReports_assessmentsupplement_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentsupplement makeReports_assessmentsupplement_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentsupplement"
@@ -1924,7 +1680,7 @@ ALTER TABLE ONLY public."makeReports_assessmentsupplement"
 
 
 --
--- Name: makeReports_assessmentversion_supplements makeReports_assessmentve_assessmentversion_id_ass_6b09c182_uniq; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_supplements makeReports_assessmentve_assessmentversion_id_ass_6b09c182_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion_supplements"
@@ -1932,7 +1688,7 @@ ALTER TABLE ONLY public."makeReports_assessmentversion_supplements"
 
 
 --
--- Name: makeReports_assessmentversion makeReports_assessmentversion_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion makeReports_assessmentversion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion"
@@ -1940,7 +1696,7 @@ ALTER TABLE ONLY public."makeReports_assessmentversion"
 
 
 --
--- Name: makeReports_assessmentversion_supplements makeReports_assessmentversion_supplements_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_supplements makeReports_assessmentversion_supplements_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion_supplements"
@@ -1948,7 +1704,7 @@ ALTER TABLE ONLY public."makeReports_assessmentversion_supplements"
 
 
 --
--- Name: makeReports_college makeReports_college_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_college makeReports_college_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_college"
@@ -1956,7 +1712,7 @@ ALTER TABLE ONLY public."makeReports_college"
 
 
 --
--- Name: makeReports_dataadditionalinformation makeReports_dataadditionalinformation_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_dataadditionalinformation makeReports_dataadditionalinformation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_dataadditionalinformation"
@@ -1964,7 +1720,7 @@ ALTER TABLE ONLY public."makeReports_dataadditionalinformation"
 
 
 --
--- Name: makeReports_decisionsactions makeReports_decisionsactions_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_decisionsactions makeReports_decisionsactions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_decisionsactions"
@@ -1972,7 +1728,7 @@ ALTER TABLE ONLY public."makeReports_decisionsactions"
 
 
 --
--- Name: makeReports_decisionsactions makeReports_decisionsactions_sloIR_id_key; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_decisionsactions makeReports_decisionsactions_sloIR_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_decisionsactions"
@@ -1980,7 +1736,7 @@ ALTER TABLE ONLY public."makeReports_decisionsactions"
 
 
 --
--- Name: makeReports_degreeprogram makeReports_degreeprogram_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_degreeprogram makeReports_degreeprogram_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_degreeprogram"
@@ -1988,7 +1744,7 @@ ALTER TABLE ONLY public."makeReports_degreeprogram"
 
 
 --
--- Name: makeReports_department makeReports_department_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_department makeReports_department_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_department"
@@ -1996,7 +1752,7 @@ ALTER TABLE ONLY public."makeReports_department"
 
 
 --
--- Name: makeReports_gradedrubric makeReports_gradedrubric_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubric makeReports_gradedrubric_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_gradedrubric"
@@ -2004,7 +1760,7 @@ ALTER TABLE ONLY public."makeReports_gradedrubric"
 
 
 --
--- Name: makeReports_gradedrubricitem makeReports_gradedrubricitem_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubricitem makeReports_gradedrubricitem_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_gradedrubricitem"
@@ -2012,7 +1768,7 @@ ALTER TABLE ONLY public."makeReports_gradedrubricitem"
 
 
 --
--- Name: makeReports_gradgoal makeReports_gradgoal_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_gradgoal makeReports_gradgoal_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_gradgoal"
@@ -2020,7 +1776,7 @@ ALTER TABLE ONLY public."makeReports_gradgoal"
 
 
 --
--- Name: makeReports_graph makeReports_graph_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_graph makeReports_graph_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_graph"
@@ -2028,7 +1784,7 @@ ALTER TABLE ONLY public."makeReports_graph"
 
 
 --
--- Name: makeReports_profile makeReports_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_profile makeReports_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_profile"
@@ -2036,7 +1792,7 @@ ALTER TABLE ONLY public."makeReports_profile"
 
 
 --
--- Name: makeReports_profile makeReports_profile_user_id_key; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_profile makeReports_profile_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_profile"
@@ -2044,7 +1800,7 @@ ALTER TABLE ONLY public."makeReports_profile"
 
 
 --
--- Name: makeReports_report makeReports_report_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_report makeReports_report_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_report"
@@ -2052,7 +1808,7 @@ ALTER TABLE ONLY public."makeReports_report"
 
 
 --
--- Name: makeReports_report makeReports_report_rubric_id_key; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_report makeReports_report_rubric_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_report"
@@ -2060,7 +1816,7 @@ ALTER TABLE ONLY public."makeReports_report"
 
 
 --
--- Name: makeReports_reportsupplement makeReports_reportsupplement_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_reportsupplement makeReports_reportsupplement_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_reportsupplement"
@@ -2068,7 +1824,7 @@ ALTER TABLE ONLY public."makeReports_reportsupplement"
 
 
 --
--- Name: makeReports_requiredfieldsetting makeReports_requiredfieldsetting_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_requiredfieldsetting makeReports_requiredfieldsetting_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_requiredfieldsetting"
@@ -2076,7 +1832,7 @@ ALTER TABLE ONLY public."makeReports_requiredfieldsetting"
 
 
 --
--- Name: makeReports_resultcommunicate makeReports_resultcommunicate_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_resultcommunicate makeReports_resultcommunicate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_resultcommunicate"
@@ -2084,7 +1840,7 @@ ALTER TABLE ONLY public."makeReports_resultcommunicate"
 
 
 --
--- Name: makeReports_rubric makeReports_rubric_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_rubric makeReports_rubric_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_rubric"
@@ -2092,7 +1848,7 @@ ALTER TABLE ONLY public."makeReports_rubric"
 
 
 --
--- Name: makeReports_rubricitem makeReports_rubricitem_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_rubricitem makeReports_rubricitem_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_rubricitem"
@@ -2100,7 +1856,7 @@ ALTER TABLE ONLY public."makeReports_rubricitem"
 
 
 --
--- Name: makeReports_slo_gradGoals makeReports_slo_gradGoals_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_gradGoals makeReports_slo_gradGoals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slo_gradGoals"
@@ -2108,7 +1864,7 @@ ALTER TABLE ONLY public."makeReports_slo_gradGoals"
 
 
 --
--- Name: makeReports_slo_gradGoals makeReports_slo_gradGoals_slo_id_gradgoal_id_00fca829_uniq; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_gradGoals makeReports_slo_gradGoals_slo_id_gradgoal_id_00fca829_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slo_gradGoals"
@@ -2116,7 +1872,7 @@ ALTER TABLE ONLY public."makeReports_slo_gradGoals"
 
 
 --
--- Name: makeReports_slo makeReports_slo_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slo makeReports_slo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slo"
@@ -2124,7 +1880,7 @@ ALTER TABLE ONLY public."makeReports_slo"
 
 
 --
--- Name: makeReports_sloinreport makeReports_sloinreport_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_sloinreport makeReports_sloinreport_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_sloinreport"
@@ -2132,7 +1888,7 @@ ALTER TABLE ONLY public."makeReports_sloinreport"
 
 
 --
--- Name: makeReports_slostatus makeReports_slostatus_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slostatus makeReports_slostatus_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slostatus"
@@ -2140,7 +1896,7 @@ ALTER TABLE ONLY public."makeReports_slostatus"
 
 
 --
--- Name: makeReports_slostatus makeReports_slostatus_sloIR_id_key; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slostatus makeReports_slostatus_sloIR_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slostatus"
@@ -2148,7 +1904,7 @@ ALTER TABLE ONLY public."makeReports_slostatus"
 
 
 --
--- Name: makeReports_slostostakeholder makeReports_slostostakeholder_pkey; Type: CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slostostakeholder makeReports_slostostakeholder_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slostostakeholder"
@@ -2156,231 +1912,203 @@ ALTER TABLE ONLY public."makeReports_slostostakeholder"
 
 
 --
--- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
 
 
 --
--- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
 
 
 --
--- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
 
 
 --
--- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
 
 
 --
--- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
 
 
 --
--- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
 
 
 --
--- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
 
 
 --
--- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
 
 
 --
--- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
 
 
 --
--- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: doadmin
---
-
-CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
-
-
---
--- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: doadmin
---
-
-CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
-
-
---
--- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: doadmin
---
-
-CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
-
-
---
--- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: doadmin
---
-
-CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
-
-
---
--- Name: makeReports_assessmentdata_assessmentVersion_id_f0247a59; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentdata_assessmentVersion_id_f0247a59; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_assessmentdata_assessmentVersion_id_f0247a59" ON public."makeReports_assessmentdata" USING btree ("assessmentVersion_id");
 
 
 --
--- Name: makeReports_assessmentvers_assessmentsupplement_id_9a30487e; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentvers_assessmentsupplement_id_9a30487e; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_assessmentvers_assessmentsupplement_id_9a30487e" ON public."makeReports_assessmentversion_supplements" USING btree (assessmentsupplement_id);
 
 
 --
--- Name: makeReports_assessmentvers_assessmentversion_id_549998a2; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentvers_assessmentversion_id_549998a2; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_assessmentvers_assessmentversion_id_549998a2" ON public."makeReports_assessmentversion_supplements" USING btree (assessmentversion_id);
 
 
 --
--- Name: makeReports_assessmentversion_assessment_id_da1cec27; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_assessment_id_da1cec27; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_assessmentversion_assessment_id_da1cec27" ON public."makeReports_assessmentversion" USING btree (assessment_id);
 
 
 --
--- Name: makeReports_assessmentversion_report_id_2781c22d; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_report_id_2781c22d; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_assessmentversion_report_id_2781c22d" ON public."makeReports_assessmentversion" USING btree (report_id);
 
 
 --
--- Name: makeReports_assessmentversion_slo_id_70157d4a; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_slo_id_70157d4a; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_assessmentversion_slo_id_70157d4a" ON public."makeReports_assessmentversion" USING btree (slo_id);
 
 
 --
--- Name: makeReports_dataadditionalinformation_report_id_d9926511; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_dataadditionalinformation_report_id_d9926511; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_dataadditionalinformation_report_id_d9926511" ON public."makeReports_dataadditionalinformation" USING btree (report_id);
 
 
 --
--- Name: makeReports_degreeprogram_department_id_9d22e7bc; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_degreeprogram_department_id_9d22e7bc; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_degreeprogram_department_id_9d22e7bc" ON public."makeReports_degreeprogram" USING btree (department_id);
 
 
 --
--- Name: makeReports_department_college_id_c34c69b5; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_department_college_id_c34c69b5; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_department_college_id_c34c69b5" ON public."makeReports_department" USING btree (college_id);
 
 
 --
--- Name: makeReports_gradedrubric_rubricVersion_id_8138acbd; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubric_rubricVersion_id_8138acbd; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_gradedrubric_rubricVersion_id_8138acbd" ON public."makeReports_gradedrubric" USING btree ("rubricVersion_id");
 
 
 --
--- Name: makeReports_gradedrubricitem_item_id_8800f750; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubricitem_item_id_8800f750; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_gradedrubricitem_item_id_8800f750" ON public."makeReports_gradedrubricitem" USING btree (item_id);
 
 
 --
--- Name: makeReports_gradedrubricitem_rubric_id_9259d933; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubricitem_rubric_id_9259d933; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_gradedrubricitem_rubric_id_9259d933" ON public."makeReports_gradedrubricitem" USING btree (rubric_id);
 
 
 --
--- Name: makeReports_profile_department_id_50419a58; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_profile_department_id_50419a58; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_profile_department_id_50419a58" ON public."makeReports_profile" USING btree (department_id);
 
 
 --
--- Name: makeReports_report_degreeProgram_id_9699ef2c; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_report_degreeProgram_id_9699ef2c; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_report_degreeProgram_id_9699ef2c" ON public."makeReports_report" USING btree ("degreeProgram_id");
 
 
 --
--- Name: makeReports_reportsupplement_report_id_a170118a; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_reportsupplement_report_id_a170118a; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_reportsupplement_report_id_a170118a" ON public."makeReports_reportsupplement" USING btree (report_id);
 
 
 --
--- Name: makeReports_resultcommunicate_report_id_7df2cee4; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_resultcommunicate_report_id_7df2cee4; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_resultcommunicate_report_id_7df2cee4" ON public."makeReports_resultcommunicate" USING btree (report_id);
 
 
 --
--- Name: makeReports_rubricitem_rubricVersion_id_6c8ebffc; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_rubricitem_rubricVersion_id_6c8ebffc; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_rubricitem_rubricVersion_id_6c8ebffc" ON public."makeReports_rubricitem" USING btree ("rubricVersion_id");
 
 
 --
--- Name: makeReports_slo_gradGoals_gradgoal_id_3fb61203; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_gradGoals_gradgoal_id_3fb61203; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_slo_gradGoals_gradgoal_id_3fb61203" ON public."makeReports_slo_gradGoals" USING btree (gradgoal_id);
 
 
 --
--- Name: makeReports_slo_gradGoals_slo_id_294858df; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_gradGoals_slo_id_294858df; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_slo_gradGoals_slo_id_294858df" ON public."makeReports_slo_gradGoals" USING btree (slo_id);
 
 
 --
--- Name: makeReports_sloinreport_report_id_8e936775; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_sloinreport_report_id_8e936775; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_sloinreport_report_id_8e936775" ON public."makeReports_sloinreport" USING btree (report_id);
@@ -2388,20 +2116,20 @@ CREATE INDEX "makeReports_sloinreport_report_id_8e936775" ON public."makeReports
 
 --
 -- Name: makeReports_sloinreport_slo_id_16991708; Type: INDEX; Schema: public; Owner: doadmin
---
+--postgres
 
 CREATE INDEX "makeReports_sloinreport_slo_id_16991708" ON public."makeReports_sloinreport" USING btree (slo_id);
 
 
 --
--- Name: makeReports_slostostakeholder_report_id_20c5bb85; Type: INDEX; Schema: public; Owner: doadmin
+-- Name: makeReports_slostostakeholder_report_id_20c5bb85; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX "makeReports_slostostakeholder_report_id_20c5bb85" ON public."makeReports_slostostakeholder" USING btree (report_id);
 
 
 --
--- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_group_permissions
@@ -2409,7 +2137,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_group_permissions
@@ -2417,7 +2145,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_permission
@@ -2425,7 +2153,7 @@ ALTER TABLE ONLY public.auth_permission
 
 
 --
--- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user_groups
@@ -2441,7 +2169,7 @@ ALTER TABLE ONLY public.auth_user_groups
 
 
 --
--- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user_user_permissions
@@ -2449,20 +2177,17 @@ ALTER TABLE ONLY public.auth_user_user_permissions
 
 
 --
--- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.auth_user_user_permissions
     ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
 
 
---
--- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
---
 
 
 --
--- Name: makeReports_assessmentaggregate makeReports_assessme_assessmentVersion_id_1c134dc4_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentaggregate makeReports_assessme_assessmentVersion_id_1c134dc4_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentaggregate"
@@ -2470,7 +2195,7 @@ ALTER TABLE ONLY public."makeReports_assessmentaggregate"
 
 
 --
--- Name: makeReports_assessmentdata makeReports_assessme_assessmentVersion_id_f0247a59_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentdata makeReports_assessme_assessmentVersion_id_f0247a59_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentdata"
@@ -2478,7 +2203,7 @@ ALTER TABLE ONLY public."makeReports_assessmentdata"
 
 
 --
--- Name: makeReports_assessmentversion makeReports_assessme_assessment_id_da1cec27_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion makeReports_assessme_assessment_id_da1cec27_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion"
@@ -2486,7 +2211,7 @@ ALTER TABLE ONLY public."makeReports_assessmentversion"
 
 
 --
--- Name: makeReports_assessmentversion_supplements makeReports_assessme_assessmentsupplement_9a30487e_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_supplements makeReports_assessme_assessmentsupplement_9a30487e_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion_supplements"
@@ -2494,7 +2219,7 @@ ALTER TABLE ONLY public."makeReports_assessmentversion_supplements"
 
 
 --
--- Name: makeReports_assessmentversion_supplements makeReports_assessme_assessmentversion_id_549998a2_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion_supplements makeReports_assessme_assessmentversion_id_549998a2_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion_supplements"
@@ -2502,7 +2227,7 @@ ALTER TABLE ONLY public."makeReports_assessmentversion_supplements"
 
 
 --
--- Name: makeReports_assessmentversion makeReports_assessme_report_id_2781c22d_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion makeReports_assessme_report_id_2781c22d_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion"
@@ -2510,7 +2235,7 @@ ALTER TABLE ONLY public."makeReports_assessmentversion"
 
 
 --
--- Name: makeReports_assessmentversion makeReports_assessme_slo_id_70157d4a_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_assessmentversion makeReports_assessme_slo_id_70157d4a_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_assessmentversion"
@@ -2518,7 +2243,7 @@ ALTER TABLE ONLY public."makeReports_assessmentversion"
 
 
 --
--- Name: makeReports_dataadditionalinformation makeReports_dataaddi_report_id_d9926511_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_dataadditionalinformation makeReports_dataaddi_report_id_d9926511_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_dataadditionalinformation"
@@ -2526,7 +2251,7 @@ ALTER TABLE ONLY public."makeReports_dataadditionalinformation"
 
 
 --
--- Name: makeReports_decisionsactions makeReports_decision_sloIR_id_753a91d7_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_decisionsactions makeReports_decision_sloIR_id_753a91d7_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_decisionsactions"
@@ -2534,7 +2259,7 @@ ALTER TABLE ONLY public."makeReports_decisionsactions"
 
 
 --
--- Name: makeReports_degreeprogram makeReports_degreepr_department_id_9d22e7bc_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_degreeprogram makeReports_degreepr_department_id_9d22e7bc_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_degreeprogram"
@@ -2542,7 +2267,7 @@ ALTER TABLE ONLY public."makeReports_degreeprogram"
 
 
 --
--- Name: makeReports_department makeReports_departme_college_id_c34c69b5_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_department makeReports_departme_college_id_c34c69b5_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_department"
@@ -2550,7 +2275,7 @@ ALTER TABLE ONLY public."makeReports_department"
 
 
 --
--- Name: makeReports_gradedrubricitem makeReports_gradedru_item_id_8800f750_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubricitem makeReports_gradedru_item_id_8800f750_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_gradedrubricitem"
@@ -2558,7 +2283,7 @@ ALTER TABLE ONLY public."makeReports_gradedrubricitem"
 
 
 --
--- Name: makeReports_gradedrubric makeReports_gradedru_rubricVersion_id_8138acbd_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubric makeReports_gradedru_rubricVersion_id_8138acbd_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_gradedrubric"
@@ -2566,7 +2291,7 @@ ALTER TABLE ONLY public."makeReports_gradedrubric"
 
 
 --
--- Name: makeReports_gradedrubricitem makeReports_gradedru_rubric_id_9259d933_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_gradedrubricitem makeReports_gradedru_rubric_id_9259d933_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_gradedrubricitem"
@@ -2574,7 +2299,7 @@ ALTER TABLE ONLY public."makeReports_gradedrubricitem"
 
 
 --
--- Name: makeReports_profile makeReports_profile_department_id_50419a58_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_profile makeReports_profile_department_id_50419a58_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_profile"
@@ -2582,7 +2307,7 @@ ALTER TABLE ONLY public."makeReports_profile"
 
 
 --
--- Name: makeReports_profile makeReports_profile_user_id_522878ba_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_profile makeReports_profile_user_id_522878ba_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_profile"
@@ -2590,7 +2315,7 @@ ALTER TABLE ONLY public."makeReports_profile"
 
 
 --
--- Name: makeReports_report makeReports_report_degreeProgram_id_9699ef2c_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_report makeReports_report_degreeProgram_id_9699ef2c_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_report"
@@ -2598,7 +2323,7 @@ ALTER TABLE ONLY public."makeReports_report"
 
 
 --
--- Name: makeReports_report makeReports_report_rubric_id_f25148ee_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_report makeReports_report_rubric_id_f25148ee_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_report"
@@ -2606,7 +2331,7 @@ ALTER TABLE ONLY public."makeReports_report"
 
 
 --
--- Name: makeReports_reportsupplement makeReports_reportsu_report_id_a170118a_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_reportsupplement makeReports_reportsu_report_id_a170118a_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_reportsupplement"
@@ -2614,7 +2339,7 @@ ALTER TABLE ONLY public."makeReports_reportsupplement"
 
 
 --
--- Name: makeReports_resultcommunicate makeReports_resultco_report_id_7df2cee4_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_resultcommunicate makeReports_resultco_report_id_7df2cee4_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_resultcommunicate"
@@ -2622,7 +2347,7 @@ ALTER TABLE ONLY public."makeReports_resultcommunicate"
 
 
 --
--- Name: makeReports_rubricitem makeReports_rubricit_rubricVersion_id_6c8ebffc_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_rubricitem makeReports_rubricit_rubricVersion_id_6c8ebffc_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_rubricitem"
@@ -2630,7 +2355,7 @@ ALTER TABLE ONLY public."makeReports_rubricitem"
 
 
 --
--- Name: makeReports_slo_gradGoals makeReports_slo_gradGoals_slo_id_294858df_fk_makeReports_slo_id; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_gradGoals makeReports_slo_gradGoals_slo_id_294858df_fk_makeReports_slo_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slo_gradGoals"
@@ -2638,7 +2363,7 @@ ALTER TABLE ONLY public."makeReports_slo_gradGoals"
 
 
 --
--- Name: makeReports_slo_gradGoals makeReports_slo_grad_gradgoal_id_3fb61203_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slo_gradGoals makeReports_slo_grad_gradgoal_id_3fb61203_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slo_gradGoals"
@@ -2646,7 +2371,7 @@ ALTER TABLE ONLY public."makeReports_slo_gradGoals"
 
 
 --
--- Name: makeReports_sloinreport makeReports_sloinrep_report_id_8e936775_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_sloinreport makeReports_sloinrep_report_id_8e936775_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_sloinreport"
@@ -2654,7 +2379,7 @@ ALTER TABLE ONLY public."makeReports_sloinreport"
 
 
 --
--- Name: makeReports_sloinreport makeReports_sloinreport_slo_id_16991708_fk_makeReports_slo_id; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_sloinreport makeReports_sloinreport_slo_id_16991708_fk_makeReports_slo_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_sloinreport"
@@ -2662,7 +2387,7 @@ ALTER TABLE ONLY public."makeReports_sloinreport"
 
 
 --
--- Name: makeReports_slostatus makeReports_slostatu_sloIR_id_6a781077_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slostatus makeReports_slostatu_sloIR_id_6a781077_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slostatus"
@@ -2670,7 +2395,7 @@ ALTER TABLE ONLY public."makeReports_slostatus"
 
 
 --
--- Name: makeReports_slostostakeholder makeReports_slostost_report_id_20c5bb85_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: doadmin
+-- Name: makeReports_slostostakeholder makeReports_slostost_report_id_20c5bb85_fk_makeRepor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."makeReports_slostostakeholder"
@@ -2681,4 +2406,4 @@ ALTER TABLE ONLY public."makeReports_slostostakeholder"
 -- PostgreSQL database dump complete
 --
 
-SELECT * FROM public."makeReports_report"
+
