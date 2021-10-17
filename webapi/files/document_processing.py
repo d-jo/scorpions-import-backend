@@ -126,7 +126,7 @@ def read_document(document):
     # pandas_table(document)
 
 
-f = open('/home/djo/Documents/UNOMAHA/Fall2021/CSCI4970Capstone/scorpions_imprt_backend/old/data/grad2018-regular.docx', 'rb')
+f = open('../../old/data/grad2018-regular.docx', 'rb')
 document = Document(f)
 #doc_elm = document._element
 #with open("./test22.xml") as f:
