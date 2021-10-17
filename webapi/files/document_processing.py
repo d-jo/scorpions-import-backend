@@ -114,14 +114,14 @@ def read_document(document):
     for a in cell_information:
         if not a['checkboxes']:
             continue
-        print(a['cell'].paragraphs[0])
+        print(a['cell'].paragraphs[0].text)
         if a['checkboxes']:
-            print(a['checkboxes'])
+            #print(a['checkboxes'])
             for cb in a['checkboxes']:
                 for child in cb.getchildren():
-                    print(child)
-                    print(child.values())
-                print("==========")
+                    if child.tag.endswith("checked"):
+                        print("\t" + child.values()[0])
+        print("==========")
 
     # pandas_table(document)
 
