@@ -68,6 +68,78 @@ def is_checked(docElements):
             print(a)
 
 
+def read_document2(document):
+    """
+    Read in document and parse the tables and checkboxes inside of them
+
+    the returned object is an array of the form:
+    [
+        
+        [ #table1
+            [cell1, cell2],
+            [cell3, cell4]
+        ], 
+        [ #table2
+            [cell1, cell2],
+            [cell3, cell4]
+        ] ...
+    ]
+
+    :param document: opened document from python-docx.
+    """
+
+    curr_table = 0
+    tables = []
+
+    for table in document.tables:
+        tables.append([])
+
+        curr_row = 0
+
+        for row in table.rows:
+            tables[curr_table].append([])
+            curr_cell = 0
+
+            for cell in row.cells:
+                p = cell._element
+                checkboxes = p.xpath('.//w14:checkbox')
+                obj = {
+                    "cell_obj": cell, 
+                    "table": curr_table, 
+                    "row": curr_row, 
+                    "cell": curr_cell
+                    }
+                if checkboxes is not None:
+                    obj["checkboxes"] = checkboxes
+
+                tables[curr_table][curr_row].append(obj)
+
+                curr_cell += 1
+            
+            curr_row += 1
+        
+        curr_table += 1
+
+
+    return tables
+
+    #for a in cell_information:
+    #    if not a['checkboxes']:
+    #        continue
+    #    print(a['cell'].paragraphs[0].text)
+    #    if a['checkboxes']:
+    #        #print(a['checkboxes'])
+    #        for cb in a['checkboxes']:
+    #            for child in cb.getchildren():
+    #                if child.tag.endswith("checked"):
+    #                    print("\t" + child.values()[0])
+    #    print("==========")
+
+    # pandas_table(document)
+
+
+
+
 def read_document(document):
     """
     Read in document and print out the paragraph contents.
@@ -133,7 +205,7 @@ document = Document(f)
 
 #cbs = doc_elm.xpath('w:p')
 #print(cbs)
-read_document(document)
+r = read_document2(document)
 # %%
 
 # w:tc
