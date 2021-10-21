@@ -33,7 +33,7 @@ def rec_traverse(tr):
     :param tr: tag element.
     """
     result = []
-    if tr.tag.endswith("t"):
+    if tr.tag.endswith("t") and not tr.text is None:
         result.append((tr.text.strip()))
         pass
     if tr.tag.endswith("checked"):
@@ -197,15 +197,10 @@ def read_document(document):
 
     # pandas_table(document)
 
-
-f = open('../../old/data/grad2018-regular.docx', 'rb')
-document = Document(f)
-#doc_elm = document._element
-#with open("./test22.xml") as f:
-
-#cbs = doc_elm.xpath('w:p')
-#print(cbs)
-r = read_document2(document)
+def process():
+    f = open('../../old/data/grad2018-regular.docx', 'rb')
+    document = Document(f)
+    read_document(document)
 # %%
 
 # w:tc
