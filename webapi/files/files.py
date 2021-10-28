@@ -4,6 +4,7 @@ from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
 files_bp = Blueprint("files_bp", __name__)
+views_bp = Blueprint("views_bp", __name__)
 
 
 ALLOWED_EXT = {'docx', 'pdf', 'txt'}
@@ -49,4 +50,10 @@ def upload_file():
 def get_files():
   file_list = os.listdir(current_app.config['UPLOAD_FOLDER'])
   return {"files": file_list}
+
+
+
+@views_bp.route('/<file_id>', methods=['GET'])
+def view_file(file_id):
+  return "view file for fileId {}" .format(file_id)
   
