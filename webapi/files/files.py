@@ -52,7 +52,7 @@ def get_files():
   file_list = os.listdir(current_app.config['UPLOAD_FOLDER'])
   return {
         "Uploaded":[{"files": file_list}],
-        "Review":[{"files": [] }],
+        "Review":[{"files": [] }], # TODO call database to get files in the future
         "Done": [{"files": [] }]}
 
 
