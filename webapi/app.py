@@ -1,4 +1,5 @@
 import os, glob
+import errno
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from files.files import files_bp, views_bp, dashboard_bp
@@ -11,6 +12,13 @@ TARGET_FOLDER = './data'
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = TARGET_FOLDER
 app.secret_key = "secret key"
+# Create upload folder if it doesn't exist
+if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'])):
+    try:
+        os.mkdir(app.config['UPLOAD_FOLDER'])
+    except OSError as exc: # Guard against race condition
+        if exc.errno != errno.EEXIST:
+            raise
 
 @app.after_request
 def after_request(response):
