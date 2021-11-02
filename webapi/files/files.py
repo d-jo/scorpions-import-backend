@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 
 files_bp = Blueprint("files_bp", __name__)
 views_bp = Blueprint("views_bp", __name__)
+dashboard_bp = Blueprint("dashboard_bp", __name__)
 
 
 ALLOWED_EXT = {'docx', 'pdf', 'txt'}
@@ -33,7 +34,7 @@ def upload_file():
     if file and is_allowed_ext(file.filename):
       filename = secure_filename(file.filename)
       file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-      return redirect(url_for('upload_file', name=filename))
+      return redirect(request.url)
 
   return """
     <!doctype html>
@@ -46,7 +47,7 @@ def upload_file():
   """
 
   
-@files_bp.route('/files', methods=['GET'])
+@dashboard_bp.route('/', methods=['GET'])
 def get_files():
   file_list = os.listdir(current_app.config['UPLOAD_FOLDER'])
   return {"files": file_list}
