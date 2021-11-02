@@ -50,7 +50,10 @@ def upload_file():
 @dashboard_bp.route('/', methods=['GET'])
 def get_files():
   file_list = os.listdir(current_app.config['UPLOAD_FOLDER'])
-  return {"files": file_list}
+  return {
+        "Uploaded":[{"files": file_list}],
+        "Review":[{"files": [] }],
+        "Done": [{"files": [] }]}
 
 
 
