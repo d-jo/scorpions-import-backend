@@ -51,9 +51,10 @@ def upload_file():
 def get_files():
   file_list = os.listdir(current_app.config['UPLOAD_FOLDER'])
   return {
-        "Uploaded":{"files": file_list},
-        "Review":{"files": [] }, # TODO call database to get files in the future
-        "Done": {"files": [] }}
+            "uploaded":file_list,
+            "review": [ "mockReview.docx" ],  # TODO call database to get files in the future
+            "done": [ "mockDone.docx" ]
+        }
 
 
 
