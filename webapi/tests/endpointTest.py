@@ -1,4 +1,4 @@
-import os, requests
+import os, requests, pytest
 
 baseUrl = 'http://localhost:5000'
 
@@ -27,6 +27,8 @@ def test_report_trigger_process():
     assert response.status_code == 200
 
 
+@pytest.mark.skip(reason="This test will pass, but it isn't actually sending the\
+    form data correctly.")
 def test_upload_file():
     file = 'endpoint_test_file.txt'
     firname = os.path.join('./data', file)
