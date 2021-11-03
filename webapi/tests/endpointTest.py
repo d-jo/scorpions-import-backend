@@ -27,21 +27,26 @@ def test_report_trigger_process():
     assert response.status_code == 200
 
 
+def test_report_edit():
+    response = requests.post(baseUrl + '/reports/12/edit')
+    assert response.status_code == 200
+
+
 @pytest.mark.skip(reason="This test will pass, but it isn't actually sending the\
-    form data correctly.")
+form data correctly.")
 def test_upload_file():
     file = 'endpoint_test_file.txt'
     firname = os.path.join('./data', file)
-    print(os.getcwd())
-    print(firname)
+    # print(os.getcwd())
+    # print(firname)
     f = open(firname, 'rb')
     # print(f.read())
     data = {
         'file': ([f])
     }
-    print(data)
+    # print(data)
     response = requests.post(baseUrl + '/files', data=data)
-    print(response.text)
+    # print(response.text)
     assert response.status_code == 200
 
 
