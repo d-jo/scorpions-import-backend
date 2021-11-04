@@ -3,12 +3,28 @@ from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from files.files import files_bp
 from reports.reports import reports_bp
+from database.driver import db_init
+import json
 
 TARGET_FOLDER = './data'
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = TARGET_FOLDER
-app.secret_key = "secret key"
+
+# ====== LOAD CONFIG ====== 
+with open('config.json') as config_file:
+    config = json.load(config_file)
+    for key in config:
+        app.config[key] = config[key]
+
+with open('creds.json') as creds_file:
+    creds = json.load(creds_file)
+    app.secret_key = creds['secret_key']
+    app.config['creds'] = creds
+
+
+## create the database helper and add it to the config
+with app.app_context():
+    db_init()
 
 @app.after_request
 def after_request(response):
