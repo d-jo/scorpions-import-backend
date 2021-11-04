@@ -1,7 +1,11 @@
 from flask import Blueprint, current_app
 # %%
 import psycopg2
+import psycopg2.extras
 import json
+
+
+# https://www.psycopg.org/docs/extras.html
 
 def _get_connection(username, password, host, database):
   """
@@ -34,11 +38,12 @@ class AACDatabaseDriver():
   ```
   """
 
-  def __init__(self, connection):
+  def __init__(self, connection, cursor_type=psycopg2.extras.DictCursor):
     """
     Initializes the AACDatabaseDriver using the given connection
     """
     self.conn = connection
+    self.cursor_type=cursor_type
   
   def __enter__(self):
     """
@@ -52,8 +57,11 @@ class AACDatabaseDriver():
     if self.conn is None or self.conn.closed:
       self.conn = default_connection()
     
-    # create a cursor
-    self.current_cursor = self.conn.cursor()
+    if self.cursor_type is None:
+      # create a cursor
+      self.current_cursor = self.conn.cursor()
+    else:
+      self.current_cursor = self.conn.cursor(cursor_factory=self.cursor_type)
 
     # return the connection and cursor
     return self.conn, self.current_cursor
@@ -65,7 +73,6 @@ class AACDatabaseDriver():
     """
     #self.conn.commit()
     self.current_cursor.close()
-    return True
   
 
   def __del__(self):
