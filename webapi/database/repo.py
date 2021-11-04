@@ -6,8 +6,9 @@ from typing import Callable, AnyStr, List, Dict
 # https://www.psycopg.org/docs/usage.html
 
 class Repository():
-  def __init__(self, driver: AACDatabaseDriver):
+  def __init__(self, driver: AACDatabaseDriver, table: AnyStr):
     self.driver = driver
+    self.table = table
 
   def named_query(self, q: AnyStr, argdict: Dict, model_factory: Callable[[], BaseModel]) -> List:
     """
@@ -55,12 +56,26 @@ class Repository():
     with self.driver as (conn, cur):
       cur.execute(q, argdict)
       conn.commit()
+
+  def select_by_id(self, id: int) -> Document:
+    """
+    Selects a single document from the database by its id.
+    """
+    q = "SELECT * FROM {} WHERE id = %(id)s".format(self.table)
+    return self.named_query(q, {'id': id}, Document)[0]
+  
+  def search(self, field: AnyStr, value: AnyStr) -> List[Document]:
+    """
+    Searches the database for documents that match the specified field and value.
+    """
+    q = "SELECT * FROM {} WHERE %(field)s = %(value)s".format(self.table)
+    return self.named_query(q, {'field': field, 'value': value}, Document)
   
 
 class DocumentRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "document")
   
   def insert(self, doc: Document, type: AnyStr) -> None:
     """
@@ -75,17 +90,11 @@ class DocumentRepo(Repository):
     
     self.named_exec(q, doc.to_dict())
   
-  def select_by_id(self, id: int) -> Document:
-    """
-    Selects a single document from the database by its id.
-    """
-    q = "SELECT * FROM document WHERE id = %(id)s"
-    return self.named_query(q, {'id': id}, Document)[0]
   
 class SLORepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "slo")
 
   def insert(self, slo: SLO) -> None:
     """
@@ -94,13 +103,6 @@ class SLORepo(Repository):
     q = "INSERT INTO slo (description, bloom) VALUES (%(description)s, %(bloom)s)"
     self.named_exec(q, slo.to_dict())
 
-  def select_by_id(self, id: int) -> SLO:
-    """
-    Selects a single SLO from the database by its id.
-    """
-    q = "SELECT * FROM slo WHERE id = %(id)s"
-    return self.named_query(q, {'id': id}, SLO)[0]
-  
 class MeasureRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
