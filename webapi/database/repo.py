@@ -90,6 +90,8 @@ class DocumentRepo(Repository):
     
     self.named_exec(q, doc.to_dict())
   
+def NewDocumentRepo(driver: AACDatabaseDriver) -> DocumentRepo:
+  return DocumentRepo(driver)
   
 class SLORepo(Repository):
 
@@ -103,10 +105,85 @@ class SLORepo(Repository):
     q = "INSERT INTO slo (description, bloom) VALUES (%(description)s, %(bloom)s)"
     self.named_exec(q, slo.to_dict())
 
+def NewSLORepo(driver: AACDatabaseDriver) -> SLORepo:
+  return SLORepo(driver)
+
 class MeasureRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
     super().__init__(driver)
+  
+  def insert(self, measure: Measure) -> None:
+    """
+    Inserts a measure into the database.
+    """
+    q = "INSERT INTO measure (slo_id, title, description, domain, type, point_in_program, population_measured, frequency_of_collection, proficency_threshold, proficiency_target) VALUES (%(slo_id)s, %(title)s, %(description)s, %(domain)s, %(type)s, %(point_in_program)s, %(population_measured)s, %(frequency_of_collection)s, %(proficency_threshold)s, %(proficiency_target)s)"
+    self.named_exec(q, measure.to_dict())
+
+def NewMeasureRepo(driver: AACDatabaseDriver) -> MeasureRepo:
+  return MeasureRepo(driver)
+
+class DecisionsActionsRepo(Repository):
+
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver)
+  
+  def insert(self, decisions_actions: DecisionsAction) -> None:
+    """
+    Inserts a DA into the database.
+    """
+    q = "INSERT INTO decisionsactions (slo_id, content) VALUES (%(slo_id)s, %(content)s)"
+    self.named_exec(q, decisions_actions.to_dict())
+
+def NewDecisionsActionsRepo(driver: AACDatabaseDriver) -> MeasureRepo:
+  return DecisionsActionsRepo(driver)
+
+class CollectionAnalysisRepo(Repository):
+
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver)
+  
+  def insert(self, ca: CollectionAnalysis) -> None:
+    """
+    Inserts a CA into the database.
+    """
+    q = "INSERT INTO collectionanalysis (slo_id, data_collection_date_range, number_of_students_assessed, percentage_who_met_or_exceeded) VALUES (%(slo_id)s, %(data_collection_date_range)s, %(number_of_students_assessed)s, %(percentage_who_met_or_exceeded)s)"
+    self.named_exec(q, ca.to_dict())
+
+def NewCollectionAnalysisRepo(driver: AACDatabaseDriver) -> MeasureRepo:
+  return CollectionAnalysisRepo(driver)
+
+class MethodsRepo(Repository):
+
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver)
+  
+  def insert(self, method: Methods) -> None:
+    """
+    Inserts a method into the database.
+    """
+    q = "INSERT INTO methods (slo_id, measure, domain, data_collection) VALUES (%(slo_id)s, %(measure)s, %(domain)s, %(data_collection)s)"
+    self.named_exec(q, method.to_dict())
+
+def NewMethodsRepo(driver: AACDatabaseDriver) -> MethodsRepo:
+  return MethodsRepo(driver)
+
+class AccreditedDataAnalysisRepo(Repository):
+
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver)
+  
+  def insert(self, ada: AccreditedDataAnalysis) -> None:
+    """
+    Inserts a ADA into the database.
+    """
+    q = "INSERT INTO accrediteddataanalysis (slo_id, status) VALUES (%(slo_id)s, %(status)s)"
+    self.named_exec(q, ada.to_dict())
+  
+def NewAccreditedDataAnalysisRepo(driver: AACDatabaseDriver) -> AccreditedDataAnalysisRepo:
+  return AccreditedDataAnalysisRepo(driver)
+
+
 
 #db = _get_connection("aac_full", "aac_password", "localhost", "aac_db")
 #aac = AACDatabaseDriver(db)
