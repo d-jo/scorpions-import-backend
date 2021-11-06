@@ -47,26 +47,69 @@ class Document(BaseModel):
 
 
 class SLO(BaseModel):
+  __slots__ = [
+    'id',
+    'description',
+    'bloom',
+    'common_graduate_program_slo'
+  ]
   def __init__(self):
     pass
 
 class Measure(BaseModel):
+  __slots__ = [
+    'id',
+    'slo_id',
+    'title',
+    'description',
+    'domain',
+    'type',
+    'point_in_program',
+    'population_measured',
+    'frequency_of_collection',
+    'proficiency_threshold',
+    'proficiency_target'
+  ]
   def __init__(self):
     pass
 
 class DecisionsAction(BaseModel):
+  __slots__ = [
+    'id',
+    'slo_id',
+    'content'
+  ]
   def __init__(self):
     pass
 
 class CollectionAnalysis(BaseModel):
+  __slots__ = [
+    'id',
+    'slo_id',
+    'data_collection_date_range',
+    'number_of_students_assessed',
+    'percentage_who_met_or_exceeded'
+  ]
   def __init__(self):
     pass
 
 class Methods(BaseModel):
+  __slots__ = [
+    'id',
+    'slo_id',
+    'measure',
+    'domain',
+    'data_collection'
+  ]
   def __init__(self):
     pass
 
 class AccreditedDataAnalysis(BaseModel):
+  __slots__ = [
+    'id',
+    'slo_id',
+    'status'
+  ]
   def __init__(self):
     pass
 
