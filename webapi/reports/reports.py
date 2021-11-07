@@ -16,3 +16,9 @@ def trigger_process_files():
       print(file.read())
       print("=====")
   return { "message":"success" }
+
+
+@reports_bp.route('/<file_id>/edit', methods=['POST'])
+def edit_report(file_id):
+  print(request.form)
+  return { "message":"{} edited".format(file_id)  }
