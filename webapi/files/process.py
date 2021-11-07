@@ -2,6 +2,7 @@ from . import document_processing
 from webapi.models.model import *
 
 for filename in ["./old/data/grad2018-regular.docx", "./old/data/undergrad2018-regular.docx", "./old/data/grad2019-regular.docx", "./old/data/undergrad2019-regular.docx"]:
+    print("================ " + filename + " ================")
     data = document_processing.process_report(filename)
     report = data[0]
     slos = data[1]
@@ -20,3 +21,4 @@ for filename in ["./old/data/grad2018-regular.docx", "./old/data/undergrad2018-r
             print("***** "+ slo.common_graduate_program_slo +" *****")
     else:
         print('report was none')
+    print("================================================\n")
