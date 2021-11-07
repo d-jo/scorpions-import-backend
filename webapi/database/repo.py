@@ -1,6 +1,6 @@
 # %%
 from webapi.database.driver import AACDatabaseDriver, _get_connection
-from webapi.models.model import BaseModel, SLO, Document, Measure, DecisionsAction, CollectionAnalysis, Methods, AccreditedDataAnalysis
+from webapi.models.model import BaseModel, SLO, Report, Measure, DecisionsAction, CollectionAnalysis, Methods, AccreditedDataAnalysis
 from typing import Callable, AnyStr, List, Dict
 
 # https://www.psycopg.org/docs/usage.html
@@ -57,19 +57,19 @@ class Repository():
       cur.execute(q, argdict)
       conn.commit()
 
-  def select_by_id(self, id: int) -> Document:
+  def select_by_id(self, id: int) -> Report:
     """
     Selects a single document from the database by its id.
     """
     q = "SELECT * FROM {} WHERE id = %(id)s".format(self.table)
-    return self.named_query(q, {'id': id}, Document)[0]
+    return self.named_query(q, {'id': id}, Report)[0]
   
-  def search(self, field: AnyStr, value: AnyStr) -> List[Document]:
+  def search(self, field: AnyStr, value: AnyStr) -> List[Report]:
     """
     Searches the database for documents that match the specified field and value.
     """
     q = "SELECT * FROM {} WHERE %(field)s = %(value)s".format(self.table)
-    return self.named_query(q, {'field': field, 'value': value}, Document)
+    return self.named_query(q, {'field': field, 'value': value}, Report)
   
 
 class DocumentRepo(Repository):
@@ -77,16 +77,16 @@ class DocumentRepo(Repository):
   def __init__(self, driver: AACDatabaseDriver):
     super().__init__(driver, "document")
   
-  def insert(self, doc: Document, type: AnyStr) -> None:
+  def insert(self, doc: Report, type: AnyStr) -> None:
     """
     Inserts a document into the database. The type of document is specified by
     the type argument and can either be accredited or non-accredited.
 
     doc is the document to be inserted.
     """
-    q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, accreditation_body, last_accreditation_review, additional_information) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s)"
+    q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s)"
     if type.startswith('non'):
-      q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, slos_meet_standards, stakeholder_involvement, additional_information) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s)"
+      q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s)"
     
     self.named_exec(q, doc.to_dict())
   

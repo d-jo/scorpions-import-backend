@@ -3,9 +3,10 @@ from docx import Document
 import xml.etree.ElementTree as ET
 import pandas as pd
 from docx.oxml.ns import qn
-from report import *
 import re
 from difflib import SequenceMatcher
+from webapi.models.model import *
+
 
 def pandas_table(document, table_num=1, nheader=1):
     """
@@ -156,16 +157,17 @@ def read_document(document):
     #print('****************************************************\n')
     # print('\n==========\n'.join(documentText))
     report = Report()
+    slos = []
     slo = SLO()
     for text in documentText:
         report = report_matcher(text, report)
-        if is_full(report):
+        if is_full(report): #early exit for faster time but can be removed
             break
     for text in tablesCellsText:
         slo = slo_matcher(text, slo)
-        if(slo.title != ""):
-            if not has_duplicate(report.slos, slo):
-                report.slos.append(slo)
+        if(slo.description != ""):
+            if not has_duplicate(slos, slo):
+                slos.append(slo)
             slo = SLO()
 
     #print('****************************************************\n')
@@ -183,7 +185,7 @@ def read_document(document):
                 if isinstance(c, str) and is_checkbox(c):
                     parts = text.split(chr(9746))  
                     if len(parts) > 1:
-                        report = get_blooms_tax_level(parts, report)
+                        slos = get_blooms_tax_level(parts, slos)
                     break
         elif a['checkboxes']:
             # print(a['cell'])
@@ -193,19 +195,20 @@ def read_document(document):
                     if child.tag.endswith("checked"):
                         if(int(re.search(r'\d+', child.values()[0]).group())):
                             word = get_word_at(pos, a['cell'])
-                            if(word in SLO.BLOOMSTAX):
-                                for slo in report.slos:
-                                    if slo.bloomsTaxonomyLevel == "":
-                                        slo.bloomsTaxonomyLevel = word
+                            # rework this as taxonomy levels may not be all of these
+                            if(word in ["Knowledge", "Analysis", "Comprehension","Synthesis","Application", "Evaluation"]):
+                                for slo in slos:
+                                    if slo.bloom == "":
+                                        slo.bloom = word
                                         break
-                            if(word in SLO.COMMONGRAD):
-                                for slo in report.slos:
-                                    if slo.commonGraduateSlos == "":
-                                        slo.commonGraduateSlos = word
+                            if(word in ["1", "2", "3", "4", "Not applicable for SLO"]):
+                                for slo in slos:
+                                    if slo.common_graduate_program_slo == "":
+                                        slo.common_graduate_program_slo = word
                                         break
                         pos += 1
     
-    return report
+    return [report, slos]
 
 #TODO clean up, possibly make a process_engine class with below methods to leave this file cleaner
 
@@ -222,15 +225,15 @@ def get_word_at(pos, text):
             words[-1] = words[-1] + c
     return words[pos]
     
-def get_blooms_tax_level(parts, report):
+def get_blooms_tax_level(parts, slos):
     for p in parts:
         result = get_first_word(p).strip()
-        if(result in SLO.BLOOMSTAX):
-            for slo in report.slos:
-                if slo.bloomsTaxonomyLevel == "":
-                    slo.bloomsTaxonomyLevel = result
+        if(result in ["Knowledge", "Analysis", "Comprehension","Synthesis","Application", "Evaluation"]):
+            for slo in slos:
+                if slo.bloom == "":
+                    slo.bloom = result
                     break
-    return report
+    return slos
 
 def get_first_word(str):
     result = ""
@@ -254,15 +257,15 @@ def has_duplicate(slos, slo):
     :param slo: slo to be checked against.
     """
     for sloItem in slos: 
-        if SequenceMatcher(None, sloItem.title, slo.title).ratio() >= 0.8:
+        if SequenceMatcher(None, sloItem.description, slo.description).ratio() >= 0.8:
             return True    
     return False
 
 def is_full(report):
     return (report.college != "" and report.department != "" 
-            and report.program != "" and report.degreeLevel != "" 
-            and report.academicYear != "" and report.dateRange != "" 
-            and report.personPreparing != "")
+            and report.program != "" and report.degree_level != "" 
+            and report.academic_year != "" and report.date_range != "" 
+            and report.author != "")
 #%%
 def process():
     f = open('../../old/data/undergrad2018-regular.docx', 'rb')
@@ -271,7 +274,7 @@ def process():
 # %%
 
 def process_report(filename):
-    return read_document(Document(open(filename)))
+    return read_document(Document(open(filename, 'rb')))
 
 def report_matcher(str, report:Report):
     """
@@ -289,13 +292,13 @@ def report_matcher(str, report:Report):
     if "Program:" in str:
         report.program = extract_text(str, "Program:")
     if "Degree Level:" in str:
-        report.degreeLevel = extract_text(str, "Degree Level:")
+        report.degree_level = extract_text(str, "Degree Level:")
     if "Academic Year of Report:" in str:
-        report.academicYear = extract_text(str, "Academic Year of Report:")
+        report.academic_year = extract_text(str, "Academic Year of Report:")
     if "Date Range of Reported Data:" in str:
-        report.dateRange = extract_text(str, "Date Range of Reported Data:")
+        report.date_range = extract_text(str, "Date Range of Reported Data:")
     if "Person Preparing the Report:" in str:
-        report.personPreparing = extract_text(str, "Person Preparing the Report:")
+        report.author = extract_text(str, "Person Preparing the Report:")
     return report
 
 def slo_matcher(str, slo:SLO):
@@ -311,7 +314,7 @@ def slo_matcher(str, slo:SLO):
     if re.match(regex, str):
         for text in re.split("^SLO..: ", str): 
             if(text != ""):
-                slo.title = text
+                slo.description = text
                 break
     return slo
 

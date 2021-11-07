@@ -1,8 +1,6 @@
 
 # %%
 
-
-
 def from_dict(o, d):
     """
     Update a model from a dictionary
@@ -25,7 +23,7 @@ class BaseModel:
         d[attr] = getattr(self, attr)
     return d
 
-class Document(BaseModel):
+class Report(BaseModel):
   __slots__ = [
     'id',
     'title',
@@ -36,6 +34,7 @@ class Document(BaseModel):
     'program',
     'degree_level',
     'academic_year',
+    'date_range',
     'accreditation_body',
     'last_accreditation_review',
     'slos_meet_standards',
@@ -43,6 +42,21 @@ class Document(BaseModel):
     'additional_information'
   ]
   def __init__(self):
+    self.id = ""
+    self.title = ""
+    self.author = ""
+    self.created = ""
+    self.college = ""
+    self.department = ""
+    self.program = ""
+    self.degree_level = ""
+    self.academic_year = ""
+    self.date_range = ""
+    self.accreditation_body = ""
+    self.last_accreditation_review = ""
+    self.slos_meet_standards = ""
+    self.stakeholder_involvement = ""
+    self.additional_information = ""
     pass
 
 
@@ -54,6 +68,10 @@ class SLO(BaseModel):
     'common_graduate_program_slo'
   ]
   def __init__(self):
+    self.id = ""
+    self.description = ""
+    self.bloom = ""
+    self.common_graduate_program_slo = ""
     pass
 
 class Measure(BaseModel):
@@ -71,6 +89,17 @@ class Measure(BaseModel):
     'proficiency_target'
   ]
   def __init__(self):
+    self.id = ""
+    self.slo_id = ""
+    self.title = ""
+    self.description = ""
+    self.domain = ""
+    self.type = ""
+    self.point_in_program = ""
+    self.population_measured = ""
+    self.frequency_of_collection = ""
+    self.proficiency_threshold = ""
+    self.proficiency_target = ""
     pass
 
 class DecisionsAction(BaseModel):
@@ -80,6 +109,9 @@ class DecisionsAction(BaseModel):
     'content'
   ]
   def __init__(self):
+    self.id = ""
+    self.slo_id = ""
+    self.content = ""
     pass
 
 class CollectionAnalysis(BaseModel):
@@ -91,6 +123,11 @@ class CollectionAnalysis(BaseModel):
     'percentage_who_met_or_exceeded'
   ]
   def __init__(self):
+    self.id = ""
+    self.slo_id = ""
+    self.data_collection_date_range = ""
+    self.number_of_students_assessed = ""
+    self.percentage_who_met_or_exceeded = ""
     pass
 
 class Methods(BaseModel):
@@ -102,6 +139,11 @@ class Methods(BaseModel):
     'data_collection'
   ]
   def __init__(self):
+    self.id = ""
+    self.slo_id = ""
+    self.measure = ""
+    self.domain = ""
+    self.data_collection = ""
     pass
 
 class AccreditedDataAnalysis(BaseModel):
@@ -111,6 +153,7 @@ class AccreditedDataAnalysis(BaseModel):
     'status'
   ]
   def __init__(self):
+    self.id = ""
+    self.slo_id = ""
+    self.status = ""
     pass
-
-
