@@ -1,5 +1,6 @@
 
 # %%
+import json
 
 def from_dict(o, d):
     """
@@ -18,7 +19,7 @@ class BaseModel:
   
   def to_dict(self):
     d = {}
-    for attr in self.__dict__:
+    for attr in self.__slots__:
       if attr[0] != '_':
         d[attr] = getattr(self, attr)
     return d

@@ -5,7 +5,7 @@ import pandas as pd
 from docx.oxml.ns import qn
 import re
 from difflib import SequenceMatcher
-from webapi.models.model import *
+from models.model import *
 
 
 def pandas_table(document, table_num=1, nheader=1):
@@ -185,7 +185,9 @@ def read_document(document):
                 if isinstance(c, str) and is_checkbox(c):
                     parts = text.split(chr(9746))  
                     if len(parts) > 1:
-                        slos = get_blooms_tax_level(parts, slos)
+                        for p in parts:
+                            result = get_first_word(p).strip()
+                            slos = slo_attr_match(result, slos)
                     break
         elif a['checkboxes']:
             # print(a['cell'])
@@ -195,17 +197,7 @@ def read_document(document):
                     if child.tag.endswith("checked"):
                         if(int(re.search(r'\d+', child.values()[0]).group())):
                             word = get_word_at(pos, a['cell'])
-                            # rework this as taxonomy levels may not be all of these
-                            if(word in ["Knowledge", "Analysis", "Comprehension","Synthesis","Application", "Evaluation"]):
-                                for slo in slos:
-                                    if slo.bloom == "":
-                                        slo.bloom = word
-                                        break
-                            if(word in ["1", "2", "3", "4", "Not applicable for SLO"]):
-                                for slo in slos:
-                                    if slo.common_graduate_program_slo == "":
-                                        slo.common_graduate_program_slo = word
-                                        break
+                            slos = slo_attr_match(word, slos)
                         pos += 1
     
     return [report, slos]
@@ -224,15 +216,19 @@ def get_word_at(pos, text):
         else:
             words[-1] = words[-1] + c
     return words[pos]
-    
-def get_blooms_tax_level(parts, slos):
-    for p in parts:
-        result = get_first_word(p).strip()
-        if(result in ["Knowledge", "Analysis", "Comprehension","Synthesis","Application", "Evaluation"]):
-            for slo in slos:
-                if slo.bloom == "":
-                    slo.bloom = result
-                    break
+
+def slo_attr_match(word, slos):
+    # rework this as taxonomy levels may not be all of these
+    if(word in ["Knowledge", "Analysis", "Comprehension","Synthesis","Application", "Evaluation"]):
+        for slo in slos:
+            if slo.bloom == "":
+                slo.bloom = word
+                break
+    elif(word in ["1", "2", "3", "4", "Not applicable for SLO"]):
+        for slo in slos:
+            if slo.common_graduate_program_slo == "":
+                slo.common_graduate_program_slo = word
+                break
     return slos
 
 def get_first_word(str):
