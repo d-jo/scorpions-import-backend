@@ -19,15 +19,15 @@ with open('config.json') as config_file:
     for key in config:
         app.config[key] = config[key]
 
-# with open('creds.json') as creds_file:
-#     creds = json.load(creds_file)
-#     app.secret_key = creds['secret_key']
-#     app.config['creds'] = creds
+with open('creds.json') as creds_file:
+    creds = json.load(creds_file)
+    app.secret_key = creds['secret_key']
+    app.config['creds'] = creds
 
 
 ## create the database helper and add it to the config
-# with app.app_context():
-#     db_init()
+with app.app_context():
+    db_init()
 
     # Create upload folder if it doesn't exist
 if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'])):
