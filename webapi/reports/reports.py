@@ -35,13 +35,9 @@ def extract_data():
     results.append(processor.process_report(filepath))
   docs = [] 
   slos = []
-  print(results)
   for r in results:
-    print(r)
     docs.append(retrieve_report_data(r))
-    slos.append(retrieve_slo_data)
-  print(slos)
-  print(docs)
+    slos.append(retrieve_slo_data(r))
   return { "reports": docs, "slos": slos }
 
 def retrieve_report_data(obj):
