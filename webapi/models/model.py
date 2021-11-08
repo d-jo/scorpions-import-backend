@@ -1,5 +1,6 @@
 
 # %%
+import json
 
 def from_dict(o, d):
     """

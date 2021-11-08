@@ -5,7 +5,7 @@ import pandas as pd
 from docx.oxml.ns import qn
 import re
 from difflib import SequenceMatcher
-from webapi.models.model import *
+from models.model import *
 
 
 def pandas_table(document, table_num=1, nheader=1):
@@ -274,6 +274,7 @@ def process():
 # %%
 
 def process_report(filename):
+    print(filename)
     return read_document(Document(open(filename, 'rb')))
 
 def report_matcher(str, report:Report):
