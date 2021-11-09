@@ -60,3 +60,4 @@ Required `creds.json` keys:
 - Added stub endpoints
 - Added database driver and general functions for interacting with the database
 - Added ability to send extracted files to database
+- Added endpoint tests to verify http response code
