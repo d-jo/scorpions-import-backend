@@ -1,6 +1,6 @@
 # %%
-from webapi.database.driver import AACDatabaseDriver, _get_connection
-from webapi.models.model import BaseModel, SLO, Report, Measure, DecisionsAction, CollectionAnalysis, Methods, AccreditedDataAnalysis
+from models.model import BaseModel, SLO, Report, Measure, DecisionsAction, CollectionAnalysis, Methods, AccreditedDataAnalysis
+from .driver import AACDatabaseDriver 
 from typing import Callable, AnyStr, List, Dict
 
 # https://www.psycopg.org/docs/usage.html
@@ -54,6 +54,9 @@ class Repository():
     """
 
     with self.driver as (conn, cur):
+      print("doing named exec with:")
+      print(q)
+      print(argdict)
       cur.execute(q, argdict)
       conn.commit()
 
@@ -84,9 +87,9 @@ class DocumentRepo(Repository):
 
     doc is the document to be inserted.
     """
-    q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s)"
+    q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information) VALUES (%(title)s, %(author)s, 100, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s)"
     if type.startswith('non'):
-      q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s)"
+      q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information) VALUES (%(title)s, %(author)s, 100, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s)"
     
     self.named_exec(q, doc.to_dict())
   
