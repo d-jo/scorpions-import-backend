@@ -1,6 +1,7 @@
 from docx.api import Document
 from flask import Blueprint, current_app
 import os, glob
+from typing import Callable, AnyStr, List, Dict
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import files.document_processing as processor
@@ -38,7 +39,19 @@ def extract_data():
   for r in results:
     docs.append(retrieve_report_data(r))
     slos.append(retrieve_slo_data(r))
+    send_to_db(r)
   return { "reports": docs, "slos": slos }
+
+def send_to_db(obj: any) -> None:
+  for item in obj:
+    if isinstance(item, list):
+      send_to_db(item)
+    if isinstance(item, Report):
+      print("calling report insert")
+      current_app.config['report_repo'].insert(item, "non")
+    if isinstance(item, SLO):
+      print("calling insert")
+      current_app.config['slo_repo'].insert(item)
 
 def retrieve_report_data(obj):
   data = []

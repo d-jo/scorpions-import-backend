@@ -89,11 +89,12 @@ CREATE TABLE Document (
   college VARCHAR(255) NOT NULL,
   department VARCHAR(255) NOT NULL,
   program VARCHAR(255) NOT NULL,
+  date_range VARCHAR(255) NOT NULL,
   degree_level VARCHAR(255) NOT NULL,
   academic_year VARCHAR(255) NOT NULL,
   accreditation_body VARCHAR(255),
   last_accreditation_review VARCHAR(255),
-  slos_meet_standards BOOLEAN,
+  slos_meet_standards VARCHAR(255),
   stakeholder_involvement TEXT,
   additional_information TEXT,
   PRIMARY KEY (id)

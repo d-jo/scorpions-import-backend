@@ -40,13 +40,24 @@ Required `creds.json` keys:
 
 # Release Notes
 
-2021-10-05 Release
+## 2021-10-05 Release
+
 - Basic document parsing
 - Basic file uploading
 - Basic file information endpoints
 
-2021-10-21 Relase
+## 2021-10-21 Release
+
 - Start documentation
 - Start testing
 - Update document processing
 - - Now extracts tables and keeps checkbox information paird with cell
+
+## 2021-11-09 Release
+
+- Added first version of Models for representing our objects
+- Added the reduced database schema as a base for our tables
+- Added stub endpoints
+- Added database driver and general functions for interacting with the database
+- Added ability to send extracted files to database
+- Added endpoint tests to verify http response code
