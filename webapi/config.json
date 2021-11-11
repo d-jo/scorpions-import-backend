@@ -1,5 +1,6 @@
 {
   "UPLOAD_FOLDER": "./data",
   "db_host": "localhost",
-  "db_database": "aac_db"
+  "db_database": "aac_db",
+  "ALGORITHMS": ["RS256"]
 }
