@@ -35,6 +35,8 @@ Required `creds.json` keys:
 - "db_username" - for the database connection
 - "db_password" - for the database connection
 - "secret_key" - a secret key flask uses for cross-origin requests
+- "AUTH0_DOMAIN" - the domain for verifying auth0 tokens. for us this is the domain for the frontend SPA application
+- "API_AUDIENCE" - this is one of the audiences included in the JWT claim. for us it is the domain + /api/v2/ may end up being something else
 
 
 

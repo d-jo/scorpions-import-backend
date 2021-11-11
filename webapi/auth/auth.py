@@ -2,15 +2,11 @@
 """
 
 import json
-from flask import request, _request_ctx_stack
+from flask import request, _request_ctx_stack, current_app
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-
-AUTH0_DOMAIN = 'bk-samples.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'https://online-exam.digituz.com.br'
 
 
 class AuthError(Exception):
@@ -60,7 +56,8 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = get_token_auth_header()
-        jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
+        auth0_domain = current_app.config['creds']['AUTH0_DOMAIN']
+        jsonurl = urlopen(f'https://{auth0_domain}/.well-known/jwks.json')
         jwks = json.loads(jsonurl.read())
         unverified_header = jwt.get_unverified_header(token)
         rsa_key = {}
@@ -78,12 +75,13 @@ def requires_auth(f):
                 payload = jwt.decode(
                     token,
                     rsa_key,
-                    algorithms=ALGORITHMS,
-                    audience=API_AUDIENCE,
-                    issuer='https://' + AUTH0_DOMAIN + '/'
+                    algorithms=current_app.config['ALGORITHMS'],
+                    audience=current_app.config['creds']['API_AUDIENCE'],
+                    issuer='https://' + auth0_domain + '/'
                 )
 
-            except jwt.ExpiredSignatureError:
+            except jwt.ExpiredSignatureError as e:
+                print(e)
                 raise AuthError({
                     'code': 'token_expired',
                     'description': 'Token expired.'
