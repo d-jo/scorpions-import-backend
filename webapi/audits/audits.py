@@ -1,10 +1,12 @@
 from flask import Blueprint
 from flask import Flask, flash, request, redirect, url_for
+from auth.auth import requires_auth
 
 audit_bp = Blueprint("audit_bp", __name__)
 
 
 @audit_bp.route('/file/<file_id>', methods=['GET'])
+@requires_auth
 def get_file_audit(file_id):
     return{
     "doc_id":file_id,

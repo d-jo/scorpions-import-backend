@@ -2,6 +2,7 @@ from flask import Blueprint, current_app
 import os, glob
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
+from auth.auth import requires_auth
 
 files_bp = Blueprint("files_bp", __name__)
 views_bp = Blueprint("views_bp", __name__)
@@ -18,6 +19,7 @@ def is_allowed_ext(filename):
   return allowed
 
 @files_bp.route('/', methods=['GET', 'POST'])
+@requires_auth
 def upload_file():
   print('Recieved request: ' + request.method)
   if request.method == 'POST':
@@ -46,6 +48,7 @@ def upload_file():
 
   
 @dashboard_bp.route('/', methods=['GET'])
+@requires_auth
 def get_files():
   file_list = os.listdir(current_app.config['UPLOAD_FOLDER'])
   return {
@@ -57,6 +60,7 @@ def get_files():
 
 
 @views_bp.route('/<file_id>', methods=['GET'])
+@requires_auth
 def view_file(file_id):
   return "view file for fileId {}" .format(file_id)
   
