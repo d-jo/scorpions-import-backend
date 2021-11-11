@@ -75,10 +75,10 @@ class Repository():
     return self.named_query(q, {'field': field, 'value': value}, Report)
   
 
-class DocumentRepo(Repository):
+class ReportRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver, "document")
+    super().__init__(driver, "report")
   
   def insert(self, doc: Report, type: AnyStr) -> None:
     """
@@ -87,14 +87,14 @@ class DocumentRepo(Repository):
 
     doc is the document to be inserted.
     """
-    q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information) VALUES (%(title)s, %(author)s, 100, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s)"
+    q = "INSERT INTO report (title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information) VALUES (%(title)s, %(author)s, 100, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s)"
     if type.startswith('non'):
-      q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information) VALUES (%(title)s, %(author)s, 100, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s)"
+      q = "INSERT INTO report (title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information) VALUES (%(title)s, %(author)s, 100, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s)"
     
     self.named_exec(q, doc.to_dict())
   
-def NewDocumentRepo(driver: AACDatabaseDriver) -> DocumentRepo:
-  return DocumentRepo(driver)
+def NewReportRepo(driver: AACDatabaseDriver) -> ReportRepo:
+  return ReportRepo(driver)
   
 class SLORepo(Repository):
 
