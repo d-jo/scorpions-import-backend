@@ -42,25 +42,33 @@ def extract_data():
   results = []
   for filename in request.json:
     filepath = os.path.join(current_app.config['UPLOAD_FOLDER']) + "/" +filename
-    results.append(processor.process_report(filepath))
+    rep_slo = processor.process_report(filepath)
+    send_to_db(rep_slo, "acc" if 'accredited' in filename else "non")
+    results.append(rep_slo)
   docs = [] 
   slos = []
   for r in results:
     docs.append(retrieve_report_data(r))
     slos.append(retrieve_slo_data(r))
-    send_to_db(r)
   return { "reports": docs, "slos": slos }
 
-def send_to_db(obj: any) -> None:
-  for item in obj:
-    if isinstance(item, list):
-      send_to_db(item)
-    if isinstance(item, Report):
-      print("calling report insert")
-      current_app.config['report_repo'].insert(item, "non")
-    if isinstance(item, SLO):
-      print("calling insert")
-      current_app.config['slo_repo'].insert(item)
+def send_to_db(obj: any, reportType: str) -> None:
+  rep = obj[0]
+  slo_list = obj[1]
+  # insert report
+  report_id = current_app.config['report_repo'].insert(rep, reportType)
+  for slo in slo_list:
+    slo.report_id = report_id
+    current_app.config['slo_repo'].insert(slo)
+  #for item in obj:
+  #  if isinstance(item, list):
+  #    send_to_db(item)
+  #  if isinstance(item, Report):
+  #    print("calling report insert")
+  #    current_app.config['report_repo'].insert(item, "non")
+  #  if isinstance(item, SLO):
+  #    print("calling insert")
+  #    current_app.config['slo_repo'].insert(item)
 
 def retrieve_report_data(obj):
   data = []
@@ -68,7 +76,7 @@ def retrieve_report_data(obj):
     if isinstance(item, list):
       data.append(retrieve_report_data(item))
     if isinstance(item, Report):
-      print(item.department)
+      #print(item.department)
       data.append(item.to_dict())
   return data
 
@@ -78,6 +86,6 @@ def retrieve_slo_data(obj):
     if isinstance(item, list):
       data.append(retrieve_slo_data(item))
     if isinstance(item, SLO):
-      print(item.description)
+      #print(item.description)
       data.append(item.to_dict())
   return data

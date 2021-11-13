@@ -40,7 +40,7 @@ class Repository():
 
     return reslist
   
-  def named_exec(self, q: AnyStr, argdict: Dict, return_result=True) -> List:
+  def named_exec(self, q: AnyStr, argdict: Dict, return_result=False) -> List:
     """
     q: should be a named query in the form below.
 
@@ -57,7 +57,10 @@ class Repository():
     with self.driver as (conn, cur):
       cur.execute(q, argdict)
       conn.commit()
-      return cur.fetchall()
+      if return_result:
+        return cur.fetchall()
+      else:
+        return None
 
   def select_by_id(self, id: int) -> Report:
     """
@@ -93,7 +96,7 @@ class ReportRepo(Repository):
     doc.created = int(time.time())
     #doc.has_been_reviewed = False
 
-    res = self.named_exec(q, doc.to_dict())
+    res = self.named_exec(q, doc.to_dict(), return_result=True)
     return res[0][0]
   
 def NewReportRepo(driver: AACDatabaseDriver) -> ReportRepo:
@@ -108,8 +111,8 @@ class SLORepo(Repository):
     """
     Inserts a SLO into the database.
     """
-    q = "INSERT INTO slo (description, bloom) VALUES (%(description)s, %(bloom)s)"
-    self.named_exec(q, slo.to_dict())
+    q = "INSERT INTO slo (report_id, description, bloom) VALUES (%(report_id)s, %(description)s, %(bloom)s)"
+    self.named_exec(q, slo.to_dict(), return_result=False)
 
 def NewSLORepo(driver: AACDatabaseDriver) -> SLORepo:
   return SLORepo(driver)
