@@ -82,14 +82,14 @@ class AACDatabaseDriver():
     if self.conn is not None and not self.conn.closed:
       self.conn.close()
 
-from .repo import DocumentRepo, SLORepo
+from .repo import ReportRepo, SLORepo
 
 def db_init():
   """
   Creates the database driver and adds it to the app context.
   """
   current_app.config['db'] = AACDatabaseDriver(default_connection())
-  current_app.config['report_repo'] = DocumentRepo(current_app.config['db'])
+  current_app.config['report_repo'] = ReportRepo(current_app.config['db'])
   current_app.config['slo_repo'] = SLORepo(current_app.config['db'])
 
 #db = _get_connection("aac_full", "aac_password", "localhost", "aac_db")
