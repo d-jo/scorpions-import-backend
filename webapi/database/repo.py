@@ -114,7 +114,7 @@ def NewSLORepo(driver: AACDatabaseDriver) -> SLORepo:
 class MeasureRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "measure")
   
   def insert(self, measure: Measure) -> None:
     """
@@ -129,7 +129,7 @@ def NewMeasureRepo(driver: AACDatabaseDriver) -> MeasureRepo:
 class DecisionsActionsRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "decisionsactions")
   
   def insert(self, decisions_actions: DecisionsAction) -> None:
     """
@@ -144,7 +144,7 @@ def NewDecisionsActionsRepo(driver: AACDatabaseDriver) -> MeasureRepo:
 class CollectionAnalysisRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "collectionanalysis")
   
   def insert(self, ca: CollectionAnalysis) -> None:
     """
@@ -159,7 +159,7 @@ def NewCollectionAnalysisRepo(driver: AACDatabaseDriver) -> MeasureRepo:
 class MethodsRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "methods")
   
   def insert(self, method: Methods) -> None:
     """
@@ -174,7 +174,7 @@ def NewMethodsRepo(driver: AACDatabaseDriver) -> MethodsRepo:
 class AccreditedDataAnalysisRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "accrediteddataanalysis")
   
   def insert(self, ada: AccreditedDataAnalysis) -> None:
     """
