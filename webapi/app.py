@@ -8,27 +8,12 @@ from database.driver import db_init
 import json
 from audits.audits import audit_bp
 from statistics.statistics import statistic_bp
-from flask_cors import cross_origin
+from flask_cors import CORS
 from auth.auth import requires_auth, AuthError, requires_scope
 TARGET_FOLDER = './data'
 
 app = Flask(__name__)
 
-@app.route("/api/private-scoped")
-@cross_origin(headers=["Content-Type", "Authorization"])
-@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:3000"])
-@requires_auth
-def private_scoped():
-    """A valid access token and an appropriate scope are required to access this route
-    """
-    if requires_scope("read:messages"):
-        response = "You need to be authenticated and have a scope of read:messages to see this."
-        return jsonify(message=response)
-    raise AuthError({
-        "code": "Unauthorized",
-        "description": "You don't have access to this resource"
-    }, 403)
-   
 
 @app.errorhandler(AuthError)
 def handle_auth_error(ex):
@@ -63,8 +48,8 @@ if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'])):
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization, Access-Control-Allow-Origin')
+    response.headers.add('Access-Control-Allow-Methods', '*')
     return response
 
 

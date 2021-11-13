@@ -86,7 +86,7 @@ CREATE TABLE Report (
   title VARCHAR(255) NOT NULL,
   author VARCHAR(255) NOT NULL,
   created INT NOT NULL,
-  creator_id VARCHAR(255) NOT NULL,
+  has_been_reviewed BOOLEAN NOT NULL,
   college VARCHAR(255) NOT NULL,
   department VARCHAR(255) NOT NULL,
   program VARCHAR(255) NOT NULL,

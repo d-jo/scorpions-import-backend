@@ -30,6 +30,7 @@ class Report(BaseModel):
     'title',
     'author',
     'created',
+    'has_been_reviewed',
     'college',
     'department',
     'program',
@@ -47,6 +48,7 @@ class Report(BaseModel):
     self.title = ""
     self.author = ""
     self.created = ""
+    self.has_been_reviewed = False
     self.college = ""
     self.department = ""
     self.program = ""
@@ -64,12 +66,14 @@ class Report(BaseModel):
 class SLO(BaseModel):
   __slots__ = [
     'id',
+    'report_id',
     'description',
     'bloom',
     'common_graduate_program_slo'
   ]
   def __init__(self):
     self.id = ""
+    self.report_id = 0
     self.description = ""
     self.bloom = ""
     self.common_graduate_program_slo = ""
