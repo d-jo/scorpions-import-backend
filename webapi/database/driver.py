@@ -82,15 +82,21 @@ class AACDatabaseDriver():
     if self.conn is not None and not self.conn.closed:
       self.conn.close()
 
-from .repo import DocumentRepo, SLORepo
+from .repo import NewReportRepo, NewSLORepo, NewMeasureRepo, NewDecisionsActionsRepo, NewCollectionAnalysisRepo, NewMethodsRepo, NewAccreditedDataAnalysisRepo
 
 def db_init():
   """
   Creates the database driver and adds it to the app context.
   """
   current_app.config['db'] = AACDatabaseDriver(default_connection())
-  current_app.config['report_repo'] = DocumentRepo(current_app.config['db'])
-  current_app.config['slo_repo'] = SLORepo(current_app.config['db'])
+  current_app.config['report_repo'] = NewReportRepo(current_app.config['db'])
+  current_app.config['slo_repo'] = NewSLORepo(current_app.config['db'])
+  current_app.config['measure_repo'] = NewMeasureRepo(current_app.config['db'])
+  current_app.config['decisions_actions_repo'] = NewDecisionsActionsRepo(current_app.config['db'])
+  current_app.config['collection_analysis_repo'] = NewCollectionAnalysisRepo(current_app.config['db'])
+  current_app.config['methods_repo'] = NewMethodsRepo(current_app.config['db'])
+  current_app.config['accredited_data_analysis_repo'] = NewAccreditedDataAnalysisRepo(current_app.config['db'])
+  current_app.config['db_initialized'] = True
 
 #db = _get_connection("aac_full", "aac_password", "localhost", "aac_db")
 #aac = AACDatabaseDriver(db)

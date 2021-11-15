@@ -1,6 +1,7 @@
 # %%
 from models.model import BaseModel, SLO, Report, Measure, DecisionsAction, CollectionAnalysis, Methods, AccreditedDataAnalysis
 from .driver import AACDatabaseDriver 
+import time
 from typing import Callable, AnyStr, List, Dict
 
 # https://www.psycopg.org/docs/usage.html
@@ -39,7 +40,7 @@ class Repository():
 
     return reslist
   
-  def named_exec(self, q: AnyStr, argdict: Dict) -> List:
+  def named_exec(self, q: AnyStr, argdict: Dict, return_result=False) -> List:
     """
     q: should be a named query in the form below.
 
@@ -54,11 +55,12 @@ class Repository():
     """
 
     with self.driver as (conn, cur):
-      print("doing named exec with:")
-      print(q)
-      print(argdict)
       cur.execute(q, argdict)
       conn.commit()
+      if return_result:
+        return cur.fetchall()
+      else:
+        return None
 
   def select_by_id(self, id: int) -> Report:
     """
@@ -75,26 +77,30 @@ class Repository():
     return self.named_query(q, {'field': field, 'value': value}, Report)
   
 
-class DocumentRepo(Repository):
+class ReportRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver, "document")
+    super().__init__(driver, "report")
   
-  def insert(self, doc: Report, type: AnyStr) -> None:
+  def insert(self, doc: Report, type: AnyStr) -> int:
     """
     Inserts a document into the database. The type of document is specified by
     the type argument and can either be accredited or non-accredited.
 
     doc is the document to be inserted.
     """
-    q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information) VALUES (%(title)s, %(author)s, 100, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s)"
+    q = "INSERT INTO report (title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information, has_been_reviewed) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s, FALSE) RETURNING id"
     if type.startswith('non'):
-      q = "INSERT INTO document (title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information) VALUES (%(title)s, %(author)s, 100, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s)"
+      q = "INSERT INTO report (title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information, has_been_reviewed) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s, FALSE) RETURNING id"
     
-    self.named_exec(q, doc.to_dict())
+    doc.created = int(time.time())
+    #doc.has_been_reviewed = False
+
+    res = self.named_exec(q, doc.to_dict(), return_result=True)
+    return res[0][0]
   
-def NewDocumentRepo(driver: AACDatabaseDriver) -> DocumentRepo:
-  return DocumentRepo(driver)
+def NewReportRepo(driver: AACDatabaseDriver) -> ReportRepo:
+  return ReportRepo(driver)
   
 class SLORepo(Repository):
 
@@ -105,8 +111,8 @@ class SLORepo(Repository):
     """
     Inserts a SLO into the database.
     """
-    q = "INSERT INTO slo (description, bloom) VALUES (%(description)s, %(bloom)s)"
-    self.named_exec(q, slo.to_dict())
+    q = "INSERT INTO slo (report_id, description, bloom) VALUES (%(report_id)s, %(description)s, %(bloom)s)"
+    self.named_exec(q, slo.to_dict(), return_result=False)
 
 def NewSLORepo(driver: AACDatabaseDriver) -> SLORepo:
   return SLORepo(driver)
@@ -114,7 +120,7 @@ def NewSLORepo(driver: AACDatabaseDriver) -> SLORepo:
 class MeasureRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "measure")
   
   def insert(self, measure: Measure) -> None:
     """
@@ -129,7 +135,7 @@ def NewMeasureRepo(driver: AACDatabaseDriver) -> MeasureRepo:
 class DecisionsActionsRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "decisionsactions")
   
   def insert(self, decisions_actions: DecisionsAction) -> None:
     """
@@ -144,7 +150,7 @@ def NewDecisionsActionsRepo(driver: AACDatabaseDriver) -> MeasureRepo:
 class CollectionAnalysisRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "collectionanalysis")
   
   def insert(self, ca: CollectionAnalysis) -> None:
     """
@@ -159,7 +165,7 @@ def NewCollectionAnalysisRepo(driver: AACDatabaseDriver) -> MeasureRepo:
 class MethodsRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "methods")
   
   def insert(self, method: Methods) -> None:
     """
@@ -174,7 +180,7 @@ def NewMethodsRepo(driver: AACDatabaseDriver) -> MethodsRepo:
 class AccreditedDataAnalysisRepo(Repository):
 
   def __init__(self, driver: AACDatabaseDriver):
-    super().__init__(driver)
+    super().__init__(driver, "accrediteddataanalysis")
   
   def insert(self, ada: AccreditedDataAnalysis) -> None:
     """

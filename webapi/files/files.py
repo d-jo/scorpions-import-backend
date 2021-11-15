@@ -1,6 +1,7 @@
 from flask import Blueprint, current_app
 import os, glob
 from flask import Flask, flash, request, redirect, url_for
+from flask_cors import cross_origin
 from werkzeug.utils import secure_filename
 from auth.auth import requires_auth
 
@@ -19,6 +20,8 @@ def is_allowed_ext(filename):
   return allowed
 
 @files_bp.route('/', methods=['GET', 'POST'])
+#@cross_origin(headers=["Content-Type", "Authorization"])
+#@cross_origin(headers=["Access-Control-Allow-Origin", "*"])
 @requires_auth
 def upload_file():
   print('Recieved request: ' + request.method)
@@ -51,10 +54,20 @@ def upload_file():
 @requires_auth
 def get_files():
   file_list = os.listdir(current_app.config['UPLOAD_FOLDER'])
+  to_be_reviewed = None
+  complete = None
+  with current_app.config['db'] as (conn, cur):
+    cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=FALSE")
+    conn.commit()
+    to_be_reviewed = cur.fetchall()
+    cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=TRUE")
+    conn.commit()
+    complete = cur.fetchall()
+
   return {
             "uploaded":file_list,
-            "review": [ "mockReview.docx" ],  # TODO call database to get files in the future
-            "done": [ "mockDone.docx" ]
+            "review": to_be_reviewed,#[ "mockReview.docx" ],  # TODO call database to get files in the future
+            "done": complete,
         }
 
 

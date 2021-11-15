@@ -81,11 +81,12 @@
 
 */
 
-CREATE TABLE Document (
+CREATE TABLE Report (
   id SERIAL NOT NULL,
   title VARCHAR(255) NOT NULL,
   author VARCHAR(255) NOT NULL,
   created INT NOT NULL,
+  has_been_reviewed BOOLEAN NOT NULL,
   college VARCHAR(255) NOT NULL,
   department VARCHAR(255) NOT NULL,
   program VARCHAR(255) NOT NULL,
@@ -102,10 +103,12 @@ CREATE TABLE Document (
 
 CREATE TABLE SLO (
   id SERIAL NOT NULL,
+  report_id INT NOT NULL,
   description TEXT NOT NULL,
   bloom VARCHAR(255) NOT NULL,
   common_graduate_program_slo VARCHAR(255),
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  FOREIGN KEY (report_id) REFERENCES Report(id)
 );
 
 CREATE TABLE Measure (
