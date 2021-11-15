@@ -8,8 +8,6 @@ import files.document_processing as processor
 from models.model import *
 from auth.auth import requires_auth
 
-# from webapi.files import document_processing
-
 reports_bp = Blueprint("reports_bp", __name__)
 
 @reports_bp.route('/trigger_process', methods=['GET'])
@@ -35,10 +33,8 @@ def edit_report(file_id):
 @reports_bp.route('/extract_data', methods=['POST'])
 @requires_auth
 def extract_data():
-  #print("here")
   # for getting current user details
   # sub is current user id
-  #print(_request_ctx_stack.top.current_user)
   results = []
   for filename in request.json:
     filepath = os.path.join(current_app.config['UPLOAD_FOLDER']) + "/" +filename
