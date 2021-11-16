@@ -18,61 +18,18 @@ def read_document(document):
     Read in document and extract all data from it.
     :param document: opened document from python-docx.
     """
-    report = Report()
-    for paragraph in document.paragraphs:
-        if paragraph.text == '':
-            continue
-        report = report_matcher(paragraph.text, report)
-        if is_full(report): #early exit for faster time but can be removed
-            break
+    report = get_report_info(document)
     
-    # TODO eventually instead of saving all data in a list, just extract data here
-    tableCells = [[]]
-    for table in document.tables:
-        cell_information = []
-        for row in table.rows:
-            for cell in iter_unique_cells(row):
-                p = cell._element
-                checkboxes = p.xpath('.//w14:checkbox')
-                val = {"cell":  cell.text.strip(), "checkboxes": checkboxes}
-                cell_information.append(val)
-        tableCells.append(cell_information)
-
     slos = []
-    measures = []
-    for table in tableCells:
+    measures = [[]]
+    for table in get_table_cells(document):
         # Empty table
         if len(table) < 1: 
             continue
 
         # SLO data
         if SequenceMatcher(None, table[0]['cell'], "Student Learning Outcomes").ratio() >= 0.9:
-            slo = SLO()
-            for cells in table:
-                slo = slo_matcher(cells['cell'], slo)
-                if(slo.description != ""):
-                    if not has_duplicate(slos, slo):
-                        slos.append(slo)
-                    slo = SLO()
-                if not cells['checkboxes']:
-                    text = cells['cell']
-                    for c in text:
-                        if isinstance(c, str) and is_checkbox(c):
-                            parts = text.split(chr(9746))  
-                            if len(parts) > 1:
-                                for p in parts:
-                                    result = get_first_word(p).strip()
-                                    slos = slo_attr_match(result, slos)
-                            break
-                elif cells['checkboxes']:
-                    pos = 0
-                    for cb in cells['checkboxes']:
-                        for child in cb.getchildren():
-                            if child.tag.endswith("checked"):
-                                if(int(re.search(r'\d+', child.values()[0]).group())):
-                                    word = get_word_at(pos, cells['cell'])
-                                    slos = slo_attr_match(word, slos)
-                                pos += 1
+            slos = get_slo_data(table)
 
         # Assessmment data
         elif re.match(re.compile('SLO..:'), table[0]['cell']):
@@ -87,7 +44,10 @@ def read_document(document):
                 if re.match(re.compile('^SLO..:'), cell['cell']):
                     num = extract_text(cell['cell'], "SLO ")[0]
                     if sloNum != "":
-                        measures.append(measure)
+                        idx = int(sloNum)
+                        if len(measures) < idx:
+                            measures.append([]) 
+                        measures[idx-1].append(measure)
                         measure = Measure().to_dict()
                     sloNum = num
                     measure['slo_id'] = sloNum
@@ -102,7 +62,10 @@ def read_document(document):
                     if st in cell['cell']:
                         state = map_state(st)
                         break
-            measures.append(measure)
+            idx = int(sloNum)
+            if len(measures) < idx:
+                measures.append([]) 
+            measures[idx-1].append(measure)
         # MISC TODO DATA
         else:
             print("TODO or Misc data found")
@@ -111,6 +74,63 @@ def read_document(document):
 
 #TODO clean up, possibly make a process_engine class with below methods to leave this file cleaner
 
+def get_slo_data(table):
+    slos = []
+    slo = SLO()
+    for cells in table:
+        slo = slo_matcher(cells['cell'], slo)
+        if(slo.description != ""):
+            if not has_duplicate(slos, slo):
+                slos.append(slo)
+            slo = SLO()
+        if not cells['checkboxes']:
+            text = cells['cell']
+            for c in text:
+                if isinstance(c, str) and is_checkbox(c):
+                    parts = text.split(chr(9746))  
+                    if len(parts) > 1:
+                        for p in parts:
+                            result = get_first_word(p).strip()
+                            slos = slo_attr_match(result, slos)
+                    break
+        elif cells['checkboxes']:
+            pos = 0
+            for cb in cells['checkboxes']:
+                for child in cb.getchildren():
+                    if child.tag.endswith("checked"):
+                        if(int(re.search(r'\d+', child.values()[0]).group())):
+                            word = get_word_at(pos, cells['cell'])
+                            slos = slo_attr_match(word, slos)
+                        pos += 1
+    return slos
+
+# TODO eventually instead of saving all data in a list(memory heavyish), just extract data here?
+def get_table_cells(document):
+    tableCells = [[]]
+    for table in document.tables:
+        cell_information = []
+        for row in table.rows:
+            # cells get duplicated if they are merged cells
+            for cell in iter_unique_cells(row):
+                p = cell._element
+                checkboxes = p.xpath('.//w14:checkbox')
+                val = {"cell":  cell.text.strip(), "checkboxes": checkboxes}
+                cell_information.append(val)
+        tableCells.append(cell_information)
+    return tableCells
+
+def get_report_info(document):
+    report = Report()
+    for paragraph in document.paragraphs:
+        if paragraph.text == '':
+            continue
+        if report.title == "":
+            report.title = paragraph.text
+        report = report_matcher(paragraph.text, report)
+        if is_full(report): #early exit for faster time but can be removed
+            return report
+    return report
+    
 def map_state(st):
     """
     maps a state to a Measure attribute, this makes 
