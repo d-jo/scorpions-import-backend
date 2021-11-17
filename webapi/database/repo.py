@@ -192,6 +192,140 @@ class AccreditedDataAnalysisRepo(Repository):
 def NewAccreditedDataAnalysisRepo(driver: AACDatabaseDriver) -> AccreditedDataAnalysisRepo:
   return AccreditedDataAnalysisRepo(driver)
 
+class ViewReportRepo(Repository):
+    
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver, "report")
+  
+  def retrieve(self, id: int) -> Report:
+    """
+    Retrive a report from the database. The type of document is specified by
+    the type argument and can either be accredited or non-accredited.
+
+    """
+    q = "SELECT title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information, has_been_reviewed FROM report WHERE report_id=?"
+    if type.startswith('non'):
+      q = "SELECT title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information, has_been_reviewed FROM report WHERE report_=?"
+
+    res = self.named_query(q, {'id': id}, Report)[0]
+    return res[0][0]
+  
+def NewViewReportRepo(driver: AACDatabaseDriver) -> ViewReportRepo:
+  return ViewReportRepo(driver)
+
+class ViewSLORepo(Repository):
+    
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver, "slo")
+
+  def retrieve(self, id: int) -> SLO:
+    """
+    Retrive a SLO from the database.
+    """
+    q = "SELECT * FROM slo WHERE slo_id=?"
+    res = self.named_query(q, {'id': id}, SLO)[0]
+    return res[0][0]
+
+def NewViewSLORepo(driver: AACDatabaseDriver) -> ViewSLORepo:
+  return ViewSLORepo(driver)
+
+class ViewDecisionsActionsRepo(Repository):
+    
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver, "decisionsactions")
+  
+  def retrieve(self, id: int) -> DecisionsAction:
+    """
+    Retrives a DA from the database.
+    """
+    q = "SELECT * FROM  decisionsactions WHERE slo_id=?"
+    res = self.named_query(q, {'id': id}, DecisionsAction )[0]
+    return res[0][0]
+
+def NewViewDecisionsActionsRepo(driver: AACDatabaseDriver) -> ViewDecisionsActionsRepo:
+  return ViewDecisionsActionsRepo(driver)
+
+class ViewMeasureRepo(Repository):
+    
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver, "measure")
+  
+  def retrieve(self, id: int) -> Measure:
+    """
+    Retrive a measure into the database.
+    """
+    q = "SELECT * FROM measure WHERE slo_id=?"
+    res = self.named_query(q, {'id': id}, Measure )[0]
+    return res[0][0]
+
+def NewViewMeasureRepo(driver: AACDatabaseDriver) -> ViewMeasureRepo:
+  return ViewMeasureRepo(driver)
+
+class ViewDecisionsActionsRepo(Repository):
+    
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver, "decisionsactions")
+  
+def retrieve(self, id: int) -> DecisionsAction:
+    """
+    Retrive a DA from the database.
+    """
+    q = "SELECT * FROM decisionsactions WHERE slo_id=?"
+    res = self.named_query(q, {'id': id}, DecisionsAction )[0]
+    return res[0][0]
+
+
+def NewViewDecisionsActionsRepo(driver: AACDatabaseDriver) -> ViewDecisionsActionsRepo:
+  return ViewDecisionsActionsRepo(driver)
+
+class ViewCollectionAnalysisRepo(Repository):
+    
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver, "collectionanalysis")
+  
+  def retrieve(self, id: int) -> CollectionAnalysis:
+    """
+    Retrive a CA from the database.
+    """
+    q = "SELECT* From collectionanalysis WHERE slo_id=?"
+    res = self.named_query(q, {'id': id}, CollectionAnalysis )[0]
+    return res[0][0]
+
+
+def NewCollectionAnalysisRepo(driver: AACDatabaseDriver) -> ViewCollectionAnalysisRepo:
+  return ViewCollectionAnalysisRepo(driver)
+
+class ViewMethodsRepo(Repository):
+    
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver, "methods")
+  
+  def retrieve(self, id: int) -> Methods :
+    """
+    Retrive a method from the database.
+    """
+    q = "SELECT * FROM methods WHERE slo_id=?  "
+    res = self.named_query(q, {'id': id}, Methods )[0]
+    return res[0][0]
+
+def NewViewMethodsRepo(driver: AACDatabaseDriver) -> ViewMethodsRepo:
+  return ViewMethodsRepo(driver)
+
+class ViewAccreditedDataAnalysisRepo(Repository):
+
+  def __init__(self, driver: AACDatabaseDriver):
+    super().__init__(driver, "accrediteddataanalysis")
+  
+  def retrieve(self, id: int) -> AccreditedDataAnalysis :
+    """
+    Retrive a ADA from the database.
+    """
+    q = "SELECT * From accrediteddataanalysis WHERE slo_id=?"
+    res = self.named_query(q, {'id': id}, AccreditedDataAnalysis )[0]
+    return res[0][0]
+
+def NewViewAccreditedDataAnalysisRepo(driver: AACDatabaseDriver) -> ViewAccreditedDataAnalysisRepo:
+  return ViewAccreditedDataAnalysisRepo(driver)
 
 
 #db = _get_connection("aac_full", "aac_password", "localhost", "aac_db")
