@@ -2,7 +2,7 @@
 from docx import Document
 import re
 from difflib import SequenceMatcher
-from models.model import *
+from webapi.models.model import *
 
 # %%
 def process_report(filename):
@@ -22,17 +22,19 @@ def read_document(document):
     
     slos = []
     measures = [[]]
+    analysisList = [[]]
+    decisions = []
     for table in get_table_cells(document):
         # Empty table
         if len(table) < 1: 
             continue
-
         # SLO data
         if SequenceMatcher(None, table[0]['cell'], "Student Learning Outcomes").ratio() >= 0.9:
             slos = get_slo_data(table)
-
         # Assessmment data
         elif re.match(re.compile('SLO..:'), table[0]['cell']):
+            # measures.append(get_measures_data(table))
+            #TODO figure out how to make this work in a method call
             sloNum = ""
             state = ""
             measure = Measure().to_dict()
@@ -41,11 +43,13 @@ def read_document(document):
                     measure = state_match(state, measure, cell)
                     state = ""
                     continue
+                # if we have a new SLO num, add it to the list and move to the next
+                # Note: there may be multiple measures for one SLO, need to preserve number
                 if re.match(re.compile('^SLO..:'), cell['cell']):
                     num = extract_text(cell['cell'], "SLO ")[0]
                     if sloNum != "":
                         idx = int(sloNum)
-                        if len(measures) < idx:
+                        while len(measures) < idx:
                             measures.append([]) 
                         measures[idx-1].append(measure)
                         measure = Measure().to_dict()
@@ -63,16 +67,100 @@ def read_document(document):
                         state = map_state(st)
                         break
             idx = int(sloNum)
-            if len(measures) < idx:
+            while len(measures) < idx:
                 measures.append([]) 
             measures[idx-1].append(measure)
-        # MISC TODO DATA
+        # Analysis Data
+        elif is_analysis(table):
+            analysisList = get_analysis_data(table)
+        # Decisions/Actions Data
+        elif re.match(re.compile('^SLO..'), table[0]['cell']) and not status_table(table):
+            decisions = get_decisions_data(table)
         else:
             print("TODO or Misc data found")
     
-    return [report, slos, measures]
+    return [report, slos, measures, analysisList, decisions]
 
 #TODO clean up, possibly make a process_engine class with below methods to leave this file cleaner
+
+def get_measures_data(table):
+    measures = []
+    for cell in table:
+        print(cell)
+    return measures
+
+def get_analysis_data(table):
+    sloNum = ""
+    analysisList = [[]]
+    analysis = CollectionAnalysis()
+    for cell in table:
+        # if we have a new SLO num, add it to the list and move to the next
+        # Note: there may be multiple analysis for one SLO, need to preserve number
+        if "SLO " in cell['cell']:
+            for c in cell['cell']:
+                if c.isdigit():
+                    num = c
+                    break
+            if sloNum != "":
+                idx = int(sloNum)
+                while len(analysisList) < idx:
+                    analysisList.append([])
+                analysisList[idx-1].append(analysis)
+                analysis = CollectionAnalysis()
+            sloNum = num
+        elif "%" in cell['cell']:
+            analysis.percentage_who_met_or_exceeded = cell['cell']
+        elif is_year(cell['cell']):
+            analysis.data_collection_date_range = cell['cell']
+        elif not re.match(re.compile('^Note:'), cell['cell']):
+            analysis.number_of_students_assessed = cell['cell']
+    idx = int(sloNum)
+    while len(analysisList) < idx:
+        analysisList.append([])
+    analysisList[idx-1].append(analysis)
+    return analysisList
+
+def get_decisions_data(table):
+    sloNum = ""
+    decisions = []
+    decision = DecisionsAction
+    for cell in table:
+        # if we have a new SLO num, add it to the list and move to the next
+        if re.match(re.compile('^SLO..$'), cell['cell']):
+            num = cell['cell'].split("SLO ")[1]
+            if sloNum != "":
+                decisions.append(decision)
+                decision = DecisionsAction()
+            sloNum = num
+        else:
+            decision.content = cell['cell']
+    decisions.append(decision)
+    return decisions
+
+def status_table(table):
+    for cell in table:
+        if "Partially Met" in cell['cell']:
+            return True
+    return False
+ 
+def is_year(text):
+    year = ""
+    found = False
+    for c in text:
+        if c.isdigit():
+            year += c
+            found = True
+        elif found:
+            break
+    if year != "":
+        return int(year) > 1900
+    return False
+
+def is_analysis(table):
+    for cell in table:
+        if SequenceMatcher(None, cell['cell'], "Data Collection Date Range").ratio() >= 0.95:
+            return True
+    return False
 
 def get_slo_data(table):
     slos = []
@@ -163,7 +251,8 @@ def state_match(state, m, cell):
     param cell: cell data to look through
     """
     if state == "proficiency_threshold" or state == "proficiency_target":
-        m[state] = cell['cell']
+        if cell['cell'] != "Describe:":
+            m[state] = cell['cell']
         return m
     checked = []
     if cell['checkboxes']:
