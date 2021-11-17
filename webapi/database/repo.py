@@ -215,20 +215,67 @@ class Auth0WebApi():
     self.base_url = base_url
     self.token = token
 
+  def _make_request(self, url: str, request_type: str = "get", data: dict = None) -> dict:
+    """
+    Makes a request to the Auth0 API.
+    """
+    headers = {
+      'Authorization': 'Bearer ' + self.token,
+      'Content-Type': 'application/json'
+    }
+    if request_type == "get":
+      r = requests.get(url, headers=headers)
+    elif request_type == "post":
+      r = requests.post(url, json=data, headers=headers)
+    elif request_type == "put":
+      r = requests.put(url, json=data, headers=headers)
+    elif request_type == "delete":
+      r = requests.delete(url, headers=headers, json=data)
+    return r
+
   def get_user_info(self, uid: str) -> dict:
     """
     Returns a dictionary of the user's information.
     """
-    headers = {'Authorization': 'Bearer ' + self.token}
-    r = requests.get('{}/api/v2/users/{}'.format(self.base_url, uid), headers=headers)
+    #headers = {'Authorization': 'Bearer ' + self.token}
+    #r = requests.get('{}/api/v2/users/{}'.format(self.base_url, uid), headers=headers)
+    #return r.json()
+    r = self._make_request('{}/api/v2/users/{}'.format(self.base_url, uid), "get")
     return r.json()
   
-  def get_user_name(self, uid):
+  def get_user_name(self, uid: str):
     """
     Returns the user's name.
     """
     uinfo = self.get_user_info(uid)
     return uinfo['given_name'] + " " + uinfo['family_name']
+  
+  def get_user_roles(self, uid: str):
+    """
+    Returns a list of the user's roles.
+    """
+    r = self._make_request('{}/api/v2/users/{}/roles'.format(self.base_url, uid), "get")
+    return r
+  
+  def remove_user_role(self, uid: str, role: str):
+    """
+    Removes a role from the user with the provided uid
+    """
+    body = {
+      "roles": [role]
+    }
+    r = self._make_request('{}/api/v2/users/{}/roles'.format(self.base_url, uid), "delete", body)
+    return r.status_code
+  
+  def add_user_role(self, uid: str, role: str):
+    """
+    Adds a role to the user with the provided uid
+    """
+    body = {
+      "roles": [role]
+    }
+    r = self._make_request('{}/api/v2/users/{}/roles'.format(self.base_url, uid), "post", body)
+    return r.status_code
 
 def NewAuth0WebApi(token: str, base_url: str) -> Auth0WebApi:
   return Auth0WebApi(token, base_url)
