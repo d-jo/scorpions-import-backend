@@ -2,7 +2,7 @@
 from docx import Document
 import re
 from difflib import SequenceMatcher
-from webapi.models.model import *
+from models.model import *
 
 # %%
 def process_report(filename):
