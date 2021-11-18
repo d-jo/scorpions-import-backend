@@ -94,29 +94,29 @@ def view_file(file_id):
             "title": "",
             "slos": [
                 {
-                    "bloom": "Application",
-                    "common_graduate_program_slo": "1",
+                    "bloom": ["Application"],
+                    "common_graduate_program_slo": ["1"],
                     "description": "Mastery of discipline content",
                     "id": "",
                     "report_id": 1
                 },
                 {
-                    "bloom": "Evaluation",
-                    "common_graduate_program_slo": "2",
+                    "bloom": ["Evaluation"],
+                    "common_graduate_program_slo": ["2"],
                     "description": "Proficiency in analyzing, evaluating, and synthesizing information",
                     "id": "",
                     "report_id": 1
                 },
                 {
-                    "bloom": "Evaluation",
-                    "common_graduate_program_slo": "3",
+                    "bloom": ["Evaluation"],
+                    "common_graduate_program_slo": ["3"],
                     "description": "Effective oral and written communication",
                     "id": "",
                     "report_id": 1
                 },
                 {
-                    "bloom": "Knowledge",
-                    "common_graduate_program_slo": "4",
+                    "bloom": ["Knowledge"],
+                    "common_graduate_program_slo": ["4"],
                     "description": "Demonstrate knowledge of discipline’s ethics and standards",
                     "id": "",
                     "report_id": 1
