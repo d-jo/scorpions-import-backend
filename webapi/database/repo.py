@@ -149,7 +149,7 @@ def get_measure_by_slo_id(self, id: int) ->Measure:
     """
     Selects a measure from the database by id.
     """
-    q = "SELECT * FROM report WHERE slo_id = %(id)s"
+    q = "SELECT * FROM measure WHERE slo_id = %(id)s"
     return self.named_query(q, {'id': id}, Measure)[0]
   
 def NewMeasureRepo(driver: AACDatabaseDriver) -> MeasureRepo:
@@ -169,9 +169,9 @@ class DecisionsActionsRepo(Repository):
     
 def get_decisionsactions_by_slo_id(self, id: int) ->DecisionsAction:
     """
-    Selects a measure from the database by id.
+    Selects a decisionsAction from the database by id.
     """
-    q = "SELECT * FROM report WHERE slo_id = %(id)s"
+    q = "SELECT * FROM decisionsAction WHERE slo_id = %(id)s"
     return self.named_query(q, {'id': id}, DecisionsAction)[0]
 
 def NewDecisionsActionsRepo(driver: AACDatabaseDriver) -> MeasureRepo:
@@ -191,7 +191,7 @@ class CollectionAnalysisRepo(Repository):
     
 def get_collectionAnalysis_by_slo_id(self, id: int) ->CollectionAnalysis:
     """
-    Selects a measure from the database by id.
+    Selects a CA from the database by id.
     """
     q = "SELECT * FROM collectionAnalysis WHERE slo_id = %(id)s"
     return self.named_query(q, {'id': id}, CollectionAnalysis)[0]
@@ -236,7 +236,7 @@ class AccreditedDataAnalysisRepo(Repository):
     
   def get_accreditedDataAnalysis_by_slo_id(self, id: int) ->AccreditedDataAnalysis:
     """
-    Selects a methods from the database by id.
+    Selects a accreditedDataAnalysis from the database by id.
     """
     q = "SELECT * FROM accreditedDataAnalysis WHERE slo_id = %(id)s"
     return self.named_query(q, {'id': id}, AccreditedDataAnalysis)[0]
