@@ -279,6 +279,13 @@ class Auth0WebApi():
     }
     r = self._make_request('{}/api/v2/users/{}/roles'.format(self.base_url, uid), "post", body)
     return r.status_code
+  
+  def get_users(self):
+    """
+    Returns a list of all users.
+    """
+    r = self._make_request('{}/api/v2/users'.format(self.base_url), "get")
+    return r.json()
 
 def NewAuth0WebApi(token: str, base_url: str) -> Auth0WebApi:
   return Auth0WebApi(token, base_url)
@@ -287,7 +294,8 @@ def NewAuth0WebApi(token: str, base_url: str) -> Auth0WebApi:
 #base_url = "https://dev-z-nqa8s0.us.auth0.com"
 #aow = Auth0WebApi(token, base_url)
 #
-#test = aow.get_user_info("google-oauth2|106277625010963196502")
+##test = aow.get_user_info("google-oauth2|106277625010963196502")
+#test = aow.get_users()
 #print(test)
 
 #db = _get_connection("aac_full", "aac_password", "localhost", "aac_db")
