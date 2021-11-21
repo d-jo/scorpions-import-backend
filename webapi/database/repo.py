@@ -259,7 +259,9 @@ class Auth0WebApi():
   
   def remove_user_role(self, uid: str, role: str):
     """
-    Removes a role from the user with the provided uid
+    Removes a role from the user with the provided uid. Note: this is not
+    the name of the role, it is the role ID which can be found in the Auth0
+    console.
     """
     body = {
       "roles": [role]
@@ -269,7 +271,8 @@ class Auth0WebApi():
   
   def add_user_role(self, uid: str, role: str):
     """
-    Adds a role to the user with the provided uid
+    Adds a role to the user with the provided uid. Note this is not the name
+    of the role, it is the role ID which can be found in the Auth0 console.
     """
     body = {
       "roles": [role]
