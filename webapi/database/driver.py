@@ -82,7 +82,7 @@ class AACDatabaseDriver():
     if self.conn is not None and not self.conn.closed:
       self.conn.close()
 
-from .repo import NewReportRepo, NewSLORepo, NewMeasureRepo, NewDecisionsActionsRepo, NewCollectionAnalysisRepo, NewMethodsRepo, NewAccreditedDataAnalysisRepo
+from .repo import NewReportRepo, NewSLORepo, NewMeasureRepo, NewDecisionsActionsRepo, NewCollectionAnalysisRepo, NewMethodsRepo, NewAccreditedDataAnalysisRepo, NewAuditLogRepo, NewAuth0WebApi
 
 def db_init():
   """
@@ -96,6 +96,8 @@ def db_init():
   current_app.config['collection_analysis_repo'] = NewCollectionAnalysisRepo(current_app.config['db'])
   current_app.config['methods_repo'] = NewMethodsRepo(current_app.config['db'])
   current_app.config['accredited_data_analysis_repo'] = NewAccreditedDataAnalysisRepo(current_app.config['db'])
+  current_app.config['audit_log_repo'] = NewAuditLogRepo(current_app.config['db'])
+  current_app.config['auth0_web_api'] = NewAuth0WebApi(current_app.config['creds']['AUTH0_MANAGEMENT_API_TOKEN'], current_app.config['creds']['AUTH0_MANAGEMENT_API_URL'])
   current_app.config['db_initialized'] = True
 
 #db = _get_connection("aac_full", "aac_password", "localhost", "aac_db")
