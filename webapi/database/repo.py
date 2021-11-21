@@ -241,21 +241,43 @@ class Auth0WebApi():
     #r = requests.get('{}/api/v2/users/{}'.format(self.base_url, uid), headers=headers)
     #return r.json()
     r = self._make_request('{}/api/v2/users/{}'.format(self.base_url, uid), "get")
-    return r.json()
+    if r.status_code == 200:
+      return r.status_code, r.json()
+    else:
+      return r.status_code, None
   
   def get_user_name(self, uid: str):
     """
-    Returns the user's name.
+    Returns the user's name. If it fails to get their name, uses their email.
     """
     uinfo = self.get_user_info(uid)
-    return uinfo['given_name'] + " " + uinfo['family_name']
+    try:
+      name = uinfo['given_name'] + " " + uinfo['family_name']
+      return name
+    except KeyError:
+      return uinfo['email']
   
   def get_user_roles(self, uid: str):
     """
     Returns a list of the user's roles.
     """
     r = self._make_request('{}/api/v2/users/{}/roles'.format(self.base_url, uid), "get")
-    return r
+    return r.status_code, r.json()
+  
+  def user_has_role(self, uid: str, role_name: str, role_id: str):
+    """
+    Returns True if the user has the specified role. 
+    Will return true if a role has the name provided in the
+    role parameter OR if the role_id matches the role_id provided.
+    """
+    status, roles = self.get_user_roles(uid)
+    if status != 200:
+      return False
+    print(roles)
+    for r in roles:
+      if r['name'] == role_name or r['id'] == role_id:
+        return True
+    return False
   
   def remove_user_role(self, uid: str, role: str):
     """
@@ -279,6 +301,13 @@ class Auth0WebApi():
     }
     r = self._make_request('{}/api/v2/users/{}/roles'.format(self.base_url, uid), "post", body)
     return r.status_code
+  
+  def get_users(self):
+    """
+    Returns a list of all users.
+    """
+    r = self._make_request('{}/api/v2/users'.format(self.base_url), "get")
+    return r.json()
 
 def NewAuth0WebApi(token: str, base_url: str) -> Auth0WebApi:
   return Auth0WebApi(token, base_url)
@@ -287,7 +316,8 @@ def NewAuth0WebApi(token: str, base_url: str) -> Auth0WebApi:
 #base_url = "https://dev-z-nqa8s0.us.auth0.com"
 #aow = Auth0WebApi(token, base_url)
 #
-#test = aow.get_user_info("google-oauth2|106277625010963196502")
+##test = aow.get_user_info("google-oauth2|106277625010963196502")
+#test = aow.get_users()
 #print(test)
 
 #db = _get_connection("aac_full", "aac_password", "localhost", "aac_db")

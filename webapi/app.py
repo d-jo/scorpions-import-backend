@@ -8,6 +8,7 @@ from database.driver import db_init
 import json
 from audits.audits import audit_bp
 from statistics.statistics import statistic_bp
+from users.users import users_bp
 from flask_cors import CORS
 from auth.auth import requires_auth, AuthError, requires_scope
 TARGET_FOLDER = './data'
@@ -59,3 +60,4 @@ app.register_blueprint(views_bp, url_prefix="/view")
 app.register_blueprint(reports_bp, url_prefix="/reports")
 app.register_blueprint(audit_bp, url_prefix="/audit")
 app.register_blueprint(statistic_bp, url_prefix="/statistics")
+app.register_blueprint(users_bp, url_prefix="/users")

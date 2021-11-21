@@ -70,7 +70,6 @@ def extract_data():
     file_id = send_to_db(rep_slo, "acc" if 'accredited' in filename else "non")
     # audit log entry creation
     cu = _request_ctx_stack.top.current_user
-    print(cu)
     editor_id = cu['sub']
     user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
     audit_entry = AuditLog(file_id, user_full_name, "extract")
