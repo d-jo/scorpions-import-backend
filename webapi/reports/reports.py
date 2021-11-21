@@ -34,7 +34,7 @@ def edit_report(file_id):
   cu = _request_ctx_stack.top.current_user
 
   # audit log entry creation
-  editor_id = cu.sub
+  editor_id = cu['sub']
   user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
   audit_entry = AuditLog(file_id, user_full_name, "edit")
   current_app.config['audit_log_repo'].insert(audit_entry)
@@ -49,7 +49,7 @@ def delete_report(file_id):
   cu = _request_ctx_stack.top.current_user
 
   # audit log entry creation
-  editor_id = cu.sub
+  editor_id = cu['sub']
   user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
   audit_entry = AuditLog(file_id, user_full_name, "delete")
   current_app.config['audit_log_repo'].insert(audit_entry)
@@ -70,9 +70,10 @@ def extract_data():
     file_id = send_to_db(rep_slo, "acc" if 'accredited' in filename else "non")
     # audit log entry creation
     cu = _request_ctx_stack.top.current_user
-    editor_id = cu.sub
+    print(cu)
+    editor_id = cu['sub']
     user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
-    audit_entry = AuditLog(file_id, user_full_name, "delete")
+    audit_entry = AuditLog(file_id, user_full_name, "extract")
     current_app.config['audit_log_repo'].insert(audit_entry)
     # audit log complete 
     results.append(rep_slo)
