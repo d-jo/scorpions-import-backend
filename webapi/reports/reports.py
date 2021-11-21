@@ -59,6 +59,9 @@ def extract_data():
   for filename in request.json:
     filepath = os.path.join(current_app.config['UPLOAD_FOLDER']) + "/" +filename
     rep_slo = processor.process_report(filepath)
+    buf = rep_slo[0]
+    buf.creator_id = editor_id
+    rep_slo[0] = buf
     file_id = send_to_db(rep_slo, "acc" if 'accredited' in filename else "non")
     # audit log entry creation
     audit_entry = AuditLog(file_id, user_full_name, "extract")
