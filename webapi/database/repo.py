@@ -245,10 +245,14 @@ class Auth0WebApi():
   
   def get_user_name(self, uid: str):
     """
-    Returns the user's name.
+    Returns the user's name. If it fails to get their name, uses their email.
     """
     uinfo = self.get_user_info(uid)
-    return uinfo['given_name'] + " " + uinfo['family_name']
+    try:
+      name = uinfo['given_name'] + " " + uinfo['family_name']
+      return name
+    except KeyError:
+      return uinfo['email']
   
   def get_user_roles(self, uid: str):
     """
