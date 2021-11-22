@@ -162,3 +162,21 @@ class AccreditedDataAnalysis(BaseModel):
     self.slo_id = ""
     self.status = ""
     pass
+
+import time
+
+class AuditLog(BaseModel):
+  __slots__ = [
+    'audit_id',
+    'report_id',
+    'editor_name',
+    'timestamp',
+    'action',
+  ]
+  def __init__(self, report_id, editor_name, action):
+    self.audit_id = 0
+    self.report_id = report_id
+    self.editor_name = editor_name
+    self.timestamp = int(time.time())
+    self.action = action
+    
