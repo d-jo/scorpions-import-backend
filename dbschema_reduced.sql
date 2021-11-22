@@ -108,7 +108,7 @@ CREATE TABLE SLO (
   bloom VARCHAR(255) NOT NULL,
   common_graduate_program_slo VARCHAR(255),
   PRIMARY KEY (id),
-  FOREIGN KEY (report_id) REFERENCES Report(id)
+  FOREIGN KEY (report_id) REFERENCES Report(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Measure (
@@ -124,7 +124,7 @@ CREATE TABLE Measure (
   proficiency_threshold VARCHAR(255) NOT NULL,
   proficiency_target VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
 
 CREATE TABLE DecisionsActions (
@@ -132,7 +132,7 @@ CREATE TABLE DecisionsActions (
   slo_id INT NOT NULL,
   content TEXT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
 
 CREATE TABLE CollectionAnalysis (
@@ -142,7 +142,7 @@ CREATE TABLE CollectionAnalysis (
   number_of_students_assessed INT NOT NULL,
   percentage_who_met_or_exceeded FLOAT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Methods (
@@ -152,7 +152,7 @@ CREATE TABLE Methods (
   domain VARCHAR(255) NOT NULL,
   data_collection TEXT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
 
 CREATE TABLE AccreditedDataAnalysis (
@@ -160,5 +160,5 @@ CREATE TABLE AccreditedDataAnalysis (
   slo_id INT NOT NULL,
   status VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
