@@ -89,7 +89,7 @@ class ReportRepo(Repository):
 
     doc is the document to be inserted.
     """
-    q = "INSERT INTO report (title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information, has_been_reviewed, creator_id) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s, FALSE, %(creator_id)s) RETURNING id"
+    q = "INSERT INTO report (title, author, valid, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information, has_been_reviewed, creator_id) VALUES (%(title)s, %(author)s, %(valid)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s, FALSE, %(creator_id)s) RETURNING id"
     if type.startswith('non'):
       q = "INSERT INTO report (title, author, valid, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information, has_been_reviewed) VALUES (%(title)s, %(author)s, %(valid)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s, FALSE) RETURNING id"
     
