@@ -28,6 +28,7 @@ class Report(BaseModel):
   __slots__ = [
     'id',
     'title',
+    'valid',
     'author',
     'created',
     'has_been_reviewed',
@@ -46,6 +47,7 @@ class Report(BaseModel):
   def __init__(self):
     self.id = ""
     self.title = ""
+    self.valid = True
     self.author = ""
     self.created = ""
     self.has_been_reviewed = False

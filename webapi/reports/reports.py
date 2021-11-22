@@ -14,49 +14,6 @@ from auth.auth import requires_auth, get_token_auth_header
 
 reports_bp = Blueprint("reports_bp", __name__)
 
-@reports_bp.route('/trigger_process', methods=['GET'])
-@requires_auth
-def trigger_process_files():
-  for f in glob.glob(os.path.join(current_app.config['UPLOAD_FOLDER'], '*.txt')):
-    with open(f, 'r') as file:
-      # TODO change this to use the document parsing funciton
-      # python is sometimes hard to work with multiple files unless the project
-      # is set up a current way so we will deal with that later
-      print("=====")
-      print(file.read())
-      print("=====")
-  return { "message":"success" }
-
-
-@reports_bp.route('/<file_id>/edit', methods=['POST'])
-@requires_auth
-def edit_report(file_id):
-  print(request.form)
-  # add entry in audit log
-  cu = _request_ctx_stack.top.current_user
-
-  # audit log entry creation
-  editor_id = cu['sub']
-  user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
-  audit_entry = AuditLog(file_id, user_full_name, "edit")
-  current_app.config['audit_log_repo'].insert(audit_entry)
-  # audit log complete 
-  return { "message":"{} edited".format(file_id)  }
-
-@reports_bp.route('/<file_id>/delete', methods=['DELETE'])
-@requires_auth
-def delete_report(file_id):
-  print(request.form)
-  # add entry in audit log
-  cu = _request_ctx_stack.top.current_user
-
-  # audit log entry creation
-  editor_id = cu['sub']
-  user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
-  audit_entry = AuditLog(file_id, user_full_name, "delete")
-  current_app.config['audit_log_repo'].insert(audit_entry)
-  # audit log complete 
-  return { "message":"{} edited".format(file_id)  }
 
 @reports_bp.route('/extract_data', methods=['POST'])
 @requires_auth
@@ -153,8 +110,26 @@ def handle_report(id):
     # UPDATE a data by id
     data = request.json
     # TODO
+
+    # add entry in audit log
+    cu = _request_ctx_stack.top.current_user
+
+    # audit log entry creation
+    editor_id = cu['sub']
+    user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
+    audit_entry = AuditLog(id, user_full_name, "edit")
+    current_app.config['audit_log_repo'].insert(audit_entry)
+    # audit log complete 
   elif request.method == 'DELETE':
     # DELETE a data    
-    res = current_app.config['report_repo'].remove_report(id)
-    print(res)
-    return { "status": "success", "message": "deleted", "response": res}
+    current_app.config['report_repo'].remove_report(id)
+    # add entry in audit log
+    cu = _request_ctx_stack.top.current_user
+
+    # audit log entry creation
+    editor_id = cu['sub']
+    user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
+    audit_entry = AuditLog(id, user_full_name, "delete")
+    current_app.config['audit_log_repo'].insert(audit_entry)
+    # audit log complete 
+    return { "status": "success", "message": "deleted"}

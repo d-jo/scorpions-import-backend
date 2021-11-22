@@ -91,7 +91,7 @@ class ReportRepo(Repository):
     """
     q = "INSERT INTO report (title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information, has_been_reviewed) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(accreditation_body)s, %(last_accreditation_review)s, %(additional_information)s, FALSE) RETURNING id"
     if type.startswith('non'):
-      q = "INSERT INTO report (title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information, has_been_reviewed) VALUES (%(title)s, %(author)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s, FALSE) RETURNING id"
+      q = "INSERT INTO report (title, author, valid, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information, has_been_reviewed) VALUES (%(title)s, %(author)s, %(valid)s, %(created)s, %(college)s, %(department)s, %(program)s, %(degree_level)s, %(academic_year)s, %(date_range)s, %(slos_meet_standards)s, %(stakeholder_involvement)s, %(additional_information)s, FALSE) RETURNING id"
     
     doc.created = int(time.time())
     #doc.has_been_reviewed = False
@@ -103,9 +103,9 @@ class ReportRepo(Repository):
     """
     Selects a report from the database by id.
     """
-    q = "SELECT title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information, has_been_reviewed FROM report WHERE id = %(id)s"
+    q = "SELECT title, author, created, college, department, program, degree_level, academic_year, date_range, accreditation_body, last_accreditation_review, additional_information, has_been_reviewed FROM report WHERE id = %(id)s AND valid=TRUE"
     if type.startswith('non'):
-     q = "SELECT title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information, has_been_reviewed FROM report WHERE id = %(id)s"     
+     q = "SELECT title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information, has_been_reviewed FROM report WHERE id = %(id)s AND valid=TRUE"     
     return self.named_query(q, {'id': id}, Report)[0]
   
   def update_report(self, id: int) ->Report:
@@ -115,8 +115,8 @@ class ReportRepo(Repository):
     return self.named_exec(q, {'id': id})[0]
   
   def remove_report(self, id: int):      
-    q="DELETE FROM report WHERE id = %(id)s"
-    return self.named_exec(q, {'id': id}, return_result=True)
+    q = "UPDATE report SET valid=FALSE WHERE id=%(id)s"
+    return self.named_exec(q, {'id': id})
  
 def NewReportRepo(driver: AACDatabaseDriver) -> ReportRepo:
   return ReportRepo(driver)
