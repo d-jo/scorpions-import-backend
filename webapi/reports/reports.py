@@ -14,7 +14,6 @@ from auth.auth import requires_auth, get_token_auth_header
 
 reports_bp = Blueprint("reports_bp", __name__)
 
-
 @reports_bp.route('/extract_data', methods=['POST'])
 @requires_auth
 def extract_data():
@@ -22,15 +21,20 @@ def extract_data():
   # for getting current user details
   # sub is current user id
   #print(_request_ctx_stack.top.current_user)
+
+  cu = _request_ctx_stack.top.current_user
+  editor_id = cu['sub']
+  user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
+
   results = []
   for filename in request.json:
     filepath = os.path.join(current_app.config['UPLOAD_FOLDER']) + "/" +filename
     rep_slo = processor.process_report(filepath)
+    buf = rep_slo[0]
+    buf.creator_id = editor_id
+    rep_slo[0] = buf
     file_id = send_to_db(rep_slo, "acc" if 'accredited' in filename else "non")
     # audit log entry creation
-    cu = _request_ctx_stack.top.current_user
-    editor_id = cu['sub']
-    user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
     audit_entry = AuditLog(file_id, user_full_name, "extract")
     current_app.config['audit_log_repo'].insert(audit_entry)
     # audit log complete 

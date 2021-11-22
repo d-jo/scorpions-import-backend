@@ -42,7 +42,8 @@ class Report(BaseModel):
     'last_accreditation_review',
     'slos_meet_standards',
     'stakeholder_involvement',
-    'additional_information'
+    'additional_information',
+    'creator_id'
   ]
   def __init__(self):
     self.id = ""
@@ -62,6 +63,7 @@ class Report(BaseModel):
     self.slos_meet_standards = ""
     self.stakeholder_involvement = ""
     self.additional_information = ""
+    self.creator_id = ""
     pass
 
 
