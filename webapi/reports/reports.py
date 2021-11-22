@@ -14,7 +14,6 @@ from auth.auth import requires_auth, get_token_auth_header
 
 reports_bp = Blueprint("reports_bp", __name__)
 
-
 @reports_bp.route('/extract_data', methods=['POST'])
 @requires_auth
 def extract_data():
