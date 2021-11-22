@@ -65,18 +65,18 @@ def get_files():
 
   if is_aac:
     with current_app.config['db'] as (conn, cur):
-      cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=FALSE AND valid=TRUE")
+      cur.execute("SELECT id, program, academic_year FROM report WHERE has_been_reviewed=FALSE AND valid=TRUE")
       conn.commit()
       to_be_reviewed = cur.fetchall()
-      cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=TRUE AND valid=TRUE")
+      cur.execute("SELECT id, program, academic_year FROM report WHERE has_been_reviewed=TRUE AND valid=TRUE")
       conn.commit()
       complete = cur.fetchall()
   else:
     with current_app.config['db'] as (conn, cur):
-      cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=FALSE AND creator_id=%(creator_id)s AND valid=TRUE", {"creator_id": asker})
+      cur.execute("SELECT id, program, academic_year FROM report WHERE has_been_reviewed=FALSE AND creator_id=%(creator_id)s AND valid=TRUE", {"creator_id": asker})
       conn.commit()
       to_be_reviewed = cur.fetchall()
-      cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=TRUE AND creator_id=%(creator_id)s AND valid=TRUE", {"creator_id": asker})
+      cur.execute("SELECT id, program, academic_year FROM report WHERE has_been_reviewed=TRUE AND creator_id=%(creator_id)s AND valid=TRUE", {"creator_id": asker})
       conn.commit()
       complete = cur.fetchall()
 
