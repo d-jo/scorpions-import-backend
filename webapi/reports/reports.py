@@ -82,6 +82,16 @@ def retrieve_slo_data(obj):
 @reports_bp.route('/<string:id>', methods=['GET', 'POST', 'DELETE'])
 @requires_auth
 def handle_report(id):
+  
+  editor_id = _request_ctx_stack.top.current_user['sub']
+
+  is_aac = current_app.config['auth0_web_api'].user_has_role(editor_id, "aac", "impossible_role_id")
+
+  if not is_aac:
+    if not current_app.config['report_repo'].has_access_to_report(id, editor_id):
+      # no access
+      return {"status": "error", "message": "You do not have access to this report"}
+
   report = current_app.config['report_repo'].select_by_id(id)
   # GET a specific report by id
   if request.method == 'GET':
@@ -90,7 +100,6 @@ def handle_report(id):
     all_slos = current_app.config['slo_repo'].select_by_report_id(id)
     for s in all_slos:
       slo_obj = s.to_dict()
-      # TODO get other things
       # get measures
       measures = current_app.config['measure_repo'].select_by_slo_id(s.id)
       slo_obj['measures'] = [x.to_dict() for x in measures]
@@ -113,7 +122,44 @@ def handle_report(id):
   elif request.method == 'POST':
     # UPDATE a data by id
     data = request.json
-    # TODO
+
+    # report
+    new_rep = Report()
+    new_rep.init_from_dict(data)
+
+    for s in data['slos']:
+      # slo
+      new_slo = SLO()
+      new_slo.init_from_dict(s)
+      current_app.config['slo_repo'].update(new_slo)
+
+      # measures
+      for m in s['measures']:
+        new_measure = Measure()
+        new_measure.init_from_dict(m)
+        current_app.config['measure_repo'].update(new_measure)
+      
+      for da in s['decision_actions']:
+        new_da = DecisionsAction()
+        new_da.init_from_dict(da)
+        current_app.config['decisions_actions_repo'].update(new_da)
+      
+      for ca in s['collection_analyses']:
+        new_ca = CollectionAnalysis()
+        new_ca.init_from_dict(ca)
+        current_app.config['collection_analysis_repo'].update(new_ca)
+
+      for m in s['methods']:
+        new_method = Methods()
+        new_method.init_from_dict(m)
+        current_app.config['methods_repo'].update(new_method)
+      
+      for ada in s['accredited_data_analyses']:
+        new_ada = AccreditedDataAnalysis()
+        new_ada.init_from_dict(ada)
+        current_app.config['accredited_data_analysis_repo'].update(new_ada)
+      
+    current_app.config['report_repo'].update(new_rep)
 
     # add entry in audit log
     cu = _request_ctx_stack.top.current_user
@@ -121,9 +167,10 @@ def handle_report(id):
     # audit log entry creation
     editor_id = cu['sub']
     user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
-    audit_entry = AuditLog(id, user_full_name, "edit")
+    audit_entry = AuditLog(id, user_full_name, "update")
     current_app.config['audit_log_repo'].insert(audit_entry)
     # audit log complete 
+    return {"status": "success", "message": "report updated"}
   elif request.method == 'DELETE':
     # DELETE a data    
     current_app.config['report_repo'].remove_report(id)
