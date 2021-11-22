@@ -162,3 +162,13 @@ CREATE TABLE AccreditedDataAnalysis (
   PRIMARY KEY (id),
   FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
+
+CREATE TABLE AuditLog (
+  audit_id SERIAL NOT NULL,
+  report_id INT NOT NULL,
+  editor_name VARCHAR(255) NOT NULL,
+  timestamp BIGINT NOT NULL,
+  action VARCHAR(255) NOT NULL,
+  PRIMARY KEY (audit_id),
+  FOREIGN KEY (report_id) REFERENCES Report(id) ON DELETE CASCADE
+)

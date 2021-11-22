@@ -8,6 +8,8 @@ import files.document_processing as processor
 from models.model import *
 from auth.auth import requires_auth
 from database.driver import db_init
+from auth.auth import requires_auth, get_token_auth_header
+
 # from webapi.files import document_processing
 
 reports_bp = Blueprint("reports_bp", __name__)
@@ -30,6 +32,30 @@ def trigger_process_files():
 @requires_auth
 def edit_report(file_id):
   print(request.form)
+  # add entry in audit log
+  cu = _request_ctx_stack.top.current_user
+
+  # audit log entry creation
+  editor_id = cu['sub']
+  user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
+  audit_entry = AuditLog(file_id, user_full_name, "edit")
+  current_app.config['audit_log_repo'].insert(audit_entry)
+  # audit log complete 
+  return { "message":"{} edited".format(file_id)  }
+
+@reports_bp.route('/<file_id>/delete', methods=['DELETE'])
+@requires_auth
+def delete_report(file_id):
+  print(request.form)
+  # add entry in audit log
+  cu = _request_ctx_stack.top.current_user
+
+  # audit log entry creation
+  editor_id = cu['sub']
+  user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
+  audit_entry = AuditLog(file_id, user_full_name, "delete")
+  current_app.config['audit_log_repo'].insert(audit_entry)
+  # audit log complete 
   return { "message":"{} edited".format(file_id)  }
 
 @reports_bp.route('/extract_data', methods=['POST'])
@@ -43,16 +69,26 @@ def extract_data():
   for filename in request.json:
     filepath = os.path.join(current_app.config['UPLOAD_FOLDER']) + "/" +filename
     rep_slo = processor.process_report(filepath)
-    send_to_db(rep_slo, "acc" if 'accredited' in filename else "non")
+    file_id = send_to_db(rep_slo, "acc" if 'accredited' in filename else "non")
+    # audit log entry creation
+    cu = _request_ctx_stack.top.current_user
+    editor_id = cu['sub']
+    user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
+    audit_entry = AuditLog(file_id, user_full_name, "extract")
+    current_app.config['audit_log_repo'].insert(audit_entry)
+    # audit log complete 
     results.append(rep_slo)
+
   docs = [] 
   slos = []
   for r in results:
     docs.append(retrieve_report_data(r))
     slos.append(retrieve_slo_data(r))
+
+
   return { "reports": docs, "slos": slos }
 
-def send_to_db(obj: any, reportType: str) -> None:
+def send_to_db(obj: any, reportType: str) -> int:
   rep = obj[0]
   slo_list = obj[1]
   # insert report
@@ -60,16 +96,7 @@ def send_to_db(obj: any, reportType: str) -> None:
   for slo in slo_list:
     slo.report_id = report_id
     current_app.config['slo_repo'].insert(slo)
-    
-  #for item in obj:
-  #  if isinstance(item, list):
-  #    send_to_db(item)
-  #  if isinstance(item, Report):
-  #    print("calling report insert")
-  #    current_app.config['report_repo'].insert(item, "non")
-  #  if isinstance(item, SLO):
-  #    print("calling insert")
-  #    current_app.config['slo_repo'].insert(item)
+  return report_id
 
 def retrieve_report_data(obj):
   data = []
@@ -92,7 +119,7 @@ def retrieve_slo_data(obj):
   return data
 
 @reports_bp.route('/<string:id>', methods=['GET', 'POST', 'DELETE'])
-#@requires_auth
+@requires_auth
 def handle_report(id):
   report = current_app.config['report_repo'].select_by_id(id)
   # GET a specific report by id
