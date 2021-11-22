@@ -57,10 +57,10 @@ def get_files():
   to_be_reviewed = None
   complete = None
   with current_app.config['db'] as (conn, cur):
-    cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=FALSE")
+    cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=FALSE AND valid=TRUE")
     conn.commit()
     to_be_reviewed = cur.fetchall()
-    cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=TRUE")
+    cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=TRUE AND valid=TRUE")
     conn.commit()
     complete = cur.fetchall()
 
