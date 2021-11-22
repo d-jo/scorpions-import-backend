@@ -99,6 +99,7 @@ CREATE TABLE Report (
   slos_meet_standards VARCHAR(255),
   stakeholder_involvement TEXT,
   additional_information TEXT,
+  creator_id VARCHAR(255) NOT NULL,
   PRIMARY KEY (id)
 );
 
