@@ -108,6 +108,16 @@ class ReportRepo(Repository):
      q = "SELECT title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information, has_been_reviewed FROM report WHERE id = %(id)s"     
     return self.named_query(q, {'id': id}, Report)[0]
   
+  def update_report(self, id: int) ->Report:
+      q="UPDATE report SET title = %(title)s, author=%(author)s, created = %(created)s, college=%(college)s, department= %(department)s, program =%(program)s, degree_level= %(degree_level)s, academic_year = %(academic_year)s, date_range=%(date_range)s, accreditation_body= %(accreditation_body)s, last_accreditation_review= %(last_accreditation_review)s, additional_information=%(additional_information)s, has_been_reviewed=%(has_been_reviewed)s WHERE id = %(id)s"  
+    if type.startswith('non'):
+      q="UPDATE report SET title = %(title)s, author=%(author)s, created = %(created)s, college=%(college)s, department= %(department)s, program =%(program)s, degree_level= %(degree_level)s, academic_year = %(academic_year)s, date_range=%(date_range)s, accreditation_body= %(accreditation_body)s, slos_meet_standards= %(slos_meet_standards)s, stakeholder_involvement=%(stakeholder_involvement)s, additional_information=%(additional_information)s WHERE id = %(id)s" 
+    return self.named_query(q, {'id': id}, Report)[0]
+  
+  def remove_report(self, id: int) ->Report:      
+   q="DELETE FROM report WHERE id = %(id)s"
+     return self.named_query(q, {'id': id}, Report)[0]
+ 
 def NewReportRepo(driver: AACDatabaseDriver) -> ReportRepo:
   return ReportRepo(driver)
   
@@ -127,7 +137,7 @@ class SLORepo(Repository):
     """
     Selects a slo from the database by its id.
     """
-    q = "SELECT * FROM slo WHERE report_id = %(id)s"
+    q = "SELECT description, bloom, common_graduate_program_slo FROM slo WHERE report_id = %(id)s"
     return self.named_query(q, {'id': id}, SLO)[0]
      
 def NewSLORepo(driver: AACDatabaseDriver) -> SLORepo:
@@ -145,7 +155,7 @@ class MeasureRepo(Repository):
     q = "INSERT INTO measure (slo_id, title, description, domain, type, point_in_program, population_measured, frequency_of_collection, proficency_threshold, proficiency_target) VALUES (%(slo_id)s, %(title)s, %(description)s, %(domain)s, %(type)s, %(point_in_program)s, %(population_measured)s, %(frequency_of_collection)s, %(proficency_threshold)s, %(proficiency_target)s)"
     self.named_exec(q, measure.to_dict())
     
-def get_measure_by_slo_id(self, id: int) ->Measure:
+  def get_measure_by_slo_id(self, id: int) -> Measure:
     """
     Selects a measure from the database by id.
     """
@@ -196,7 +206,6 @@ def get_collectionAnalysis_by_slo_id(self, id: int) ->CollectionAnalysis:
     q = "SELECT * FROM collectionAnalysis WHERE slo_id = %(id)s"
     return self.named_query(q, {'id': id}, CollectionAnalysis)[0]
     
-
 def NewCollectionAnalysisRepo(driver: AACDatabaseDriver) -> MeasureRepo:
   return CollectionAnalysisRepo(driver)
 
@@ -243,7 +252,6 @@ class AccreditedDataAnalysisRepo(Repository):
   
 def NewAccreditedDataAnalysisRepo(driver: AACDatabaseDriver) -> AccreditedDataAnalysisRepo:
   return AccreditedDataAnalysisRepo(driver)
-
 
 
 #db = _get_connection("aac_full", "aac_password", "localhost", "aac_db")

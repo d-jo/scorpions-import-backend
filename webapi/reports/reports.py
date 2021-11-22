@@ -2,12 +2,13 @@ from docx.api import Document
 from flask import Blueprint, current_app
 import os, glob
 from typing import Callable, AnyStr, List, Dict
-from flask import Flask, flash, request, redirect, url_for, _request_ctx_stack
+from flask import Flask, flash, request, redirect, url_for, _request_ctx_stack,jsonify
 from werkzeug.utils import secure_filename
 import files.document_processing as processor
 from models.model import *
 from auth.auth import requires_auth
-
+from database.repo import get_report_by_id,update_report,remove_report
+from database.driver import db_init
 # from webapi.files import document_processing
 
 reports_bp = Blueprint("reports_bp", __name__)
@@ -60,6 +61,7 @@ def send_to_db(obj: any, reportType: str) -> None:
   for slo in slo_list:
     slo.report_id = report_id
     current_app.config['slo_repo'].insert(slo)
+    
   #for item in obj:
   #  if isinstance(item, list):
   #    send_to_db(item)
@@ -89,3 +91,60 @@ def retrieve_slo_data(obj):
       #print(item.description)
       data.append(item.to_dict())
   return data
+
+@reports_bp.route('/report/<string:id>', methods=['GET', 'PUT', 'DELETE'])
+@requires_auth
+def handle_report(id):
+    dataJson = []
+    response_report =[]
+    report = get_report_by_id(id)
+# GET a specific report by id
+    if request.method == 'GET':
+        response_report = {
+          "title": report.title,
+          "author": report.author,
+          "created": report.created,
+          "has_been_reviwed": report.has_been_reviwed,
+          "college": report.college,
+          "department": report.department,
+          "program": report.program,
+          "date_range": report.date_range,
+          "degree_level": report.degree_level,
+          "academic_year": report.academic_year,
+          "accreditation_body": report.accreditation_bodyel,
+          "last_accreditation_review": report.last_accreditation_review,
+          "slos_meet_standards": report.slos_meet_standards,
+          "stakeholder_involvement": report.stakeholder_involvement,
+          "additional_information": report.additional_information
+        }
+      dataJson.append(response_report)
+      slos= get_slos_by_report_id(id)
+      for i in range(len(slos)):
+             print(str(slos[i]).split('/'))
+            respons_slos = {
+                'description': str(slos[i]).split('/')[0],
+                'bloom': str(slos[i]).split('/')[1],
+                'common_graduate-program_slo': str(slos[i]).split('/')[2]
+            } 
+       dataJson.append(response_slos)
+     return jsonify(dataJson)   
+        
+ # UPDATE a data by id
+    elif request.method == 'PUT':
+        data = request.json
+        editData = update_report(id)
+        editData.title=data['title']
+        
+        editData.academic_year = data['academic_year']
+        editData.accreditation_body = data['accreditation_body']
+        editData.additional_information = data['additional_information']
+        db_init().session.add(report)
+        db_init().session.commit()
+        return jsonify({'status': 'Data '+id+' is updated from Database'})    
+       
+  # DELETE a data    
+    elif request.method == 'DELETE':
+        del_report= remove_report(id) 
+        db_init().session.delete(del_report)
+        db_init().session.commit()
+        return jsonify({'status': 'Report'+id+' is deleted from Database'})
