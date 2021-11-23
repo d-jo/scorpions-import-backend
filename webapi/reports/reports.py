@@ -47,7 +47,7 @@ def extract_data():
     measures.append(retrieve_measure_data(r))
     analysis.append(retrieve_analysis_data(r))
     decisions.append(retrieve_decisions_data(r))
-    send_to_db(r)
+    # send_to_db(r)
   return { 
     "reports": docs, "slos": slos, 
     "measures": measures, "analysis": analysis, 
