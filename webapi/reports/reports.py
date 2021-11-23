@@ -156,6 +156,7 @@ def handle_report(id):
     # report
     new_rep = Report()
     new_rep.init_from_dict(data)
+    new_rep.has_been_reviewed = True
 
     for s in data['slos']:
       # slo
