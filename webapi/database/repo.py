@@ -99,6 +99,17 @@ class ReportRepo(Repository):
     res = self.named_exec(q, doc.to_dict(), return_result=True)
     return res[0][0]
   
+  def has_access_to_report(self, report_id: str, user_id: str) -> bool:
+    """
+    Returns true if the user has access to the report.
+    """
+    q = "SELECT * FROM report WHERE id = %(id)s AND creator_id = %(user_id)s AND valid=TRUE"
+    with self.driver as (conn, cur):
+      cur.execute(q, {'id': report_id, 'user_id': user_id})
+      return cur.fetchone() is not None
+
+    
+  
   def get_report_by_id(self, id: int) ->Report:
     """
     Selects a report from the database by id.
@@ -108,11 +119,9 @@ class ReportRepo(Repository):
      q = "SELECT title, author, created, college, department, program, degree_level, academic_year, date_range, slos_meet_standards, stakeholder_involvement, additional_information, has_been_reviewed FROM report WHERE id = %(id)s AND valid=TRUE"     
     return self.named_query(q, {'id': id}, Report)[0]
   
-  def update_report(self, id: int) ->Report:
-    q="UPDATE report SET title = %(title)s, author=%(author)s, created = %(created)s, college=%(college)s, department= %(department)s, program =%(program)s, degree_level= %(degree_level)s, academic_year = %(academic_year)s, date_range=%(date_range)s, accreditation_body= %(accreditation_body)s, last_accreditation_review= %(last_accreditation_review)s, additional_information=%(additional_information)s, has_been_reviewed=%(has_been_reviewed)s WHERE id = %(id)s"  
-    if type.startswith('non'):
-      q="UPDATE report SET title = %(title)s, author=%(author)s, created = %(created)s, college=%(college)s, department= %(department)s, program =%(program)s, degree_level= %(degree_level)s, academic_year = %(academic_year)s, date_range=%(date_range)s, accreditation_body= %(accreditation_body)s, slos_meet_standards= %(slos_meet_standards)s, stakeholder_involvement=%(stakeholder_involvement)s, additional_information=%(additional_information)s WHERE id = %(id)s" 
-    return self.named_exec(q, {'id': id})[0]
+  def update(self, report: Report) -> None:
+    q="UPDATE report SET title=%(title)s, author=%(author)s, created=%(created)s, college=%(college)s, department= %(department)s, program =%(program)s, degree_level= %(degree_level)s, academic_year = %(academic_year)s, date_range=%(date_range)s, accreditation_body= %(accreditation_body)s, last_accreditation_review= %(last_accreditation_review)s, additional_information=%(additional_information)s, has_been_reviewed=%(has_been_reviewed)s WHERE id = %(id)s"  
+    return self.named_exec(q, report.to_dict())
   
   def remove_report(self, id: int):      
     q = "UPDATE report SET valid=FALSE WHERE id=%(id)s"
@@ -139,6 +148,11 @@ class SLORepo(Repository):
     """
     q = "SELECT * FROM slo WHERE report_id = %(id)s"
     return self.named_query(q, {'id': id}, SLO)
+  
+  def update(self, s: SLO) -> None:
+    q = "UPDATE slo SET description=%(description)s, bloom=%(bloom)s, common_graduate_program_slo=%(common_graduate_program_slo)s WHERE id=%(id)s"
+    return self.named_exec(q, s.to_dict())
+
      
 def NewSLORepo(driver: AACDatabaseDriver) -> SLORepo:
   return SLORepo(driver)
@@ -162,6 +176,10 @@ class MeasureRepo(Repository):
     q = "SELECT * FROM measure WHERE slo_id = %(id)s"
     return self.named_query(q, {'id': id}, Measure)
   
+  def update(self, m: Measure) -> None:
+    q = "UPDATE measure SET title=%(title)s, description=%(description)s, domain=%(domain)s, type=%(type)s, point_in_program=%(point_in_program)s, population_measured=%(population_measured)s, frequency_of_collection=%(frequency_of_collection)s, proficency_threshold=%(proficency_threshold)s, proficiency_target=%(proficiency_target)s WHERE id=%(id)s"
+    return self.named_exec(q, m.to_dict())
+  
 def NewMeasureRepo(driver: AACDatabaseDriver) -> MeasureRepo:
   return MeasureRepo(driver)
 
@@ -178,11 +196,15 @@ class DecisionsActionsRepo(Repository):
     self.named_exec(q, decisions_actions.to_dict())
     
   def select_by_slo_id(self, id: int) -> list:
-      """
-      Selects a decisionsAction from the database by id.
-      """
-      q = "SELECT * FROM decisionsactions WHERE slo_id = %(id)s"
-      return self.named_query(q, {'id': id}, DecisionsAction)
+    """
+    Selects a decisionsAction from the database by id.
+    """
+    q = "SELECT * FROM decisionsactions WHERE slo_id = %(id)s"
+    return self.named_query(q, {'id': id}, DecisionsAction)
+  
+  def update(self, d: DecisionsAction) -> None:
+    q = "UPDATE decisionsactions SET content=%(content)s WHERE id=%(id)s"
+    return self.named_exec(q, d.to_dict())
 
 def NewDecisionsActionsRepo(driver: AACDatabaseDriver) -> MeasureRepo:
   return DecisionsActionsRepo(driver)
@@ -205,7 +227,11 @@ class CollectionAnalysisRepo(Repository):
     """
     q = "SELECT * FROM collectionAnalysis WHERE slo_id = %(id)s"
     return self.named_query(q, {'id': id}, CollectionAnalysis)
-    
+  
+  def update(self, c: CollectionAnalysis) -> None:
+    q = "UPDATE collectionanalysis SET data_collection_date_range=%(data_collection_date_range)s, number_of_students_assessed=%(number_of_students_assessed)s, percentage_who_met_or_exceeded=%(percentage_who_met_or_exceeded)s WHERE id=%(id)s"
+    return self.named_exec(q, c.to_dict())
+
 def NewCollectionAnalysisRepo(driver: AACDatabaseDriver) -> MeasureRepo:
   return CollectionAnalysisRepo(driver)
 
@@ -228,6 +254,10 @@ class MethodsRepo(Repository):
     q = "SELECT * FROM methods WHERE slo_id = %(id)s"
     return self.named_query(q, {'id': id}, Methods)
   
+  def update(self, m: Methods) -> None:
+    q = "UPDATE methods SET measure=%(measure)s, domain=%(domain)s, data_collection=%(data_collection)s WHERE id=%(id)s"
+    return self.named_exec(q, m.to_dict())
+
 def NewMethodsRepo(driver: AACDatabaseDriver) -> MethodsRepo:
   return MethodsRepo(driver)
 
@@ -249,6 +279,10 @@ class AccreditedDataAnalysisRepo(Repository):
     """
     q = "SELECT * FROM accrediteddataanalysis WHERE slo_id = %(id)s"
     return self.named_query(q, {'id': id}, AccreditedDataAnalysis)
+  
+  def update(self, a: AccreditedDataAnalysis) -> None:
+    q = "UPDATE accrediteddataanalysis SET status=%(status)s WHERE id=%(id)s"
+    return self.named_exec(q, a.to_dict())
   
 def NewAccreditedDataAnalysisRepo(driver: AACDatabaseDriver) -> AccreditedDataAnalysisRepo:
   return AccreditedDataAnalysisRepo(driver)

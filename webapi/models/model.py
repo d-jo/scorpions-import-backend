@@ -15,7 +15,8 @@ class BaseModel:
   """
   def init_from_dict(self, d):
     for k, v in d.items():
-      setattr(self, k, v)
+      if k in self.__slots__:
+        setattr(self, k, v)
   
   def to_dict(self):
     d = {}
@@ -184,3 +185,4 @@ class AuditLog(BaseModel):
     self.timestamp = int(time.time())
     self.action = action
     
+# %%
