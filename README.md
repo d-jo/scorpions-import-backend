@@ -3,12 +3,21 @@
 
 `./webapi` - Root folder of our API                         
 
-`./webapi/files` - Contains blueprints for uploading and saving files
-
-`./webapi/reports` - Contains blueprints for viewing and managing reports
+`./webapi/auth` - Auth0 Authentication helpers for enabling authentication
 
 `./webapi/database` - Contains database driver and helper functions
 
+`./webapi/files` - Contains blueprints for uploading and saving files
+
+`./webapi/models` - Contains data models and funcitons to manage them
+
+`./webapi/reports` - Contains blueprints for viewing and managing reports
+
+`./webapi/statistics` - Stub endpoints, may be used if we get to analytics
+
+`./webapi/tests` - Contains unit tests
+
+`./webapi/users` - Admin endpoints for managing users and roles
 
 
 # Executing the code
@@ -65,3 +74,13 @@ Required `creds.json` keys:
 - Added database driver and general functions for interacting with the database
 - Added ability to send extracted files to database
 - Added endpoint tests to verify http response code
+
+# 2021-11-23 Release
+
+- Added CRUD endpoints 
+- Added Admin endpoints
+- Added AuditLog functionality (entries created on CRUD operations)
+- Updated report schema to support scoped report access for needs review/done reports
+- Added roles and authentication (possible roles: aac (admin) and instructor)
+- Added Auth0 management API functionality
+- Improved report parsing (not hooked up to endpoint yet, will be in MS5)

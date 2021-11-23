@@ -7,6 +7,17 @@ users_bp = Blueprint("users_bp", __name__)
 @users_bp.route('/all_users', methods=['GET'])
 @requires_auth
 def all_users():
+  """
+  Endpoint: /users/all_users
+  Method: GET
+  Description: Returns all users from the auth0 service.
+  format:
+  {
+    "status": "success/error",
+    "users": [{},{}...]
+  }
+
+  """
   cu = _request_ctx_stack.top.current_user
   editor_id = str(cu['sub'])
 
@@ -24,6 +35,25 @@ def all_users():
 @users_bp.route('/add_role', methods=['POST'])
 @requires_auth
 def add_role():
+  """
+  Endpoint: /users/add_role
+  Method: POST
+  Description: Adds a role to a user. Sender must be an AAC
+  and the role id must exist (check config.json for roles 
+  or check auth0 and get the role ID)
+
+  Request format:
+  {
+    "uid": "target user_id",
+    "desired_role_id": "role_id for their new role"
+  }
+
+  Response format:
+  {
+    "status": "success/error",
+    "message": "message"
+  }
+  """
   req_json = request.json
   if "uid" not in req_json:
     return {"status": "error", "message": "uid not found in request"}
@@ -56,6 +86,25 @@ def add_role():
 @users_bp.route('/remove_role', methods=['POST'])
 @requires_auth
 def remove_role():
+  """
+  Endpoint: /users/remove_role
+  Method: POST
+  Description: Removes a role from a user. Sender must be an AAC
+  and the role id must exist (check config.json for roles
+  or check auth0 and get the role ID)
+
+  Request format:
+  {
+    "uid": "target user_id",
+    "desired_role_id": "role_id for the role to delete"
+  }
+
+  Response format:
+  {
+    "status": "success/error",
+    "message": "message"
+  }
+  """
   req_json = request.json
   if "uid" not in req_json:
     return {"status": "error", "message": "uid not found in request"}
@@ -87,6 +136,20 @@ def remove_role():
 @users_bp.route('/user_info', methods=['POST'])
 @requires_auth
 def user_info():
+  """
+  Endpoint: /users/user_info
+  Method: POST
+  Description: Returns a user's info. Sender must be an AAC.
+
+  Request format:
+  { "uid": "target user_id" }
+
+  Response format:
+  {
+    "status": "success/error",
+    "user_info": {}
+  }
+  """
   req_json = request.json
 
   if "uid" not in req_json:
