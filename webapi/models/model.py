@@ -15,7 +15,8 @@ class BaseModel:
   """
   def init_from_dict(self, d):
     for k, v in d.items():
-      setattr(self, k, v)
+      if k in self.__slots__:
+        setattr(self, k, v)
   
   def to_dict(self):
     d = {}
@@ -28,8 +29,10 @@ class Report(BaseModel):
   __slots__ = [
     'id',
     'title',
+    'valid',
     'author',
     'created',
+    'has_been_reviewed',
     'college',
     'department',
     'program',
@@ -40,13 +43,16 @@ class Report(BaseModel):
     'last_accreditation_review',
     'slos_meet_standards',
     'stakeholder_involvement',
-    'additional_information'
+    'additional_information',
+    'creator_id'
   ]
   def __init__(self):
     self.id = ""
     self.title = ""
+    self.valid = True
     self.author = ""
     self.created = ""
+    self.has_been_reviewed = False
     self.college = ""
     self.department = ""
     self.program = ""
@@ -58,18 +64,21 @@ class Report(BaseModel):
     self.slos_meet_standards = ""
     self.stakeholder_involvement = ""
     self.additional_information = ""
+    self.creator_id = ""
     pass
 
 
 class SLO(BaseModel):
   __slots__ = [
     'id',
+    'report_id',
     'description',
     'bloom',
     'common_graduate_program_slo'
   ]
   def __init__(self):
     self.id = ""
+    self.report_id = 0
     self.description = ""
     self.bloom = ""
     self.common_graduate_program_slo = ""
@@ -158,3 +167,22 @@ class AccreditedDataAnalysis(BaseModel):
     self.slo_id = ""
     self.status = ""
     pass
+
+import time
+
+class AuditLog(BaseModel):
+  __slots__ = [
+    'audit_id',
+    'report_id',
+    'editor_name',
+    'timestamp',
+    'action',
+  ]
+  def __init__(self, report_id, editor_name, action):
+    self.audit_id = 0
+    self.report_id = report_id
+    self.editor_name = editor_name
+    self.timestamp = int(time.time())
+    self.action = action
+    
+# %%

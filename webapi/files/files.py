@@ -1,6 +1,7 @@
 from flask import Blueprint, current_app
 import os, glob
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, flash, request, redirect, url_for, _request_ctx_stack
+from flask_cors import cross_origin
 from werkzeug.utils import secure_filename
 from auth.auth import requires_auth
 
@@ -19,6 +20,8 @@ def is_allowed_ext(filename):
   return allowed
 
 @files_bp.route('/', methods=['GET', 'POST'])
+#@cross_origin(headers=["Content-Type", "Authorization"])
+#@cross_origin(headers=["Access-Control-Allow-Origin", "*"])
 @requires_auth
 def upload_file():
   print('Recieved request: ' + request.method)
@@ -51,10 +54,36 @@ def upload_file():
 @requires_auth
 def get_files():
   file_list = os.listdir(current_app.config['UPLOAD_FOLDER'])
+
+  cu = _request_ctx_stack.top.current_user
+  asker = cu['sub']
+
+  is_aac = current_app.config['auth0_web_api'].user_has_role(asker, "aac", "impossible_role_id")
+
+  to_be_reviewed = None
+  complete = None
+
+  if is_aac:
+    with current_app.config['db'] as (conn, cur):
+      cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=FALSE AND valid=TRUE")
+      conn.commit()
+      to_be_reviewed = cur.fetchall()
+      cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=TRUE AND valid=TRUE")
+      conn.commit()
+      complete = cur.fetchall()
+  else:
+    with current_app.config['db'] as (conn, cur):
+      cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=FALSE AND creator_id=%(creator_id)s AND valid=TRUE", {"creator_id": asker})
+      conn.commit()
+      to_be_reviewed = cur.fetchall()
+      cur.execute("SELECT program, academic_year FROM report WHERE has_been_reviewed=TRUE AND creator_id=%(creator_id)s AND valid=TRUE", {"creator_id": asker})
+      conn.commit()
+      complete = cur.fetchall()
+
   return {
             "uploaded":file_list,
-            "review": [ "mockReview.docx" ],  # TODO call database to get files in the future
-            "done": [ "mockDone.docx" ]
+            "review": to_be_reviewed,
+            "done": complete,
         }
 
 

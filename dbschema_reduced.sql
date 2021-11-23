@@ -81,11 +81,13 @@
 
 */
 
-CREATE TABLE Document (
+CREATE TABLE Report (
   id SERIAL NOT NULL,
+  valid BOOLEAN NOT NULL,
   title VARCHAR(255) NOT NULL,
   author VARCHAR(255) NOT NULL,
   created INT NOT NULL,
+  has_been_reviewed BOOLEAN NOT NULL,
   college VARCHAR(255) NOT NULL,
   department VARCHAR(255) NOT NULL,
   program VARCHAR(255) NOT NULL,
@@ -97,15 +99,18 @@ CREATE TABLE Document (
   slos_meet_standards VARCHAR(255),
   stakeholder_involvement TEXT,
   additional_information TEXT,
+  creator_id VARCHAR(255) NOT NULL,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE SLO (
   id SERIAL NOT NULL,
+  report_id INT NOT NULL,
   description TEXT NOT NULL,
   bloom VARCHAR(255) NOT NULL,
   common_graduate_program_slo VARCHAR(255),
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  FOREIGN KEY (report_id) REFERENCES Report(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Measure (
@@ -121,7 +126,7 @@ CREATE TABLE Measure (
   proficiency_threshold VARCHAR(255) NOT NULL,
   proficiency_target VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
 
 CREATE TABLE DecisionsActions (
@@ -129,7 +134,7 @@ CREATE TABLE DecisionsActions (
   slo_id INT NOT NULL,
   content TEXT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
 
 CREATE TABLE CollectionAnalysis (
@@ -139,7 +144,7 @@ CREATE TABLE CollectionAnalysis (
   number_of_students_assessed INT NOT NULL,
   percentage_who_met_or_exceeded FLOAT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Methods (
@@ -149,7 +154,7 @@ CREATE TABLE Methods (
   domain VARCHAR(255) NOT NULL,
   data_collection TEXT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
 
 CREATE TABLE AccreditedDataAnalysis (
@@ -157,5 +162,15 @@ CREATE TABLE AccreditedDataAnalysis (
   slo_id INT NOT NULL,
   status VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (slo_id) REFERENCES SLO(id)
+  FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
+
+CREATE TABLE AuditLog (
+  audit_id SERIAL NOT NULL,
+  report_id INT NOT NULL,
+  editor_name VARCHAR(255) NOT NULL,
+  timestamp BIGINT NOT NULL,
+  action VARCHAR(255) NOT NULL,
+  PRIMARY KEY (audit_id),
+  FOREIGN KEY (report_id) REFERENCES Report(id) ON DELETE CASCADE
+)
