@@ -65,3 +65,13 @@ Required `creds.json` keys:
 - Added database driver and general functions for interacting with the database
 - Added ability to send extracted files to database
 - Added endpoint tests to verify http response code
+
+# 2021-11-23 Release
+
+- Added CRUD endpoints 
+- Added Admin endpoints
+- Added AuditLog functionality (entries created on CRUD operations)
+- Updated report schema to support scoped report access for needs review/done reports
+- Added roles and authentication (possible roles: aac (admin) and instructor)
+- Added Auth0 management API functionality
+- Improved report parsing (not hooked up to endpoint yet, will be in MS5)
