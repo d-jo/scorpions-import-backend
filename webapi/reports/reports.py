@@ -1,4 +1,3 @@
-from docx.api import Document
 from flask import Blueprint, current_app
 import os, glob
 from typing import Callable, AnyStr, List, Dict
@@ -10,14 +9,11 @@ from auth.auth import requires_auth
 from database.driver import db_init
 from auth.auth import requires_auth, get_token_auth_header
 
-# from webapi.files import document_processing
-
 reports_bp = Blueprint("reports_bp", __name__)
 
 @reports_bp.route('/extract_data', methods=['POST'])
 @requires_auth
 def extract_data():
-  #print("here")
   # for getting current user details
   # sub is current user id
   #print(_request_ctx_stack.top.current_user)
@@ -42,12 +38,21 @@ def extract_data():
 
   docs = [] 
   slos = []
+  measures = []
+  analysis = []
+  decisions = []
   for r in results:
     docs.append(retrieve_report_data(r))
     slos.append(retrieve_slo_data(r))
-
-
-  return { "reports": docs, "slos": slos }
+    measures.append(retrieve_measure_data(r))
+    analysis.append(retrieve_analysis_data(r))
+    decisions.append(retrieve_decisions_data(r))
+    send_to_db(r)
+  return { 
+    "reports": docs, "slos": slos, 
+    "measures": measures, "analysis": analysis, 
+    "decisions": decisions 
+  }
 
 def send_to_db(obj: any, reportType: str) -> int:
   rep = obj[0]
@@ -65,7 +70,6 @@ def retrieve_report_data(obj):
     if isinstance(item, list):
       data.append(retrieve_report_data(item))
     if isinstance(item, Report):
-      #print(item.department)
       data.append(item.to_dict())
   return data
 
@@ -75,7 +79,33 @@ def retrieve_slo_data(obj):
     if isinstance(item, list):
       data.append(retrieve_slo_data(item))
     if isinstance(item, SLO):
-      #print(item.description)
+      data.append(item.to_dict())
+  return data
+
+def retrieve_measure_data(obj):
+  data = []
+  for item in obj:
+    if isinstance(item, list):
+      data.append(retrieve_slo_data(item))
+    if isinstance(item, Measure):
+      data.append(item.to_dict())
+  return data
+
+def retrieve_analysis_data(obj):
+  data = []
+  for item in obj:
+    if isinstance(item, list):
+      data.append(retrieve_slo_data(item))
+    if isinstance(item, CollectionAnalysis):
+      data.append(item.to_dict())
+  return data
+  
+def retrieve_decisions_data(obj):
+  data = []
+  for item in obj:
+    if isinstance(item, list):
+      data.append(retrieve_slo_data(item))
+    if isinstance(item, DecisionsAction):
       data.append(item.to_dict())
   return data
 
