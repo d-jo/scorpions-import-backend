@@ -173,4 +173,4 @@ CREATE TABLE AuditLog (
   action VARCHAR(255) NOT NULL,
   PRIMARY KEY (audit_id),
   FOREIGN KEY (report_id) REFERENCES Report(id) ON DELETE CASCADE
-)
+);
