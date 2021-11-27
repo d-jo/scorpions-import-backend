@@ -175,5 +175,50 @@ def user_info():
   return {"status": "error", "message": "user info not found, status code: {}".format(status)}
 
 
+@users_bp.route('/get_user_roles', methods=['POST'])
+@requires_auth
+def user_roles():
+  """
+  Endpoint: /users/get_user_roles
+  Method: POST
+  Description: Returns a user's roles. Sender must be an AAC.
+
+  Request format:
+  { "uid": "target user_id" }
+
+  Response format:
+  {
+    "status": "success/error",
+    "user_info": {}
+  }
+  """
+  req_json = request.json
+
+  if "uid" not in req_json:
+    return {"status": "error", "message": "uid not found in request"}
+  
+  cu = _request_ctx_stack.top.current_user
+  editor_id = cu['sub']
+
+  # get the request sender role and check if aac
+  is_aac = current_app.config['auth0_web_api'].user_has_role(editor_id, "aac", "impossible_role_id")
+
+  if not is_aac:
+    return {"status": "error", "message": "Only AACs can view user info"}
+  
+  # add the users new role
+  target_uid = req_json["uid"]
+
+  status, result = current_app.config['auth0_web_api'].get_user_roles(target_uid)
+
+  if status == 200:
+    return {"status": "success", "user_roles": result}
+
+  return {"status": "error", "message": "user info not found, status code: {}".format(status)}
+
+
+
+
+
 
 
