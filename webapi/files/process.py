@@ -2,8 +2,6 @@ from . import document_processing
 from models.model import *
 
 files = ["./old/data/grad2018-regular.docx", "./old/data/undergrad2018-regular.docx", "./old/data/grad2019-regular.docx", "./old/data/undergrad2019-regular.docx"]
-# files = ["./old/data/grad2019-regular.docx"]
-# files = ["./old/data/undergrad2019-regular.docx"]
 
 for filename in files:
     print("================ " + filename + " ================")
@@ -32,6 +30,7 @@ for filename in files:
         for slom in measures:
             print("SLO " + str(pos) + " ASSESSMENTS")
             for m in slom:
+                print("SLO ID*****" + m['slo_id'] +"*****")
                 print("TITLE *****"+ m["title"] + "*****")
                 print("DESC *****"+ m["description"] + "*****")
                 print("DOMAIN *****"+ m["domain"] + "*****")
@@ -46,11 +45,13 @@ for filename in files:
         for analysis in anaysisList:
             print("SLO " + str(idx) + " ANALYSIS")
             for a in analysis:
+                print("SLO ID*****" + a.slo_id + "*****")
                 print("DATE RANGE *****" +a.data_collection_date_range + "*****")
                 print("# OF STUDENTS ASSESSED *****"+a.number_of_students_assessed+" *****")
                 print("% WHO MET OR EXCEEDED *****"+a.percentage_who_met_or_exceeded+" *****")
             idx += 1
         for d in decisions:
+            print("SLO ID*****" +d.slo_id + "*****")
             print("DECISIONS/ACTIONS *****" + d.content +"*****")
     else:
         print('report was none')

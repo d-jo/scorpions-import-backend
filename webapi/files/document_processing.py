@@ -108,6 +108,7 @@ def get_analysis_data(table):
                 analysisList[idx-1].append(analysis)
                 analysis = CollectionAnalysis()
             sloNum = num
+            analysis.slo_id = sloNum
         elif "%" in cell['cell']:
             analysis.percentage_who_met_or_exceeded = cell['cell']
         elif is_year(cell['cell']):
@@ -132,6 +133,7 @@ def get_decisions_data(table):
                 decisions.append(decision)
                 decision = DecisionsAction()
             sloNum = num
+            decision.slo_id = sloNum
         else:
             decision.content = cell['cell']
     decisions.append(decision)
@@ -171,6 +173,13 @@ def get_slo_data(table):
             if not has_duplicate(slos, slo):
                 slos.append(slo)
             slo = SLO()
+        sloNum = -1
+        if slo.id != "":
+            parts = slo.id.split("SLO")
+            if len(parts) > 1:
+                sloNum = int(parts[1].lstrip())
+        if sloNum == -1:
+            sloNum = max(0, len(slos) - 1)
         if not cells['checkboxes']:
             text = cells['cell']
             for c in text:
@@ -179,7 +188,7 @@ def get_slo_data(table):
                     if len(parts) > 1:
                         for p in parts:
                             result = get_first_word(p).strip()
-                            slos = slo_attr_match(result, slos)
+                            slos = slo_attr_match(result, slos, sloNum)
                     break
         elif cells['checkboxes']:
             pos = 0
@@ -188,7 +197,7 @@ def get_slo_data(table):
                     if child.tag.endswith("checked"):
                         if(int(re.search(r'\d+', child.values()[0]).group())):
                             word = get_word_at(pos, cells['cell'])
-                            slos = slo_attr_match(word, slos)
+                            slos = slo_attr_match(word, slos, sloNum)
                         pos += 1
     return slos
 
@@ -208,6 +217,9 @@ def get_table_cells(document):
     return tableCells
 
 def get_report_info(document):
+    """
+    
+    """
     report = Report()
     for paragraph in document.paragraphs:
         if paragraph.text == '':
@@ -320,24 +332,20 @@ def get_word_at(pos, text):
             words[-1] = words[-1] + c
     return words[pos]
 
-def slo_attr_match(word, slos):
+def slo_attr_match(word, slos, sloNum):
     """
     Match a word to an slo attribute for setting data
 
     param word: word to match to slo attribue
     param slo: slo to set data into
     """
+
     # rework this as taxonomy levels may not be all of these
+    # if the field is empty, first entry doesn't need a comma, else add a comma to separate
     if(word in ["Knowledge", "Analysis", "Comprehension","Synthesis","Application", "Evaluation"]):
-        for slo in slos:
-            if slo.bloom == "":
-                slo.bloom = word
-                break
+        slos[sloNum].bloom += word if slos[sloNum].bloom == "" else ", " + word  
     elif(word in ["1", "2", "3", "4", "Not applicable for SLO"]):
-        for slo in slos:
-            if slo.common_graduate_program_slo == "":
-                slo.common_graduate_program_slo = word
-                break
+        slos[sloNum].common_graduate_program_slo += word if slos[sloNum].common_graduate_program_slo == "" else ", " + word
     return slos
 
 def get_first_word(str):

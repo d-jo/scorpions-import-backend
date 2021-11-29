@@ -56,11 +56,31 @@ def extract_data():
 def send_to_db(obj: any, reportType: str) -> int:
   rep = obj[0]
   slo_list = obj[1]
+  measures_list = obj[2]
+  anaysis_list = obj[3]
+  decisions_list = obj[4]
+  slo_ids = []
+  
   # insert report
   report_id = current_app.config['report_repo'].insert(rep, reportType)
   for slo in slo_list:
     slo.report_id = report_id
-    current_app.config['slo_repo'].insert(slo)
+    slo_ids.append(current_app.config['slo_repo'].insert(slo))
+      # which slo a measure/analysis/decision is tied to stored in the slo_id field until the slo is added, 
+      # not all slos have a measure/analysis/decision and an slo may have more than one of each, 
+      # so incrementally going up will not work
+  for measures in measures_list:
+    for m in measures:
+      m['slo_id'] = slo_ids[max(0, int(m['slo_id'])-1)]
+      current_app.config['measure_repo'].insert(m)
+  for a in anaysis_list:
+    a.slo_id = slo_ids[max(0, int(a.slo_id)-1)]
+    current_app.config['collection_analysis_repo'].insert(a) 
+  for d in decisions_list:
+    d.slo_id = slo_ids[max(0, int(d.slo_id)-1)]
+    current_app.config['decisions_actions_repo'].insert(d)
+  # TODO ?
+  # current_app.config['methods_repo']
   return report_id
 
 def retrieve_report_data(obj):
