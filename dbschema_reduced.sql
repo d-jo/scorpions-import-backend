@@ -141,8 +141,8 @@ CREATE TABLE CollectionAnalysis (
   id SERIAL NOT NULL,
   slo_id INT NOT NULL,
   data_collection_date_range VARCHAR(255) NOT NULL,
-  number_of_students_assessed INT NOT NULL,
-  percentage_who_met_or_exceeded FLOAT NOT NULL,
+  number_of_students_assessed VARCHAR(255) NOT NULL,
+  percentage_who_met_or_exceeded VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );

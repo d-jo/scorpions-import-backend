@@ -69,14 +69,21 @@ def send_to_db(obj: any, reportType: str) -> int:
       # which slo a measure/analysis/decision is tied to stored in the slo_id field until the slo is added, 
       # not all slos have a measure/analysis/decision and an slo may have more than one of each, 
       # so incrementally going up will not work
+  print("SLO IDS")
+  print(slo_ids)
   for measures in measures_list:
     for m in measures:
-      m['slo_id'] = slo_ids[max(0, int(m['slo_id'])-1)]
+      print(type(m), m)
+      m.slo_id = slo_ids[max(0, int(m.slo_id)-1)]
       current_app.config['measure_repo'].insert(m)
-  for a in anaysis_list:
-    a.slo_id = slo_ids[max(0, int(a.slo_id)-1)]
-    current_app.config['collection_analysis_repo'].insert(a) 
+  for ac in anaysis_list:
+    for a in ac:
+      print(type(a), a)
+      a.slo_id = slo_ids[max(0, int(a.slo_id)-1)]
+      print(a.to_dict())
+      current_app.config['collection_analysis_repo'].insert(a) 
   for d in decisions_list:
+    print(type(d), d)
     d.slo_id = slo_ids[max(0, int(d.slo_id)-1)]
     current_app.config['decisions_actions_repo'].insert(d)
   # TODO ?

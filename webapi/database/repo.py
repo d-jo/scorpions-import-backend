@@ -139,8 +139,8 @@ class SLORepo(Repository):
     """
     Inserts a SLO into the database.
     """
-    q = "INSERT INTO slo (report_id, description, bloom) VALUES (%(report_id)s, %(description)s, %(bloom)s)"
-    self.named_exec(q, slo.to_dict(), return_result=False)
+    q = "INSERT INTO slo (report_id, description, bloom) VALUES (%(report_id)s, %(description)s, %(bloom)s) RETURNING id"
+    return self.named_exec(q, slo.to_dict(), return_result=True)[0][0]
   
   def select_by_report_id(self, id: int) -> list:
     """
@@ -166,7 +166,7 @@ class MeasureRepo(Repository):
     """
     Inserts a measure into the database.
     """
-    q = "INSERT INTO measure (slo_id, title, description, domain, type, point_in_program, population_measured, frequency_of_collection, proficency_threshold, proficiency_target) VALUES (%(slo_id)s, %(title)s, %(description)s, %(domain)s, %(type)s, %(point_in_program)s, %(population_measured)s, %(frequency_of_collection)s, %(proficency_threshold)s, %(proficiency_target)s)"
+    q = "INSERT INTO measure (slo_id, title, description, domain, type, point_in_program, population_measured, frequency_of_collection, proficiency_threshold, proficiency_target) VALUES (%(slo_id)s, %(title)s, %(description)s, %(domain)s, %(type)s, %(point_in_program)s, %(population_measured)s, %(frequency_of_collection)s, %(proficiency_threshold)s, %(proficiency_target)s)"
     self.named_exec(q, measure.to_dict())
     
   def select_by_slo_id(self, id: int) -> list:
@@ -177,7 +177,7 @@ class MeasureRepo(Repository):
     return self.named_query(q, {'id': id}, Measure)
   
   def update(self, m: Measure) -> None:
-    q = "UPDATE measure SET title=%(title)s, description=%(description)s, domain=%(domain)s, type=%(type)s, point_in_program=%(point_in_program)s, population_measured=%(population_measured)s, frequency_of_collection=%(frequency_of_collection)s, proficency_threshold=%(proficency_threshold)s, proficiency_target=%(proficiency_target)s WHERE id=%(id)s"
+    q = "UPDATE measure SET title=%(title)s, description=%(description)s, domain=%(domain)s, type=%(type)s, point_in_program=%(point_in_program)s, population_measured=%(population_measured)s, frequency_of_collection=%(frequency_of_collection)s, proficiency_threshold=%(proficiency_threshold)s, proficiency_target=%(proficiency_target)s WHERE id=%(id)s"
     return self.named_exec(q, m.to_dict())
   
 def NewMeasureRepo(driver: AACDatabaseDriver) -> MeasureRepo:

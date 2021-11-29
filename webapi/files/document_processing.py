@@ -51,7 +51,9 @@ def read_document(document):
                         idx = int(sloNum)
                         while len(measures) < idx:
                             measures.append([]) 
-                        measures[idx-1].append(measure)
+                        measureobj = Measure()
+                        measureobj.init_from_dict(measure)
+                        measures[idx-1].append(measureobj)
                         measure = Measure().to_dict()
                     sloNum = num
                     measure['slo_id'] = sloNum
@@ -69,7 +71,9 @@ def read_document(document):
             idx = int(sloNum)
             while len(measures) < idx:
                 measures.append([]) 
-            measures[idx-1].append(measure)
+            measureobj = Measure()
+            measureobj.init_from_dict(measure)
+            measures[idx-1].append(measureobj)
         # Analysis Data
         elif is_analysis(table):
             analysisList = get_analysis_data(table)
@@ -124,7 +128,7 @@ def get_analysis_data(table):
 def get_decisions_data(table):
     sloNum = ""
     decisions = []
-    decision = DecisionsAction
+    decision = DecisionsAction()
     for cell in table:
         # if we have a new SLO num, add it to the list and move to the next
         if re.match(re.compile('^SLO..$'), cell['cell']):
