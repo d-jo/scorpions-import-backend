@@ -311,6 +311,10 @@ class AuditLogRepo(Repository):
   def get_audits_for_report(self, file):
     q = "SELECT * FROM auditlog WHERE report_id = %(file)s"
     return self.named_query(q, {'file': file}, AuditLog)
+
+  def get_audits_for_name(self, name: str):
+    q = "SELECT * FROM auditlog WHERE editor_name LIKE %(name)s"
+    return self.named_query(q, {"name": "%" + name + "%"}, AuditLog)
   
 def NewAuditLogRepo(driver: AACDatabaseDriver) -> AuditLogRepo:
   return AuditLogRepo(driver)

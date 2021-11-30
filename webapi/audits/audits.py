@@ -48,4 +48,54 @@ def get_file_auditlog(file_id):
     "audit_trail": [x.to_dict() for x in audits]
   }, 200
 
-  
+
+@audit_bp.route('/user', methods=['POST'])
+@requires_auth
+def get_name_auditlog():
+  """
+  Endpoint: /audit/user
+  Method: POST
+  Description: Gets all the audit log entries for a particular name/user.
+
+  Request format:
+  {
+    "name": "name of user"
+  }
+
+  Response format:
+  {
+    "status": "success/(no results/error)",
+    "report_id": "id of the report",
+    "audit_trail": [{
+      "action": "action performed",
+      "timestamp": "time of action",
+      "editor_name": "name of editor",
+      "audit_id": "id of audit log entry",
+      "report_id": "id of report"
+    },{}...]
+  }
+  """
+
+  req_json = request.json
+
+  if "name" not in req_json:
+    return {"status": "error", "message": "name not found in request"}, 400
+
+  target_name = req_json["name"]
+
+  cu = _request_ctx_stack.top.current_user
+  editor_id = cu['sub']
+
+  # get the request sender role and check if aac
+  is_aac = current_app.config['auth0_web_api'].user_has_role(editor_id, "aac", "impossible_role_id")
+
+  if not is_aac:
+    return {"status": "error", "message": "You are not authorized to access this resource."}, 403
+
+  # get the audits for this file
+  audits = current_app.config['audit_log_repo'].get_audits_for_name(target_name)
+
+  return {
+    "status": "success" if len(audits) > 0 else "no results/error",
+    "audit_trail": [x.to_dict() for x in audits]
+  }, 200
