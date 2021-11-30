@@ -241,3 +241,62 @@ def handle_report(id):
     current_app.config['audit_log_repo'].insert(audit_entry)
     # audit log complete 
     return { "status": "success", "message": "deleted"}
+
+
+@reports_bp.route('/search', methods=['POST'])
+@requires_auth
+def search_reports():
+  """
+  Endpoint: /reports/search
+  Method: POST
+  Description: Searches select fields of reports. Returns
+  three lists of results.
+
+  Request format:
+  { "search_key": "value" }
+
+  Response format:
+  {
+    "done": [{report1...}, {report2...}, ...],
+    "review": [{report1...}, {report2...}, ...],
+    "uploaded": [{report1...}, {report2...}, ...]
+  }
+  """
+  req_json = request.json
+
+  if 'search_key' not in req_json:
+    return {"status": "error", "message": "search_key not found in request"}
+  
+  search_key = req_json['search_key']
+
+  cu = _request_ctx_stack.top.current_user
+  editor_id = cu['sub']
+
+  # get the request sender role and check if aac
+  is_aac = current_app.config['auth0_web_api'].user_has_role(editor_id, "aac", "impossible_role_id")
+
+  report_results = []
+
+  if not is_aac:
+    # do not return reports that the user does not have access to
+    report_results = current_app.config['report_repo'].search_reports(search_key, editor_id)
+  else:
+    # editor is aac is admin
+    # search all reports
+    report_results = current_app.config['report_repo'].search_reports(search_key)
+  
+  to_be_reviewed = []
+  done = []
+  for r in report_results:
+    if r.has_been_reviewed:
+      done.append(r.to_dict())
+    else:
+      to_be_reviewed.append(r.to_dict())
+
+  return {
+            "uploaded": [],
+            "review": to_be_reviewed,
+            "done": done,
+        }
+  
+
