@@ -107,7 +107,20 @@ class ReportRepo(Repository):
     with self.driver as (conn, cur):
       cur.execute(q, {'id': report_id, 'user_id': user_id})
       return cur.fetchone() is not None
-
+  
+  def search_reports(self, key: str, owner=None) -> List[Report]:
+    """
+    Searches the database for documents that match the specified field and value.
+    """
+    q = ""
+    searchdict = {'key': '%' + key + '%'}
+    if owner is None:
+      q = "SELECT * FROM report WHERE program LIKE %(key)s OR title LIKE %(key)s OR college LIKE %(key)s OR department LIKE %(key)s OR degree_level LIKE %(key)s OR academic_year LIKE %(key)s OR date_range LIKE %(key)s AND valid=TRUE"
+    else:
+      q = "SELECT * FROM report WHERE program LIKE %(key)s OR title LIKE %(key)s OR college LIKE %(key)s OR department LIKE %(key)s OR degree_level LIKE %(key)s OR academic_year LIKE %(key)s OR date_range LIKE %(key)s AND valid=TRUE AND creator_id = %(owner)s"
+      searchdict['owner'] = owner
+    
+    return self.named_query(q, searchdict, Report)
     
   
   def get_report_by_id(self, id: int) ->Report:
