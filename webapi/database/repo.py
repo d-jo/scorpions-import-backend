@@ -308,6 +308,10 @@ class AuditLogRepo(Repository):
     q = "INSERT INTO auditlog (report_id, editor_name, timestamp, action) VALUES (%(report_id)s, %(editor_name)s, %(timestamp)s, %(action)s)"
     self.named_exec(q, audit_log.to_dict())
   
+  def get_audits_for_report(self, file):
+    q = "SELECT * FROM auditlog WHERE report_id = %(file)s"
+    return self.named_query(q, {'file': file}, AuditLog)
+  
 def NewAuditLogRepo(driver: AACDatabaseDriver) -> AuditLogRepo:
   return AuditLogRepo(driver)
 
