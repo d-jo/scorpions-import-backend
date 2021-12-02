@@ -21,33 +21,40 @@ def extract_data():
   cu = _request_ctx_stack.top.current_user
   editor_id = cu['sub']
   user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
+  errors = []
 
   results = []
   for filename in request.json:
-    # path to stub file in users dir
-    asker_path = os.path.join(current_app.config['UPLOAD_FOLDER'], editor_id, filename)
-    # path to full file in all
-    filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], "all", filename)
-    rep_slo = processor.process_report(filepath)
-    buf = rep_slo[0]
-    buf.creator_id = editor_id
-    rep_slo[0] = buf
-    file_id = send_to_db(rep_slo, "acc" if 'accredited' in filename else "non")
-    # audit log entry creation
-    audit_entry = AuditLog(file_id, user_full_name, "extract")
-    current_app.config['audit_log_repo'].insert(audit_entry)
-    # audit log complete 
     try:
-      os.remove(filepath)
-    except:
-      pass
-    
-    try:
-      os.remove(asker_path)
-    except:
-      pass
+      # path to stub file in users dir
+      asker_path = os.path.join(current_app.config['UPLOAD_FOLDER'], editor_id, filename)
+      # path to full file in all
+      filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], "all", filename)
+      rep_slo = processor.process_report(filepath)
+      buf = rep_slo[0]
+      buf.creator_id = editor_id
+      rep_slo[0] = buf
+      file_id = send_to_db(rep_slo, "acc" if 'accredited' in filename else "non")
+      # audit log entry creation
+      audit_entry = AuditLog(file_id, user_full_name, "extract")
+      current_app.config['audit_log_repo'].insert(audit_entry)
+      # audit log complete 
 
-    results.append(rep_slo)
+      results.append(rep_slo)
+
+      try:
+        os.remove(filepath)
+      except:
+        print("failed to remove filepath", filepath)
+      
+      try:
+        os.remove(asker_path)
+      except:
+        print("failed to remove asker_path", asker_path)
+    except Exception as e:
+      print("!!!!!!!!!!!!!!!!!!! failed to process file:", filename, e)
+      errors.append(str(e))
+      continue
 
   docs = [] 
   slos = []
@@ -67,7 +74,8 @@ def extract_data():
   return { 
     "reports": docs, "slos": slos, 
     "measures": measures, "analysis": analysis, 
-    "decisions": decisions, "methods" : methods, "ada" : adaList
+    "decisions": decisions, "methods" : methods, "ada" : adaList,
+    "errors": errors
   }
 
 def retrieve_data(obj, type):
