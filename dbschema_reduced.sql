@@ -84,22 +84,22 @@
 CREATE TABLE Report (
   id SERIAL NOT NULL,
   valid BOOLEAN NOT NULL,
-  title VARCHAR(255) NOT NULL,
-  author VARCHAR(255) NOT NULL,
+  title TEXT NOT NULL,
+  author TEXT NOT NULL,
   created INT NOT NULL,
   has_been_reviewed BOOLEAN NOT NULL,
-  college VARCHAR(255) NOT NULL,
-  department VARCHAR(255) NOT NULL,
-  program VARCHAR(255) NOT NULL,
-  date_range VARCHAR(255) NOT NULL,
-  degree_level VARCHAR(255) NOT NULL,
-  academic_year VARCHAR(255) NOT NULL,
-  accreditation_body VARCHAR(255),
-  last_accreditation_review VARCHAR(255),
-  slos_meet_standards VARCHAR(255),
+  college TEXT NOT NULL,
+  department TEXT NOT NULL,
+  program TEXT NOT NULL,
+  date_range TEXT NOT NULL,
+  degree_level TEXT NOT NULL,
+  academic_year TEXT NOT NULL,
+  accreditation_body TEXT,
+  last_accreditation_review TEXT,
+  slos_meet_standards TEXT,
   stakeholder_involvement TEXT,
   additional_information TEXT,
-  creator_id VARCHAR(255) NOT NULL,
+  creator_id TEXT NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -107,8 +107,8 @@ CREATE TABLE SLO (
   id SERIAL NOT NULL,
   report_id INT NOT NULL,
   description TEXT NOT NULL,
-  bloom VARCHAR(255) NOT NULL,
-  common_graduate_program_slo VARCHAR(255),
+  bloom TEXT NOT NULL,
+  common_graduate_program_slo TEXT,
   PRIMARY KEY (id),
   FOREIGN KEY (report_id) REFERENCES Report(id) ON DELETE CASCADE
 );
@@ -116,15 +116,15 @@ CREATE TABLE SLO (
 CREATE TABLE Measure (
   id SERIAL NOT NULL,
   slo_id INT NOT NULL,
-  title VARCHAR(255) NOT NULL,
+  title TEXT NOT NULL,
   description TEXT NOT NULL,
-  domain VARCHAR(255) NOT NULL,
-  type VARCHAR(255) NOT NULL,
-  point_in_program VARCHAR(255) NOT NULL,
-  population_measured VARCHAR(255) NOT NULL,
-  frequency_of_collection VARCHAR(255) NOT NULL,
-  proficiency_threshold VARCHAR(255) NOT NULL,
-  proficiency_target VARCHAR(255) NOT NULL,
+  domain TEXT NOT NULL,
+  type TEXT NOT NULL,
+  point_in_program TEXT NOT NULL,
+  population_measured TEXT NOT NULL,
+  frequency_of_collection TEXT NOT NULL,
+  proficiency_threshold TEXT NOT NULL,
+  proficiency_target TEXT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
@@ -140,9 +140,9 @@ CREATE TABLE DecisionsActions (
 CREATE TABLE CollectionAnalysis (
   id SERIAL NOT NULL,
   slo_id INT NOT NULL,
-  data_collection_date_range VARCHAR(255) NOT NULL,
-  number_of_students_assessed VARCHAR(255) NOT NULL,
-  percentage_who_met_or_exceeded VARCHAR(255) NOT NULL,
+  data_collection_date_range TEXT NOT NULL,
+  number_of_students_assessed TEXT NOT NULL,
+  percentage_who_met_or_exceeded TEXT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
@@ -150,8 +150,8 @@ CREATE TABLE CollectionAnalysis (
 CREATE TABLE Methods (
   id SERIAL NOT NULL,
   slo_id INT NOT NULL,
-  measure VARCHAR(255) NOT NULL,
-  domain VARCHAR(255) NOT NULL,
+  measure TEXT NOT NULL,
+  domain TEXT NOT NULL,
   data_collection TEXT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
@@ -160,7 +160,7 @@ CREATE TABLE Methods (
 CREATE TABLE AccreditedDataAnalysis (
   id SERIAL NOT NULL,
   slo_id INT NOT NULL,
-  status VARCHAR(255) NOT NULL,
+  status TEXT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (slo_id) REFERENCES SLO(id) ON DELETE CASCADE
 );
@@ -168,9 +168,9 @@ CREATE TABLE AccreditedDataAnalysis (
 CREATE TABLE AuditLog (
   audit_id SERIAL NOT NULL,
   report_id INT NOT NULL,
-  editor_name VARCHAR(255) NOT NULL,
+  editor_name TEXT NOT NULL,
   timestamp BIGINT NOT NULL,
-  action VARCHAR(255) NOT NULL,
+  action TEXT NOT NULL,
   PRIMARY KEY (audit_id),
   FOREIGN KEY (report_id) REFERENCES Report(id) ON DELETE CASCADE
 );
