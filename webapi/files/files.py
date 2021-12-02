@@ -41,7 +41,12 @@ def upload_file():
         flash('no selected file')
       if file and is_allowed_ext(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], asker, filename))
+        # save the actual file with contents to all
+        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], "all", filename))
+        # save a stub in the users folder to signify access
+        with open(os.path.join(current_app.config['UPLOAD_FOLDER'], asker, filename), 'w') as f:
+          pass
+
     return redirect(request.url)
 
   return """
@@ -65,19 +70,18 @@ def get_files():
 
   is_aac = current_app.config['auth0_web_api'].user_has_role(asker, "aac", "impossible_role_id")
   asker_path = os.path.join(current_app.config['UPLOAD_FOLDER'], asker)
+  all_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'all')
 
   if not os.path.exists(asker_path):
     os.makedirs(asker_path)
+  
+  if not os.path.exists(all_path):
+    os.makedirs(all_path)
 
   file_list = os.listdir(asker_path)
   # if they are aac, recursive over all dirs in UPLOAD_FODLER
   if is_aac:
-    file_list = []
-    # instead walk through all dirs in UPLOAD_FOLDER and add them to file_list
-    for root, dirs, files in os.walk(current_app.config['UPLOAD_FOLDER']):
-      for dir in dirs:
-        files = os.listdir(os.path.join(root, dir))
-        file_list.extend(files)
+    file_list = os.listdir(all_path)
 
 
   to_be_reviewed = None
