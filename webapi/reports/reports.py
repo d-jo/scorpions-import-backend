@@ -289,9 +289,9 @@ def search_reports():
   done = []
   for r in report_results:
     if r.has_been_reviewed:
-      done.append(r.to_dict())
+      done.append([r.id, r.program, r.academic_year])
     else:
-      to_be_reviewed.append(r.to_dict())
+      to_be_reviewed.append([r.id, r.program, r.academic_year])
 
   return {
             "uploaded": [],
