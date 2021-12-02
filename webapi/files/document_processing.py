@@ -94,6 +94,10 @@ def read_document(document):
 #TODO clean up, possibly make a process_engine class with below methods to leave this file cleaner
 
 def get_acc_data_analysis(table):
+    """
+    parses the given table to extract ada data and return a list of ada
+    :param table: the table to get ada data from
+    """
     sloNum = ""
     adaList = []
     ada = AccreditedDataAnalysis()
@@ -132,12 +136,21 @@ def get_acc_data_analysis(table):
     return adaList
 
 def is_acc_data_analysis(table):
+    """
+    checks if the table is likely an ada table to extract data from
+
+    :param table: the table to check
+    """
     for cell in table:
         if "Met" in cell['cell'] and "Partially Met" in cell['cell'] and "Not Met" in cell['cell'] and "Unknown" in cell['cell']:
             return True
     return False
 
 def get_methods_data(table):
+    """
+    parses the given table to extract method data and return a list of methods
+    :param table: the table to get method data from
+    """
     sloNum = ""
     methodList = []
     method = Methods()
@@ -159,12 +172,21 @@ def get_methods_data(table):
 
 #Try to get this working with the Assessment data in read_document
 def get_measures_data(table):
+    """
+    ***NOTE: This currently will not work see read_document under Measures branch to see implementation***
+    parses the given table to extract measures data and return a list of measures
+    :param table: the table to get measure data from
+    """
     measures = []
     for cell in table:
         print(cell)
     return measures
 
 def get_analysis_data(table):
+    """
+    parses the given table to extract analysis data and return a list of analysis
+    :param table: the table to get analysis data from
+    """
     sloNum = ""
     analysisList = [[]]
     analysis = CollectionAnalysis()
@@ -197,6 +219,10 @@ def get_analysis_data(table):
     return analysisList
 
 def get_decisions_data(table):
+    """
+    parses the given table to extract decisions data and return a list of decisions
+    :param table: the table to get decisions data from
+    """
     sloNum = ""
     decisions = []
     decision = DecisionsAction()
@@ -215,12 +241,22 @@ def get_decisions_data(table):
     return decisions
 
 def status_table(table):
+    """
+    checks if the table is likely a status table to extract data from
+
+    :param table: the table to check
+    """
     for cell in table:
         if "Partially Met" in cell['cell']:
             return True
     return False
  
 def is_year(text):
+    """
+    checks if the text is a year, used to differentiate data fields
+    very likely the forms will not have anything before 1900s so if it is above 1900, its a year 
+    :param text: the text to check
+    """
     year = ""
     found = False
     for c in text:
@@ -234,18 +270,32 @@ def is_year(text):
     return False
 
 def is_analysis(table):
+    """
+    checks if the table is likely an analysis table to extract data from
+
+    :param table: the table to check
+    """
     for cell in table:
         if SequenceMatcher(None, cell['cell'], "Data Collection Date Range").ratio() >= 0.95:
             return True
     return False
 
 def is_methods(table):
+    """
+    checks if the table is likely a methods table to extract data from
+
+    :param table: the table to check
+    """
     for cell in table:
         if ("Product" in cell['cell'] and "Performance" in cell['cell'] and "Examination" in cell['cell']):
             return True
     return False
 
 def get_slo_data(table):
+    """
+    parses the given table to extract slo data and return a list of slos
+    :param table: the table to get slo data from
+    """
     slos = []
     slo = SLO()
     for cells in table:
@@ -284,6 +334,14 @@ def get_slo_data(table):
 
 # TODO eventually instead of saving all data in a list(memory heavyish), just extract data here?
 def get_table_cells(document):
+    """
+    prepare table cells to be parsed through. This organizes our data in separate elements that we can loop over.
+    Nore: we hog up more running memory because we save an array of table 
+    and have the file open with the table data still in it. 
+    The files aren't too large so this probably isn't a big issue
+
+    :param document: the document to get tables from
+    """
     tableCells = [[]]
     for table in document.tables:
         cell_information = []
@@ -299,7 +357,11 @@ def get_table_cells(document):
 
 def get_report_info(document):
     """
-    
+    this method gets the main report info from the document, 
+    usually all the header data. Parses through all the text in the file
+    so early exit if all data is found is placed here
+
+    :param document: the document to get report info from
     """
     report = Report()
     for paragraph in document.paragraphs:
@@ -317,7 +379,7 @@ def map_state(st):
     maps a state to a Measure attribute, this makes 
     setting an attribute with a dict very easy
 
-    param st: st to map
+    :param st: state to map
     """
     if st == "Domain":
         return "domain"
@@ -339,9 +401,9 @@ def state_match(state, m, cell):
     Given a state, find the necessary data in the cell
     and then set that in the measure object
 
-    param state: state used to set attribute of Measure
-    param m: Measure to update
-    param cell: cell data to look through
+    :param state: state used to set attribute of Measure
+    :param m: Measure to update
+    :param cell: cell data to look through
     """
     if state == "proficiency_threshold" or state == "proficiency_target":
         if cell['cell'] != "Describe:":
@@ -383,7 +445,7 @@ def iter_unique_cells(row):
     Generate cells in `row` skipping empty grid cells.
     Without this, there will be duplicate cells in table cells
 
-    param row: row to have dupes removed
+    :param row: row to have dupes removed
     """
     prior_tc = None
     for cell in row.cells:
@@ -398,8 +460,8 @@ def get_word_at(pos, text):
     Breaks up the sentence into individual words 
     and gives the word at the specified position
 
-    param text: text to break up
-    param pos: position to get the word at
+    :param text: text to break up
+    :param pos: position to get the word at
     """
     words = []
     inword = 0
@@ -417,8 +479,8 @@ def slo_attr_match(word, slos, sloNum):
     """
     Match a word to an slo attribute for setting data
 
-    param word: word to match to slo attribue
-    param slo: slo to set data into
+    :param word: word to match to slo attribue
+    :param slo: slo to set data into
     """
 
     # rework this as taxonomy levels may not be all of these
@@ -433,7 +495,7 @@ def get_first_word(str):
     """
     Returns the first word in a string
 
-    param str: string to retrieve word from
+    :param str: string to retrieve word from
     """
     result = ""
     special_chars = "/ \\@!&*().?,"
@@ -448,7 +510,7 @@ def is_checkbox(c):
     """
     checks if given character is a ascii checkbox
  
-    param c: char to check
+    :param c: char to check
     """
     number = ord(c)
     return not c.isalpha() and number == 9744 or number == 9746
@@ -469,7 +531,7 @@ def is_full(report):
     """
     checks if report data is filled to exit early
  
-    param report: report to check
+    :param report: report to check
     """
     return (report.college != "" and report.department != "" 
             and report.program != "" and report.degree_level != "" 
@@ -517,7 +579,25 @@ def slo_matcher(str, slo:SLO):
                 slo.id = text
             elif(text != ""):
                 slo.description = text.strip()
+    elif slo.description == "" and contains_one_number(str):
+        for c in str:
+            if c.isdigit():
+                slo.id = c
+                slo.description = str.split(c)[1]
     return slo
+
+def contains_one_number(str):
+    """ 
+    checks if the given string has only one number in it
+    this helps differentiate between an slo number with a description - returns true
+    or if it is the common graduate data - returns false
+    :param str: the string to check.
+    """
+    found = False
+    for c in str:
+        if(c.isdigit() and found): return False
+        elif(c.isdigit()): found = True
+    return True
 
 def extract_text(str, split_point):
     """

@@ -2,8 +2,7 @@ from . import document_processing
 from models.model import *
 
 
-files = ["./old/data/grad2018-regular.docx", "./old/data/undergrad2018-regular.docx", "./old/data/grad2019-regular.docx", "./old/data/undergrad2019-regular.docx", "./old/data/grad2019-accredited.docx"]
-
+files = ["./old/data/undergrad2019-accredited.docx","./old/data/grad2018-regular.docx", "./old/data/undergrad2018-regular.docx", "./old/data/grad2019-regular.docx", "./old/data/undergrad2019-regular.docx", "./old/data/grad2019-accredited.docx"]
 for filename in files:
     print("================ " + filename + " ================")
     data = document_processing.process_report(filename)
