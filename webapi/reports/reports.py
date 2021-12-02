@@ -24,7 +24,10 @@ def extract_data():
 
   results = []
   for filename in request.json:
-    filepath = os.path.join(current_app.config['UPLOAD_FOLDER']) + "/" +filename
+    # path to stub file in users dir
+    asker_path = os.path.join(current_app.config['UPLOAD_FOLDER'], editor_id, filename)
+    # path to full file in all
+    filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], "all", filename)
     rep_slo = processor.process_report(filepath)
     buf = rep_slo[0]
     buf.creator_id = editor_id
@@ -34,6 +37,16 @@ def extract_data():
     audit_entry = AuditLog(file_id, user_full_name, "extract")
     current_app.config['audit_log_repo'].insert(audit_entry)
     # audit log complete 
+    try:
+      os.remove(filepath)
+    except:
+      pass
+    
+    try:
+      os.remove(asker_path)
+    except:
+      pass
+
     results.append(rep_slo)
 
   docs = [] 
@@ -83,22 +96,16 @@ def send_to_db(obj: any, reportType: str) -> int:
     slo_ids.append(current_app.config['slo_repo'].insert(slo))
       # which slo a measure/analysis/decision is tied to stored in the slo_id field until the slo is added, 
       # not all slos have a measure/analysis/decision and an slo may have more than one of each, 
-      # so incrementally going up will not work
-  print("SLO IDS")
-  print(slo_ids)
+      # so incrementally going up will not ork
   for measures in measures_list:
     for m in measures:
-      print(type(m), m)
       m.slo_id = slo_ids[max(0, int(m.slo_id)-1)]
       current_app.config['measure_repo'].insert(m)
   for ac in anaysis_list:
     for a in ac:
-      print(type(a), a)
       a.slo_id = slo_ids[max(0, int(a.slo_id)-1)]
-      print(a.to_dict())
       current_app.config['collection_analysis_repo'].insert(a) 
   for d in decisions_list:
-    print(type(d), d)
     d.slo_id = slo_ids[max(0, int(d.slo_id)-1)]
     current_app.config['decisions_actions_repo'].insert(d)
   for me in methods_list:
