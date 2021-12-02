@@ -7,6 +7,7 @@ import files.document_processing as processor
 from models.model import *
 from auth.auth import requires_auth
 from database.driver import db_init
+import hashlib
 from auth.auth import requires_auth, get_token_auth_header
 
 reports_bp = Blueprint("reports_bp", __name__)
@@ -20,14 +21,16 @@ def extract_data():
 
   cu = _request_ctx_stack.top.current_user
   editor_id = cu['sub']
+  asker_hash = hashlib.md5(editor_id.encode('utf-8')).hexdigest()
   user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
   errors = []
 
   results = []
+  print("files: ", request.json)
   for filename in request.json:
     try:
       # path to stub file in users dir
-      asker_path = os.path.join(current_app.config['UPLOAD_FOLDER'], editor_id, filename)
+      asker_path = os.path.join(current_app.config['UPLOAD_FOLDER'], asker_hash, filename)
       # path to full file in all
       filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], "all", filename)
       rep_slo = processor.process_report(filepath)
