@@ -1,5 +1,5 @@
 from . import document_processing
-from models.model import *
+from webapi.models.model import *
 
 
 files = ["./old/data/undergrad2019-accredited.docx","./old/data/grad2018-regular.docx", "./old/data/undergrad2018-regular.docx", "./old/data/grad2019-regular.docx", "./old/data/undergrad2019-regular.docx", "./old/data/grad2019-accredited.docx"]

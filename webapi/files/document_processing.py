@@ -2,7 +2,7 @@
 from docx import Document
 import re
 from difflib import SequenceMatcher
-from models.model import *
+from webapi.models.model import *
 
 # %%
 def process_report(filename):
@@ -16,6 +16,8 @@ def process_report(filename):
 def read_document(document):
     """
     Read in document and extract all data from it.
+    Surrounds each data type with try catches to not completely halt execution,
+    some data parsed is better than none!
     :param document: opened document from python-docx.
     """
     report = get_report_info(document)
@@ -32,62 +34,80 @@ def read_document(document):
             continue
         # SLO data
         if SequenceMatcher(None, table[0]['cell'], "Student Learning Outcomes").ratio() >= 0.9:
-            slos = get_slo_data(table)
+            try:
+                slos = get_slo_data(table)
+            except:
+                print("Error parsing slo data!")
         # Assessmment data
         elif re.match(re.compile('SLO..:'), table[0]['cell']):
             # measures.append(get_measures_data(table))
             #TODO figure out how to make this work in a method call
-            sloNum = ""
-            state = ""
-            measure = Measure().to_dict()
-            for cell in table:
-                if state != "":
-                    measure = state_match(state, measure, cell)
-                    state = ""
-                    continue
-                # if we have a new SLO num, add it to the list and move to the next
-                # Note: there may be multiple measures for one SLO, need to preserve number
-                if re.match(re.compile('^SLO..:'), cell['cell']):
-                    num = extract_text(cell['cell'], "SLO ")[0]
-                    if sloNum != "":
-                        idx = int(sloNum)
-                        while len(measures) < idx:
-                            measures.append([]) 
-                        measureobj = Measure()
-                        measureobj.init_from_dict(measure)
-                        measures[idx-1].append(measureobj)
-                        measure = Measure().to_dict()
-                    sloNum = num
-                    measure['slo_id'] = sloNum
-                    continue
-                if "Title" in cell['cell']:
-                    measure['title'] = extract_text(cell['cell'], ":").lstrip()
-                    continue
-                if "Measure Aligns to the SLO" in cell['cell']:
-                    measure['description'] = extract_text(cell['cell'], "SLO").lstrip()
-                    continue
-                for st in ["Domain", "Type", "Point in Program", "Population", "Frequency", "Threshold", "Program"]:
-                    if st in cell['cell']:
-                        state = map_state(st)
-                        break
-            idx = int(sloNum)
-            while len(measures) < idx:
-                measures.append([]) 
-            measureobj = Measure()
-            measureobj.init_from_dict(measure)
-            measures[idx-1].append(measureobj)
+            try:
+                sloNum = ""
+                state = ""
+                measure = Measure().to_dict()
+                for cell in table:
+                    if state != "":
+                        measure = state_match(state, measure, cell)
+                        state = ""
+                        continue
+                    # if we have a new SLO num, add it to the list and move to the next
+                    # Note: there may be multiple measures for one SLO, need to preserve number
+                    if re.match(re.compile('^SLO..:'), cell['cell']):
+                        num = extract_text(cell['cell'], "SLO ")[0]
+                        if sloNum != "":
+                            idx = int(sloNum)
+                            while len(measures) < idx:
+                                measures.append([]) 
+                            measureobj = Measure()
+                            measureobj.init_from_dict(measure)
+                            measures[idx-1].append(measureobj)
+                            measure = Measure().to_dict()
+                        sloNum = num
+                        measure['slo_id'] = sloNum
+                        continue
+                    if "Title" in cell['cell']:
+                        measure['title'] = extract_text(cell['cell'], ":").lstrip()
+                        continue
+                    if "Measure Aligns to the SLO" in cell['cell']:
+                        measure['description'] = extract_text(cell['cell'], "SLO").lstrip()
+                        continue
+                    for st in ["Domain", "Type", "Point in Program", "Population", "Frequency", "Threshold", "Program"]:
+                        if st in cell['cell']:
+                            state = map_state(st)
+                            break
+                idx = int(sloNum)
+                while len(measures) < idx:
+                    measures.append([]) 
+                measureobj = Measure()
+                measureobj.init_from_dict(measure)
+                measures[idx-1].append(measureobj)
+            except:
+                print("Error parsing measure!")
         # Analysis Data
         elif is_analysis(table):
-            analysisList = get_analysis_data(table)
+            try:
+                analysisList = get_analysis_data(table)
+            except:
+                print("Error parsing analysis data!")
         # Decisions/Actions Data
         elif re.match(re.compile('^SLO..'), table[0]['cell']) and not status_table(table):
-            decisions = get_decisions_data(table)
+            try:
+                decisions = get_decisions_data(table)
+            except:
+                print("Error parsing decisions data!")
         elif is_methods(table):
-            methods = get_methods_data(table)
+            try:
+                methods = get_methods_data(table)
+            except:
+                print("Error parsing methods data!")
         elif is_acc_data_analysis(table):
-            adaList = get_acc_data_analysis(table)
+            try:
+                adaList = get_acc_data_analysis(table)
+            except:
+                print("Error parsing accredited data analysis!")
         else:
-            print("TODO or Misc data found")
+            print("Misc data found")
     
     return [report, slos, measures, analysisList, decisions, methods, adaList]
 
