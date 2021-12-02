@@ -1,7 +1,8 @@
 from . import document_processing
 from models.model import *
 
-files = ["./old/data/grad2018-regular.docx", "./old/data/undergrad2018-regular.docx", "./old/data/grad2019-regular.docx", "./old/data/undergrad2019-regular.docx"]
+
+files = ["./old/data/grad2018-regular.docx", "./old/data/undergrad2018-regular.docx", "./old/data/grad2019-regular.docx", "./old/data/undergrad2019-regular.docx", "./old/data/grad2019-accredited.docx"]
 
 for filename in files:
     print("================ " + filename + " ================")
@@ -11,6 +12,8 @@ for filename in files:
     measures = data[2]
     anaysisList = data[3]
     decisions = data[4]
+    methods = data[5]
+    adaList = data[6]
 
     if report is not None:
         print("***** " + report.title + " *****\n")
@@ -30,16 +33,16 @@ for filename in files:
         for slom in measures:
             print("SLO " + str(pos) + " ASSESSMENTS")
             for m in slom:
-                print("SLO ID*****" + m['slo_id'] +"*****")
-                print("TITLE *****"+ m["title"] + "*****")
-                print("DESC *****"+ m["description"] + "*****")
-                print("DOMAIN *****"+ m["domain"] + "*****")
-                print("TYPE *****"+ m["type"] + "*****")
-                print("POINT *****"+ m["point_in_program"] + "*****")
-                print("POP MEASURED *****"+ m["population_measured"] + "*****")
-                print("FREQUENCY *****"+ m["frequency_of_collection"] + "*****")
-                print("PROF THRES *****"+ m["proficiency_threshold"] + "*****")
-                print("PROF TARGET *****"+ m["proficiency_target"] + "*****")
+                print("SLO ID*****" + m.slo_id +"*****")
+                print("TITLE *****"+ m.title + "*****")
+                print("DESC *****"+ m.description + "*****")
+                print("DOMAIN *****"+ m.domain + "*****")
+                print("TYPE *****"+ m.type + "*****")
+                print("POINT *****"+ m.point_in_program + "*****")
+                print("POP MEASURED *****"+ m.population_measured + "*****")
+                print("FREQUENCY *****"+ m.frequency_of_collection + "*****")
+                print("PROF THRES *****"+ m.proficiency_threshold + "*****")
+                print("PROF TARGET *****"+ m.proficiency_target + "*****")
             pos += 1
         idx = 1
         for analysis in anaysisList:
@@ -53,6 +56,14 @@ for filename in files:
         for d in decisions:
             print("SLO ID*****" +d.slo_id + "*****")
             print("DECISIONS/ACTIONS *****" + d.content +"*****")
+        for method in methods:
+            print("SLO ID*****" +method.slo_id +"*****")
+            print("MEASURE*****" +method.measure +"*****")
+            print("DOMAIN*****" +method.domain +"*****")
+            print("DATA COLLECTION*****" +method.data_collection +"*****")
+        for a in adaList:
+            print("SLO ID*****"+a.slo_id+"*****")
+            print("STATUS*****"+a.status+"*****")
     else:
         print('report was none')
     print("================================================\n")

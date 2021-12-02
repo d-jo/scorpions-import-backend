@@ -24,6 +24,8 @@ def read_document(document):
     measures = [[]]
     analysisList = [[]]
     decisions = []
+    methods = []
+    adaList = []
     for table in get_table_cells(document):
         # Empty table
         if len(table) < 1: 
@@ -80,13 +82,82 @@ def read_document(document):
         # Decisions/Actions Data
         elif re.match(re.compile('^SLO..'), table[0]['cell']) and not status_table(table):
             decisions = get_decisions_data(table)
+        elif is_methods(table):
+            methods = get_methods_data(table)
+        elif is_acc_data_analysis(table):
+            adaList = get_acc_data_analysis(table)
         else:
             print("TODO or Misc data found")
     
-    return [report, slos, measures, analysisList, decisions]
+    return [report, slos, measures, analysisList, decisions, methods, adaList]
 
 #TODO clean up, possibly make a process_engine class with below methods to leave this file cleaner
 
+def get_acc_data_analysis(table):
+    sloNum = ""
+    adaList = []
+    ada = AccreditedDataAnalysis()
+    for cell in table:
+        if "SLO " in cell['cell']:
+            for c in cell['cell']:
+                if c.isdigit():
+                    num = c
+                    break
+            if sloNum != "":
+                adaList.append(ada)
+                ada = AccreditedDataAnalysis()
+            sloNum = num
+            ada.slo_id = sloNum
+        elif not cell['checkboxes']:
+            text = cell['cell']
+            for c in text:
+                if isinstance(c, str) and is_checkbox(c):
+                    parts = text.split(chr(9746))  
+                    if len(parts) > 1:
+                        for p in parts:
+                            ada.status = get_first_word(p).strip() 
+                    break
+        elif cell['checkboxes']:
+            pos = 0
+            for cb in cell['checkboxes']:
+                for child in cb.getchildren():
+                    if child.tag.endswith("checked"):
+                        if(int(re.search(r'\d+', child.values()[0]).group())):
+                            text = get_word_at(pos, cell['cell'])
+                            if text != "" and "Met" not in text and text != "Unknown":
+                                text += " Met" 
+                            ada.status = text
+                        pos += 1
+    if ada not in adaList: adaList.append(ada)
+    return adaList
+
+def is_acc_data_analysis(table):
+    for cell in table:
+        if "Met" in cell['cell'] and "Partially Met" in cell['cell'] and "Not Met" in cell['cell'] and "Unknown" in cell['cell']:
+            return True
+    return False
+
+def get_methods_data(table):
+    sloNum = ""
+    methodList = []
+    method = Methods()
+    for cell in table:
+        if cell['cell'].isdigit():
+            if sloNum != "":
+                methodList.append(method)
+                method = Methods()
+            sloNum = cell['cell']
+            method.slo_id = cell['cell']
+        elif method.measure == "":
+            method.measure = cell['cell']
+        elif method.domain == "":
+            method.domain = cell['cell']
+        else : 
+            method.data_collection = cell['cell']
+    if method not in methodList: methodList.append(method)
+    return methodList
+
+#Try to get this working with the Assessment data in read_document
 def get_measures_data(table):
     measures = []
     for cell in table:
@@ -165,6 +236,12 @@ def is_year(text):
 def is_analysis(table):
     for cell in table:
         if SequenceMatcher(None, cell['cell'], "Data Collection Date Range").ratio() >= 0.95:
+            return True
+    return False
+
+def is_methods(table):
+    for cell in table:
+        if ("Product" in cell['cell'] and "Performance" in cell['cell'] and "Examination" in cell['cell']):
             return True
     return False
 
@@ -384,7 +461,7 @@ def has_duplicate(slos, slo):
     :param slo: slo to be checked against.
     """
     for sloItem in slos: 
-        if SequenceMatcher(None, sloItem.description, slo.description).ratio() >= 0.8:
+        if SequenceMatcher(None, sloItem.description, slo.description).ratio() >= 0.95:
             return True    
     return False
 
