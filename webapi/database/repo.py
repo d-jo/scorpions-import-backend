@@ -152,7 +152,7 @@ class SLORepo(Repository):
     """
     Inserts a SLO into the database.
     """
-    q = "INSERT INTO slo (report_id, description, bloom) VALUES (%(report_id)s, %(description)s, %(bloom)s) RETURNING id"
+    q = "INSERT INTO slo (report_id, description, bloom, common_graduate_program_slo) VALUES (%(report_id)s, %(description)s, %(bloom)s, %(common_graduate_program_slo)s) RETURNING id"
     return self.named_exec(q, slo.to_dict(), return_result=True)[0][0]
   
   def select_by_report_id(self, id: int) -> list:
