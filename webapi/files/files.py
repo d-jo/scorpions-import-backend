@@ -4,6 +4,7 @@ from flask import Flask, flash, request, redirect, url_for, _request_ctx_stack
 from flask_cors import cross_origin
 from werkzeug.utils import secure_filename
 from auth.auth import requires_auth
+import hashlib
 
 files_bp = Blueprint("files_bp", __name__)
 views_bp = Blueprint("views_bp", __name__)
@@ -27,6 +28,16 @@ def upload_file():
 
   cu = _request_ctx_stack.top.current_user
   asker = cu['sub']
+  asker_hash = hashlib.md5(asker.encode('utf-8')).hexdigest()
+
+  all_dir = os.path.join(current_app.config['UPLOAD_FOLDER'], "all")
+  asker_dir = os.path.join(current_app.config['UPLOAD_FOLDER'], asker_hash)
+
+  if not os.path.exists(all_dir):
+    os.mkdir(all_dir)
+
+  if not os.path.exists(asker_dir):
+    os.makedirs(asker_dir)
 
   #is_aac = current_app.config['auth0_web_api'].user_has_role(asker, "aac", "impossible_role_id")
 
@@ -44,7 +55,7 @@ def upload_file():
         # save the actual file with contents to all
         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], "all", filename))
         # save a stub in the users folder to signify access
-        with open(os.path.join(current_app.config['UPLOAD_FOLDER'], asker, filename), 'w') as f:
+        with open(os.path.join(current_app.config['UPLOAD_FOLDER'], asker_hash, filename), 'w') as f:
           pass
 
     return redirect(request.url)
@@ -67,9 +78,10 @@ def get_files():
 
   cu = _request_ctx_stack.top.current_user
   asker = cu['sub']
+  asker_hash = hashlib.md5(asker.encode('utf-8')).hexdigest()
 
   is_aac = current_app.config['auth0_web_api'].user_has_role(asker, "aac", "impossible_role_id")
-  asker_path = os.path.join(current_app.config['UPLOAD_FOLDER'], asker)
+  asker_path = os.path.join(current_app.config['UPLOAD_FOLDER'], asker_hash)
   all_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'all')
 
   if not os.path.exists(asker_path):
