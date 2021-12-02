@@ -74,7 +74,7 @@ def retrieve_data(obj, type):
   data = []
   for item in obj:
     if isinstance(item, list):
-      data.append(retrieve_data(item))
+      data.append(retrieve_data(item, type))
     if isinstance(item, type):
       data.append(item.to_dict())
   return data
