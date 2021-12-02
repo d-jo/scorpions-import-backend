@@ -99,23 +99,31 @@ def send_to_db(obj: any, reportType: str) -> int:
       # so incrementally going up will not ork
   for measures in measures_list:
     for m in measures:
-      m.slo_id = slo_ids[max(0, int(m.slo_id)-1)]
-      current_app.config['measure_repo'].insert(m)
+      sloIdx = max(0, int(m.slo_id)-1)
+      if(sloIdx < len(slo_ids)):
+        m.slo_id = slo_ids[sloIdx]
+        current_app.config['measure_repo'].insert(m)
   for ac in anaysis_list:
     for a in ac:
-      a.slo_id = slo_ids[max(0, int(a.slo_id)-1)]
-      current_app.config['collection_analysis_repo'].insert(a) 
+      sloIdx = max(0, int(a.slo_id)-1)
+      if(sloIdx < len(slo_ids)):
+        a.slo_id = slo_ids[sloIdx]
+        current_app.config['collection_analysis_repo'].insert(a) 
   for d in decisions_list:
-    d.slo_id = slo_ids[max(0, int(d.slo_id)-1)]
-    current_app.config['decisions_actions_repo'].insert(d)
+    sloIdx = max(0, int(d.slo_id)-1)
+    if(sloIdx < len(slo_ids)):
+      d.slo_id = slo_ids[sloIdx]
+      current_app.config['decisions_actions_repo'].insert(d)
   for me in methods_list:
-    print(type(me), me)
-    me.slo_id = slo_ids[max(0, int(me.slo_id)-1)]
-    current_app.config['methods_repo'].insert(me)
+    sloIdx = max(0, int(me.slo_id)-1)
+    if(sloIdx < len(slo_ids)):
+      me.slo_id = slo_ids[sloIdx]
+      current_app.config['methods_repo'].insert(me)
   for adaItem in ada_list:
-    print(type(adaItem), adaItem)
-    adaItem.slo_id = slo_ids[max(0, int(adaItem.slo_id)-1)]
-    current_app.config['accredited_data_analysis_repo'].insert(adaItem)
+    sloIdx = max(0, int(adaItem.slo_id)-1)
+    if(sloIdx < len(slo_ids)):
+      adaItem.slo_id = slo_ids[sloIdx]
+      current_app.config['accredited_data_analysis_repo'].insert(adaItem)
   return report_id
 
 @reports_bp.route('/<string:id>', methods=['GET', 'POST', 'DELETE'])
