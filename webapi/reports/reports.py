@@ -41,17 +41,30 @@ def extract_data():
   measures = []
   analysis = []
   decisions = []
+  methods = []
+  adaList = []
   for r in results:
-    docs.append(retrieve_report_data(r))
-    slos.append(retrieve_slo_data(r))
-    measures.append(retrieve_measure_data(r))
-    analysis.append(retrieve_analysis_data(r))
-    decisions.append(retrieve_decisions_data(r))
+    docs.append(retrieve_data(r, Report))
+    slos.append(retrieve_data(r, SLO))
+    measures.append(retrieve_data(r, Measure))
+    analysis.append(retrieve_data(r, CollectionAnalysis))
+    decisions.append(retrieve_data(r, DecisionsAction))
+    methods.append(retrieve_data(r, Methods))
+    adaList.append(retrieve_data(r, AccreditedDataAnalysis))
   return { 
     "reports": docs, "slos": slos, 
     "measures": measures, "analysis": analysis, 
-    "decisions": decisions 
+    "decisions": decisions, "methods" : methods, "ada" : adaList
   }
+
+def retrieve_data(obj, type):
+  data = []
+  for item in obj:
+    if isinstance(item, list):
+      data.append(retrieve_data(item))
+    if isinstance(item, type):
+      data.append(item.to_dict())
+  return data
 
 def send_to_db(obj: any, reportType: str) -> int:
   rep = obj[0]
@@ -59,6 +72,8 @@ def send_to_db(obj: any, reportType: str) -> int:
   measures_list = obj[2]
   anaysis_list = obj[3]
   decisions_list = obj[4]
+  methods_list = obj[5]
+  ada_list = obj[6]
   slo_ids = []
   
   # insert report
@@ -86,54 +101,15 @@ def send_to_db(obj: any, reportType: str) -> int:
     print(type(d), d)
     d.slo_id = slo_ids[max(0, int(d.slo_id)-1)]
     current_app.config['decisions_actions_repo'].insert(d)
-  # TODO ?
-  # current_app.config['methods_repo']
+  for me in methods_list:
+    print(type(me), me)
+    me.slo_id = slo_ids[max(0, int(me.slo_id)-1)]
+    current_app.config['methods_repo'].insert(me)
+  for adaItem in ada_list:
+    print(type(adaItem), adaItem)
+    adaItem.slo_id = slo_ids[max(0, int(adaItem.slo_id)-1)]
+    current_app.config['accredited_data_analysis_repo'].insert(adaItem)
   return report_id
-
-def retrieve_report_data(obj):
-  data = []
-  for item in obj:
-    if isinstance(item, list):
-      data.append(retrieve_report_data(item))
-    if isinstance(item, Report):
-      data.append(item.to_dict())
-  return data
-
-def retrieve_slo_data(obj):
-  data = []
-  for item in obj:
-    if isinstance(item, list):
-      data.append(retrieve_slo_data(item))
-    if isinstance(item, SLO):
-      data.append(item.to_dict())
-  return data
-
-def retrieve_measure_data(obj):
-  data = []
-  for item in obj:
-    if isinstance(item, list):
-      data.append(retrieve_slo_data(item))
-    if isinstance(item, Measure):
-      data.append(item.to_dict())
-  return data
-
-def retrieve_analysis_data(obj):
-  data = []
-  for item in obj:
-    if isinstance(item, list):
-      data.append(retrieve_slo_data(item))
-    if isinstance(item, CollectionAnalysis):
-      data.append(item.to_dict())
-  return data
-  
-def retrieve_decisions_data(obj):
-  data = []
-  for item in obj:
-    if isinstance(item, list):
-      data.append(retrieve_slo_data(item))
-    if isinstance(item, DecisionsAction):
-      data.append(item.to_dict())
-  return data
 
 @reports_bp.route('/<string:id>', methods=['GET', 'POST', 'DELETE'])
 @requires_auth
