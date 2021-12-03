@@ -7,11 +7,11 @@ baseUrl = 'http://localhost:5000'
 
 def test_dashboard():
     token = get_token_auth_header() 
-   # headers = {
-   #   'Authorization': 'Bearer' + token,
-   #   'Content-Type': 'application/json'
-   # }
-    response = requests.get(baseUrl + '/dashboard', {'Authorization': 'Bearer'+ token} )
+    headers = {
+      'Authorization': 'Bearer' + token,
+      'Content-Type': 'application/json'
+    }
+    response = requests.get(baseUrl + '/dashboard', headers=headers )
     assert response.status_code == 200
 
 
