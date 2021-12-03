@@ -175,12 +175,15 @@ def get_methods_data(table):
     methodList = []
     method = Methods()
     for cell in table:
-        if cell['cell'].isdigit():
+        if cell['cell'].isdigit() or re.match(re.compile('^SLO..'), cell['cell']):
             if sloNum != "":
                 methodList.append(method)
                 method = Methods()
-            sloNum = cell['cell']
-            method.slo_id = cell['cell']
+            sloNum = get_slo_num(cell['cell'])
+            method.slo_id = sloNum
+        #skip if it is a header cell
+        elif is_methods_header(cell['cell']):
+            continue
         elif method.measure == "":
             method.measure = cell['cell']
         elif method.domain == "":
@@ -189,6 +192,20 @@ def get_methods_data(table):
             method.data_collection = cell['cell']
     if method not in methodList: methodList.append(method)
     return methodList
+
+def is_methods_header(text):
+    return "SLO" in text or "Domain" in text or "Measure" in text or "Data" in text
+
+def get_slo_num(text):
+    """
+    Trims SLO off of the given text, SLO 1 will grab 1
+    This is used to tie the methods object back to a slo when placing in db.
+
+    :param text: the text to trim 
+    """
+    if "SLO " in text:
+        return text.split("SLO ")[1]
+    return text
 
 #Try to get this working with the Assessment data in read_document
 def get_measures_data(table):
