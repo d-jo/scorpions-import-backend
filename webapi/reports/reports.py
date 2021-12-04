@@ -105,6 +105,7 @@ def send_to_db(obj: any, reportType: str) -> int:
   report_id = current_app.config['report_repo'].insert(rep, reportType)
   for slo in slo_list:
     slo.report_id = report_id
+    slo.trim_fields()
     slo_ids.append(current_app.config['slo_repo'].insert(slo))
       # which slo a measure/analysis/decision is tied to stored in the slo_id field until the slo is added, 
       # not all slos have a measure/analysis/decision and an slo may have more than one of each, 
@@ -114,27 +115,32 @@ def send_to_db(obj: any, reportType: str) -> int:
       sloIdx = max(0, int(m.slo_id)-1)
       if(sloIdx < len(slo_ids)):
         m.slo_id = slo_ids[sloIdx]
+        m.trim_fields()
         current_app.config['measure_repo'].insert(m)
   for ac in anaysis_list:
     for a in ac:
       sloIdx = max(0, int(a.slo_id)-1)
       if(sloIdx < len(slo_ids)):
         a.slo_id = slo_ids[sloIdx]
+        a.trim_fields()
         current_app.config['collection_analysis_repo'].insert(a) 
   for d in decisions_list:
     sloIdx = max(0, int(d.slo_id)-1)
     if(sloIdx < len(slo_ids)):
       d.slo_id = slo_ids[sloIdx]
+      d.trim_fields()
       current_app.config['decisions_actions_repo'].insert(d)
   for me in methods_list:
     sloIdx = max(0, int(me.slo_id)-1)
     if(sloIdx < len(slo_ids)):
       me.slo_id = slo_ids[sloIdx]
+      me.trim_fields()
       current_app.config['methods_repo'].insert(me)
   for adaItem in ada_list:
     sloIdx = max(0, int(adaItem.slo_id)-1)
     if(sloIdx < len(slo_ids)):
       adaItem.slo_id = slo_ids[sloIdx]
+      adaItem.trim_fields()
       current_app.config['accredited_data_analysis_repo'].insert(adaItem)
   return report_id
 
