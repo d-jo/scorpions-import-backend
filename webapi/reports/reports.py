@@ -501,7 +501,7 @@ def handle_manage(id):
     # remove decision actions
     if 'remove_decision_action' in data:
       for decision_action_id in data['remove_decision_action']:
-        current_app.config['decision_action_repo'].delete(decision_action_id)
+        current_app.config['decisions_actions_repo'].delete(decision_action_id)
 
     # remove collection analyses
     if 'remove_collection_analysis' in data:
