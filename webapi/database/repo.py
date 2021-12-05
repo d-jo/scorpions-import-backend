@@ -76,6 +76,13 @@ class Repository():
     q = "SELECT * FROM {} WHERE %(field)s = %(value)s".format(self.table)
     return self.named_query(q, {'field': field, 'value': value}, Report)
   
+  def delete(self, id: int) -> None:
+    """
+    Deletes a document from the database by its id.
+    """
+    q = "DELETE FROM {} WHERE id = %(id)s".format(self.table)
+    self.named_exec(q, {'id': id})
+  
 
 class ReportRepo(Repository):
 
