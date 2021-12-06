@@ -439,3 +439,93 @@ def search_reports():
         }
   
 
+@reports_bp.route('/manage/<string:id>', methods=['POST'])
+@requires_auth
+def handle_manage(id):
+  """
+  Endpoint: /reports/manage/<id>
+  Method: POST
+  Description: Use this endpoint to remove SLOs or children of SLOs from a 
+  report. Must either be the owner or an admin to successfuly remove something.
+
+  Request format:
+  {
+    "remove_slos": [
+      slo_id1, ...
+    ],
+    "remove_measure": [
+      measure_id1, ...
+    ],
+    "remove_decision_action": [
+      decision_action_id1, ...
+    ],
+    "remove_collection_analysis": [
+      collection_analysis_id1, ...
+    ],
+    "remove_method": [
+      method_id1, ...
+    ],
+    "remove_accredited_data_analysis": [
+      accredited_data_analysis_id1, ...
+    ]
+  }
+
+  Response format:
+  {
+    "status": "success",
+    "message": "removed"
+  }
+  """
+  data = request.json
+
+  cu = _request_ctx_stack.top.current_user
+  editor_id = cu['sub']
+
+  # get the request sender role and check if aac
+  is_aac = current_app.config['auth0_web_api'].user_has_role(editor_id, "aac", "impossible_role_id")
+
+  is_report_owner = current_app.config['report_repo'].has_access_to_report(id, editor_id)
+
+  if is_aac or is_report_owner:
+    # editor is aac or report owner
+    # remove slos
+    if 'remove_slos' in data:
+      for slo_id in data['remove_slos']:
+        current_app.config['slo_repo'].delete(slo_id)
+    
+    # remove measures
+    if 'remove_measure' in data:
+      for measure_id in data['remove_measure']:
+        current_app.config['measure_repo'].delete(measure_id)
+
+    # remove decision actions
+    if 'remove_decision_action' in data:
+      for decision_action_id in data['remove_decision_action']:
+        current_app.config['decisions_actions_repo'].delete(decision_action_id)
+
+    # remove collection analyses
+    if 'remove_collection_analysis' in data:
+      for collection_analysis_id in data['remove_collection_analysis']:
+        current_app.config['collection_analysis_repo'].delete(collection_analysis_id)
+
+    # remove methods
+    if 'remove_method' in data:
+      for method_id in data['remove_method']:
+        current_app.config['methods_repo'].delete(method_id)
+
+    # remove accredited data analyses
+    if 'remove_accredited_data_analysis' in data:
+      for accredited_data_analysis_id in data['remove_accredited_data_analysis']:
+        current_app.config['accredited_data_analysis_repo'].delete(accredited_data_analysis_id)
+
+    # add entry in audit log
+    cu = _request_ctx_stack.top.current_user
+
+    # audit log entry creation
+    editor_id = cu['sub']
+    user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
+    audit_entry = AuditLog(id, user_full_name, "remove_items")
+    current_app.config['audit_log_repo'].insert(audit_entry)
+    # audit log complete 
+    return {"status": "success", "message": "removed"}
+    
