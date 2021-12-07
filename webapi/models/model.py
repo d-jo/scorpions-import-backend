@@ -1,6 +1,7 @@
 
 # %%
 import json
+import re
 
 def from_dict(o, d):
     """
@@ -24,6 +25,23 @@ class BaseModel:
       if attr[0] != '_':
         d[attr] = getattr(self, attr)
     return d
+  
+  def trim_fields(self):
+    """
+    Remove extra whitespace and trim strings
+    """
+    # for each attr
+    for attr in self.__slots__:
+      # get the value
+      v = getattr(self, attr)
+      # if its a string
+      if type(v) == str:
+        # strip it and replace more than 1 whitespace
+        v = v.strip()
+        v = re.sub(r' +', ' ', v)
+      
+      # set the value
+      setattr(self, attr, v)
 
 class Report(BaseModel):
   __slots__ = [

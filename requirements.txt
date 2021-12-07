@@ -63,12 +63,14 @@ distributed @ file:///tmp/build/80754af9/distributed_1630619985733/work
 distro==1.5.0
 Django==3.1.5
 docutils @ file:///tmp/build/80754af9/docutils_1620827983598/work
+ecdsa==0.17.0
 entrypoints==0.3
 et-xmlfile==1.1.0
 fastcache==1.1.0
 filelock @ file:///home/linux1/recipes/ci/filelock_1610993975404/work
 flake8 @ file:///tmp/build/80754af9/flake8_1620776156532/work
 Flask @ file:///home/ktietz/src/ci/flask_1611932660458/work
+Flask-Cors==3.0.10
 fonttools==4.25.0
 fsspec @ file:///tmp/build/80754af9/fsspec_1626383727127/work
 future==0.18.2
@@ -171,6 +173,7 @@ path @ file:///tmp/build/80754af9/path_1623598141887/work
 pathlib2 @ file:///tmp/build/80754af9/pathlib2_1625578943650/work
 pathtools==0.1.2
 patsy==0.5.1
+pdfminer==20191125
 pep8==1.7.1
 pexpect @ file:///tmp/build/80754af9/pexpect_1605563209008/work
 pickleshare @ file:///tmp/build/80754af9/pickleshare_1606932040724/work
@@ -194,6 +197,7 @@ pycodestyle @ file:///tmp/build/80754af9/pycodestyle_1615748559966/work
 pycosat==0.6.3
 pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
 pycrypto==2.6.1
+pycryptodome==3.10.1
 pycurl==7.43.0.6
 pydocstyle @ file:///tmp/build/80754af9/pydocstyle_1621600989141/work
 pydub==0.25.1
@@ -213,6 +217,8 @@ PySocks @ file:///tmp/build/80754af9/pysocks_1594394576006/work
 pytest==6.2.4
 python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
 python-docx==0.8.11
+python-dotenv==0.19.2
+python-jose==3.3.0
 python-jsonrpc-server @ file:///tmp/build/80754af9/python-jsonrpc-server_1600278539111/work
 python-language-server==0.31.7
 pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work

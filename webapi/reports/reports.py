@@ -57,6 +57,7 @@ def extract_data():
     except Exception as e:
       print("!!!!!!!!!!!!!!!!!!! failed to process file:", filename, e)
       errors.append(str(e))
+      #raise e
       continue
 
   docs = [] 
@@ -104,6 +105,7 @@ def send_to_db(obj: any, reportType: str) -> int:
   report_id = current_app.config['report_repo'].insert(rep, reportType)
   for slo in slo_list:
     slo.report_id = report_id
+    slo.trim_fields()
     slo_ids.append(current_app.config['slo_repo'].insert(slo))
       # which slo a measure/analysis/decision is tied to stored in the slo_id field until the slo is added, 
       # not all slos have a measure/analysis/decision and an slo may have more than one of each, 
@@ -113,33 +115,96 @@ def send_to_db(obj: any, reportType: str) -> int:
       sloIdx = max(0, int(m.slo_id)-1)
       if(sloIdx < len(slo_ids)):
         m.slo_id = slo_ids[sloIdx]
+        m.trim_fields()
         current_app.config['measure_repo'].insert(m)
   for ac in anaysis_list:
     for a in ac:
       sloIdx = max(0, int(a.slo_id)-1)
       if(sloIdx < len(slo_ids)):
         a.slo_id = slo_ids[sloIdx]
+        a.trim_fields()
         current_app.config['collection_analysis_repo'].insert(a) 
   for d in decisions_list:
     sloIdx = max(0, int(d.slo_id)-1)
     if(sloIdx < len(slo_ids)):
       d.slo_id = slo_ids[sloIdx]
+      d.trim_fields()
       current_app.config['decisions_actions_repo'].insert(d)
   for me in methods_list:
     sloIdx = max(0, int(me.slo_id)-1)
     if(sloIdx < len(slo_ids)):
       me.slo_id = slo_ids[sloIdx]
+      me.trim_fields()
       current_app.config['methods_repo'].insert(me)
   for adaItem in ada_list:
     sloIdx = max(0, int(adaItem.slo_id)-1)
     if(sloIdx < len(slo_ids)):
       adaItem.slo_id = slo_ids[sloIdx]
+      adaItem.trim_fields()
       current_app.config['accredited_data_analysis_repo'].insert(adaItem)
   return report_id
 
 @reports_bp.route('/<string:id>', methods=['GET', 'POST', 'DELETE'])
 @requires_auth
 def handle_report(id):
+  """
+  Endpoint: /reports/<id>
+  Method: GET, POST, DELETE
+
+  GET Description: Given a report id, returns a report and all of its children
+  as a dictionary.
+
+  POST Description: Given a report id and a report in the same format as the GET endpoint,
+  updates the report in the database. To add new non-slos, just make a dict
+  with the desired attributes and send it as if it were being updated. MUST INCLUDE THE
+  SLO ID IT SHOULD BE ASSOCIATED WITH. ALSO INCLUDE THE ATTRIBUTE "new": true TO TELL 
+  THE DATABASE TO INSERT RATHER THAN UPDATE
+  
+  New SLOs can be created by adding SLOs to the report-level attribute
+  'new_slos'. the new SLOs should have the same format as above and can also include new
+  methods, decisions, measures, etc. The new SLOs will be added to the database and the
+  children will also be added. 
+
+  Example of adding new accredited_data_analysis:
+  ```
+    ...
+      "slos": [
+        {
+          "id": 24,
+            "accredited_data_analyses": [{
+                "slo_id": 24,
+                "status": "test12345",
+                "new": true
+            }],
+          ...
+  ```
+
+  Example of adding new SLO:
+  ```
+  ...
+  "id": 6,
+  "new_slos": [
+     {
+            "accredited_data_analyses": [...],
+            "bloom": "Analysis",
+            "collection_analyses": [...],
+            "common_graduate_program_slo": "",
+            "decision_actions": [...],
+            "description": "Demonstrates the ability to analyze and interpret texts in a senior paper or project",
+            "id": 24,
+            "measures": [...],
+            "methods": [...],
+            "report_id": 6
+      }
+    ]
+    ...
+  ```
+
+  DELETE Description: Given a report id, sets the report as deleted in the database. This does not
+  actually remove the report from the database for audit log reasons, so the report just has
+  its 'valid' bit set to false and it is no longer returned in endpoints.
+
+  """
   
   editor_id = _request_ctx_stack.top.current_user['sub']
 
@@ -181,6 +246,10 @@ def handle_report(id):
     # UPDATE a data by id
     data = request.json
 
+    newSlos = None
+    if 'new_slos' in data:
+      newSlos = data['new_slos']
+
     # report
     new_rep = Report()
     new_rep.init_from_dict(data)
@@ -193,31 +262,99 @@ def handle_report(id):
       current_app.config['slo_repo'].update(new_slo)
 
       # measures
-      for m in s['measures']:
-        new_measure = Measure()
-        new_measure.init_from_dict(m)
-        current_app.config['measure_repo'].update(new_measure)
+      if 'measures' in s:
+        for m in s['measures']:
+          new_measure = Measure()
+          new_measure.init_from_dict(m)
+          if 'new' in m and m['new']:
+            # has slo_id, insert
+            current_app.config['measure_repo'].insert(new_measure)
+          else:
+            current_app.config['measure_repo'].update(new_measure)
       
-      for da in s['decision_actions']:
-        new_da = DecisionsAction()
-        new_da.init_from_dict(da)
-        current_app.config['decisions_actions_repo'].update(new_da)
+      if 'decision_actions' in s:
+        for da in s['decision_actions']:
+          new_da = DecisionsAction()
+          new_da.init_from_dict(da)
+          if 'new' in da and da['new']:
+            # has slo_id, insert
+            current_app.config['decisions_actions_repo'].insert(new_da)
+          else:
+            current_app.config['decisions_actions_repo'].update(new_da)
       
-      for ca in s['collection_analyses']:
-        new_ca = CollectionAnalysis()
-        new_ca.init_from_dict(ca)
-        current_app.config['collection_analysis_repo'].update(new_ca)
+      if 'collection_analyses' in s:
+        for ca in s['collection_analyses']:
+          new_ca = CollectionAnalysis()
+          new_ca.init_from_dict(ca)
+          if 'new' in ca and ca['new']:
+            # has slo_id, insert
+            current_app.config['collection_analysis_repo'].insert(new_ca)
+          else:
+            current_app.config['collection_analysis_repo'].update(new_ca)
 
-      for m in s['methods']:
-        new_method = Methods()
-        new_method.init_from_dict(m)
-        current_app.config['methods_repo'].update(new_method)
+      if 'methods' in s:
+        for m in s['methods']:
+          new_method = Methods()
+          new_method.init_from_dict(m)
+          if 'new' in m and m['new']:
+            # has slo_id, insert
+            current_app.config['methods_repo'].insert(new_method)
+          else:
+            current_app.config['methods_repo'].update(new_method)
       
-      for ada in s['accredited_data_analyses']:
-        new_ada = AccreditedDataAnalysis()
-        new_ada.init_from_dict(ada)
-        current_app.config['accredited_data_analysis_repo'].update(new_ada)
+      if 'accredited_data_analyses' in s:
+        for ada in s['accredited_data_analyses']:
+          new_ada = AccreditedDataAnalysis()
+          new_ada.init_from_dict(ada)
+          if 'new' in ada and ada['new']:
+            # has slo_id, insert
+            current_app.config['accredited_data_analysis_repo'].insert(new_ada)
+          else:
+            current_app.config['accredited_data_analysis_repo'].update(new_ada)
       
+    if newSlos is not None:
+      for s in newSlos:
+        # slo
+        new_slo = SLO()
+        new_slo.init_from_dict(s)  
+        new_id = current_app.config['slo_repo'].insert(new_slo)
+
+        # measures
+        if 'measures' in s:
+          for m in s['measures']:
+            new_measure = Measure()
+            new_measure.init_from_dict(m)
+            new_measure.slo_id = new_id
+            current_app.config['measure_repo'].insert(new_measure)
+        
+        if 'decision_actions' in s:
+          for da in s['decision_actions']:
+            new_da = DecisionsAction()
+            new_da.init_from_dict(da)
+            new_da.slo_id = new_id
+            current_app.config['decisions_actions_repo'].insert(new_da)
+        
+        if 'collection_analyses' in s:
+          for ca in s['collection_analyses']:
+            new_ca = CollectionAnalysis()
+            new_ca.init_from_dict(ca)
+            new_ca.slo_id = new_id
+            current_app.config['collection_analysis_repo'].insert(new_ca)
+
+        if 'methods' in s:
+          for m in s['methods']:
+            new_method = Methods()
+            new_method.init_from_dict(m)
+            new_method.slo_id = new_id
+            current_app.config['methods_repo'].insert(new_method)
+        
+        if 'accredited_data_analyses' in s:
+          for ada in s['accredited_data_analyses']:
+            new_ada = AccreditedDataAnalysis()
+            new_ada.init_from_dict(ada)
+            new_ada.slo_id = new_id
+            current_app.config['accredited_data_analysis_repo'].insert(new_ada)
+    
     current_app.config['report_repo'].update(new_rep)
 
     # add entry in audit log
@@ -302,3 +439,93 @@ def search_reports():
         }
   
 
+@reports_bp.route('/manage/<string:id>', methods=['POST'])
+@requires_auth
+def handle_manage(id):
+  """
+  Endpoint: /reports/manage/<id>
+  Method: POST
+  Description: Use this endpoint to remove SLOs or children of SLOs from a 
+  report. Must either be the owner or an admin to successfuly remove something.
+
+  Request format:
+  {
+    "remove_slos": [
+      slo_id1, ...
+    ],
+    "remove_measure": [
+      measure_id1, ...
+    ],
+    "remove_decision_action": [
+      decision_action_id1, ...
+    ],
+    "remove_collection_analysis": [
+      collection_analysis_id1, ...
+    ],
+    "remove_method": [
+      method_id1, ...
+    ],
+    "remove_accredited_data_analysis": [
+      accredited_data_analysis_id1, ...
+    ]
+  }
+
+  Response format:
+  {
+    "status": "success",
+    "message": "removed"
+  }
+  """
+  data = request.json
+
+  cu = _request_ctx_stack.top.current_user
+  editor_id = cu['sub']
+
+  # get the request sender role and check if aac
+  is_aac = current_app.config['auth0_web_api'].user_has_role(editor_id, "aac", "impossible_role_id")
+
+  is_report_owner = current_app.config['report_repo'].has_access_to_report(id, editor_id)
+
+  if is_aac or is_report_owner:
+    # editor is aac or report owner
+    # remove slos
+    if 'remove_slos' in data:
+      for slo_id in data['remove_slos']:
+        current_app.config['slo_repo'].delete(slo_id)
+    
+    # remove measures
+    if 'remove_measure' in data:
+      for measure_id in data['remove_measure']:
+        current_app.config['measure_repo'].delete(measure_id)
+
+    # remove decision actions
+    if 'remove_decision_action' in data:
+      for decision_action_id in data['remove_decision_action']:
+        current_app.config['decisions_actions_repo'].delete(decision_action_id)
+
+    # remove collection analyses
+    if 'remove_collection_analysis' in data:
+      for collection_analysis_id in data['remove_collection_analysis']:
+        current_app.config['collection_analysis_repo'].delete(collection_analysis_id)
+
+    # remove methods
+    if 'remove_method' in data:
+      for method_id in data['remove_method']:
+        current_app.config['methods_repo'].delete(method_id)
+
+    # remove accredited data analyses
+    if 'remove_accredited_data_analysis' in data:
+      for accredited_data_analysis_id in data['remove_accredited_data_analysis']:
+        current_app.config['accredited_data_analysis_repo'].delete(accredited_data_analysis_id)
+
+    # add entry in audit log
+    cu = _request_ctx_stack.top.current_user
+
+    # audit log entry creation
+    editor_id = cu['sub']
+    user_full_name = current_app.config['auth0_web_api'].get_user_name(editor_id)
+    audit_entry = AuditLog(id, user_full_name, "remove_items")
+    current_app.config['audit_log_repo'].insert(audit_entry)
+    # audit log complete 
+    return {"status": "success", "message": "removed"}
+    
