@@ -32,6 +32,36 @@ def all_users():
 
   return {"status": "success", "users": users}
 
+@users_bp.route('/me', methods=['GET'])
+@requires_auth
+def me():
+  """
+  Endpoint: /users/me
+  Method: GET
+  Description: Returns info about user that owns the token
+  format:
+  {
+    "status": "success/error",
+    "user_info": {...},
+    "user_roles": [{},{}...]
+  }
+
+  """
+  cu = _request_ctx_stack.top.current_user
+  editor_id = str(cu['sub'])
+
+
+  # get all users
+  status1, info_result = current_app.config['auth0_web_api'].get_user_info(editor_id)
+
+  status2, result = current_app.config['auth0_web_api'].get_user_roles(editor_id)
+
+  if status1 != 200 or status2 != 200:
+    return {"status": "error", "message": "user info not found or get roles failed, status code: {}".format(status1)}
+
+  return {"status": "success", "user_info": info_result, "user_roles": result}
+
+
 @users_bp.route('/add_role', methods=['POST'])
 @requires_auth
 def add_role():
