@@ -3,19 +3,77 @@ import json
 from auth.auth import requires_auth, get_token_auth_header
 from users.users import user_info
 baseUrl = 'http://localhost:5000'
-token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlFPZ3FZOUlCMkZuQ2d3NnVIMGNQbiJ9.eyJpc3MiOiJodHRwczovL2Rldi16LW5xYThzMC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDY4Mzc2NDY5OTE3NzQxNjc1NzgiLCJhdWQiOlsiaHR0cHM6Ly9kZXYtei1ucWE4czAudXMuYXV0aDAuY29tL2FwaS92Mi8iLCJodHRwczovL2Rldi16LW5xYThzMC51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjM4ODUxODAzLCJleHAiOjE2Mzk0NTY2MDMsImF6cCI6IlU2VldnVE1QVU1mTThTYVF1QWhqSXhLdVl5b3BEQjMxIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCJ9.FHZgTMetfuGWBiczIbQI2tm-xgs3SyFiJfu96DBj44K7msN0_HNr40PfivDn9mFg-KyB7owBek8fPDvxZuAQItoTGK54uzChICbq4ewV9dMJnr1lW2HNKVtramxwJM15sEwvojye7S2eaKnYVN1WvPBvjwWWrooCLub5tqpT-RczO8nCcIM6F2yHeyuXyrYz_F_PszoqiRyFW577jYM8o8WW_rTtDqAvd0W2dyOPC5_6RZsUeE6PbSB7DcXcC14udjEtsvA_VxJdrgNEQuXic6peYKjYjXZ4PUqCXJd52Bi5xKs11Z-at5hiL8DdNPIURLI36L_PS6hPqF1amYk34A'
+token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlFPZ3FZOUlCMkZuQ2d3NnVIMGNQbiJ9.eyJpc3MiOiJodHRwczovL2Rldi16LW5xYThzMC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDE4NjAwOTg0NjQzODAwNTY3MzQiLCJhdWQiOlsiaHR0cHM6Ly9kZXYtei1ucWE4czAudXMuYXV0aDAuY29tL2FwaS92Mi8iLCJodHRwczovL2Rldi16LW5xYThzMC51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjM5MDg5OTk2LCJleHAiOjE2Mzk2OTQ3OTYsImF6cCI6IlU2VldnVE1QVU1mTThTYVF1QWhqSXhLdVl5b3BEQjMxIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCJ9.gpSoUNiVxzuBdm8lseJG2yS_fi7Z3nrvqo3DOfNZXgybfgbxC70yey1WB20Ps1efCBMzjHxLWS6uM_N_pXGhZLTBR010cq0e4VqfmbkEMvSIBhmzEkF2-ZxBNRPY0OEobUpl-Y9kDtrupSZDt0cBo5ER9lSOeLm1w4vU7TmB4JWZ4SvHd07jFHuvgpUoyN62DUwWbj8FXH9copk_nOSwbku0tBv6PmgHn0NrCzFEvkZwh1PpD3RHWt9nUdnEJoN5gUKLqb3DyuAaqREci5xMH8z47vTFdw0_DYwu1rvUGGhRiQD2LYRzukN0MM4c6q-9NmSq_pJTj_33A1M-hjdtlA'
+
+
+def test_upload_file():
+    file = 'endpoint_word_doc.docx'
+    firname = os.path.join('./data', file)
+    f = open(firname, 'rb')
+    data = {
+        'file': (f)
+    }
+    response = requests.post(baseUrl + '/files/', files=data, headers={'Authorization': 'Bearer ' + token})
+    assert response.status_code == 200
+
+
 def test_dashboard(): 
    response = requests.get(baseUrl + '/dashboard/', headers= {'Authorization': 'Bearer ' + token})
    assert response.status_code == 200
+   resp = response.json()
+   assert 'endpoint_word_doc.docx' in resp['uploaded']
+
+
+def test_report_trigger_process():
+    files = ['endpoint_word_doc.docx']
+    response = requests.post(baseUrl + '/reports/extract_data', headers={'Authorization': 'Bearer ' + token}, json=files)
+    assert response.status_code == 200
+
+
+def test_search():
+    search_key = {
+        'search_key': 'AAC Import'
+    }
+    response = requests.post(baseUrl + '/reports/search', headers={'Authorization': 'Bearer ' + token}, json=search_key)
+    assert response.status_code == 200
+    resp = response.json()
+    assert resp['review'] is not None
 
 
 def test_files_view():
-    response = requests.get(baseUrl + '/view/0', headers={'Authorization': 'Bearer ' + token})
+    # Get id of test file for view endpoint.
+    search_key = {
+        'search_key': 'AAC Import'
+    }
+    fileId = ''
+    response = requests.post(baseUrl + '/reports/search', headers={'Authorization': 'Bearer ' + token}, json=search_key)
+    resp = response.json()
+    for file in resp['review']:
+        if file[1] == 'AAC Import':
+            fileId = str(file[0])
+            break
+    response = requests.get(baseUrl + '/reports/' + fileId, headers={'Authorization': 'Bearer ' + token})
     assert response.status_code == 200
+    resp = response.json()
+    assert len(resp['slos']) == 0
+
 
 def test_files_audit():
-    response = requests.get(baseUrl + '/audit/file/0', headers={'Authorization': 'Bearer ' + token})
+    search_key = {
+        'search_key': 'AAC Import'
+    }
+    fileId = '0'
+    response = requests.post(baseUrl + '/reports/search', headers={'Authorization': 'Bearer ' + token}, json=search_key)
+    resp = response.json()
+    for file in resp['review']:
+        if file[1] == 'AAC Import':
+            fileId = str(file[0])
+            break
+
+    response = requests.get(baseUrl + '/audit/file/' + fileId, headers={'Authorization': 'Bearer ' + token})
     assert response.status_code == 200
+    resp = response.json()
+    assert resp['audit_trail'] is not None
 
 
 def test_report_statistics():
@@ -23,31 +81,91 @@ def test_report_statistics():
     assert response.status_code == 200
 
 
-def test_report_trigger_process():
-    response = requests.get(baseUrl + '/reports/extract_data', headers={'Authorization': 'Bearer ' + token})
-    assert response.status_code == 200
-
-
 def test_report_edit():
-    response = requests.post(baseUrl + '/reports/12/edit', headers={'Authorization': 'Bearer ' + token})
-    assert response.status_code == 200
-
-
-@pytest.mark.skip(reason="This test will pass, but it isn't actually sending the\
-form data correctly.")
-def test_upload_file():
-    file = 'endpoint_test_file.txt'
-    firname = os.path.join('./data', file)
-    # print(os.getcwd())
-    # print(firname)
-    f = open(firname, 'rb')
-    # print(f.read())
-    data = {
-        'file': ([f])
+    search_key = {
+        'search_key': 'AAC Import'
     }
-    # print(data)
-    response = requests.post(baseUrl + '/files', data=data)
-    # print(response.text)
+    fileId = '0'
+    response = requests.post(baseUrl + '/reports/search', headers={'Authorization': 'Bearer ' + token}, json=search_key)
+    resp = response.json()
+    for file in resp['review']:
+        if file[1] == 'AAC Import':
+            fileId = str(file[0])
+            break
+
+    response = requests.get(baseUrl + '/reports/' + fileId, headers={'Authorization': 'Bearer ' + token})
+    resp = response.json()
+    assert len(resp['slos']) == 0
+
+    created = resp['created']
+    creator_id = resp['creator_id']
+
+    update_payload = {
+        'academic_year': '2021-2022',
+        'accreditation_body': None,
+        'additional_information': '',
+        'author': 'Team Scorpions',
+        'college': 'College of IS&T',
+        'created': int(created),
+        'creator_id': creator_id,
+        'date_range': '2021',
+        'degree_level': 'BS',
+        'department': 'Scorpions',
+        'has_been_reviewed': True,
+        'id': int(fileId),
+        'last_accreditation_review': None,
+        'program': 'AAC Import',
+        'slos_meet_standards': '',
+        'stakeholder_involvement': '',
+        'title': 'NON-ACCREDITED PROGRAM',
+        'slos': [],
+        'valid': True,
+        'new_slos': [
+                {
+                    'accredited_data_analyses': [],
+                    'bloom': 'Knowledge',
+                    'collection_analyses': [],
+                    'common_graduate_program_slo': 'NA',
+                    'decision_actions': [],
+                    'description': 'This was added from an endpoint test',
+                    'id': -1,
+                    'measures': [],
+                    'methods': [],
+                    'report_id': int(fileId),
+                }
+            ]
+    }
+
+    response = requests.post(baseUrl + '/reports/' + fileId, headers={'Authorization': 'Bearer ' + token}, json=update_payload)
     assert response.status_code == 200
 
+    response = requests.get(baseUrl + '/reports/' + fileId, headers={'Authorization': 'Bearer ' + token})
+    resp = response.json()
+    assert len(resp['slos']) == 1
+
+    response = requests.get(baseUrl + '/dashboard/', headers= {'Authorization': 'Bearer ' + token})
+    resp = response.json()
+    assert [int(fileId), 'AAC Import', '2021-2022'] in resp['done']
+
+
+def test_delete_file():
+    search_key = {
+        'search_key': 'AAC Import'
+    }
+    fileId = '0'
+    response = requests.post(baseUrl + '/reports/search', headers={'Authorization': 'Bearer ' + token}, json=search_key)
+    resp = response.json()
+    # File should be in done at this point.
+    for file in resp['done']:
+        if file[1] == 'AAC Import':
+            fileId = str(file[0])
+            break
+
+    response = requests.delete(baseUrl + '/reports/' + fileId, headers={'Authorization': 'Bearer ' + token})
+    assert response.status_code == 200
+
+    response = requests.get(baseUrl + '/dashboard/', headers= {'Authorization': 'Bearer ' + token})
+    assert response.status_code == 200
+    resp = response.json()
+    assert [int(fileId), 'AAC Import', '2021-2022'] not in resp['done']
 
