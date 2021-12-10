@@ -1,16 +1,23 @@
 import os, requests, pytest
-
+import json
+from auth.auth import requires_auth, get_token_auth_header
+from users.users import user_info
 baseUrl = 'http://localhost:5000'
 
+
 def test_dashboard():
-    response = requests.get(baseUrl + '/dashboard')
+    token = get_token_auth_header() 
+    headers = {
+      'Authorization': 'Bearer' + token,
+      'Content-Type': 'application/json'
+    }
+    response = requests.get(baseUrl + '/dashboard', headers=headers )
     assert response.status_code == 200
 
 
 def test_files_view():
     response = requests.get(baseUrl + '/view/0')
     assert response.status_code == 200
-
 
 def test_files_audit():
     response = requests.get(baseUrl + '/audit/file/0')
